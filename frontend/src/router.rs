@@ -1,4 +1,4 @@
-use crate::pages::index::Index;
+use crate::pages::{index::Index, profile::Profile};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -16,7 +16,7 @@ pub enum Route {
 pub fn switch(routes: &Route) -> Html {
 	match routes {
 		Route::Index => html! { <Index/> },
-		Route::Profile => html! { <h1>{"PROFILE"}</h1> },
+		Route::Profile => html! { <Profile/> },
 		Route::NotFound => html! { <h1>{ "404" }</h1> },
 	}
 }
