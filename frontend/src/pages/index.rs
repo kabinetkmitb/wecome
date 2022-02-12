@@ -8,7 +8,7 @@ use yew::prelude::*;
 #[function_component(Index)]
 pub fn index() -> Html {
 	html! {
-		<main class="w-screen overflow-x-hidden">
+		<main class="max-w-screen overflow-x-hidden">
 			<Navbar/>
 			<Hero/>
 			<Competitions/>

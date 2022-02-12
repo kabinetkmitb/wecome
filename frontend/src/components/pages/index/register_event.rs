@@ -18,7 +18,7 @@ pub fn register_event() -> Html {
 					<iframe width="560" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY"> </iframe>
 				</div>
 				<div class="py-12 md:py-0 md:px-24">
-				<div class="font-medium text-justify">{"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam viverra lectus turpis, et volutpat nisi hendrerit a. Cras sodales maximus vehicula. Etiam velit ipsum, sagittis id ligula eu, dictum aliquam tellus. Nulla sollicitudin egestas metus sit amet rutrum. Donec eu cursus urna. Ut id enim orci. Suspendisse ac enim a orci aliquam mollis. Ut vel est quam. Integer sit amet facilisis mi. Curabitur semper justo in iaculis sodales."}</div>
+				<div class="font-medium text-justify">{"We-Come (Website Competition), yang berarti “Kami Datang”, merupakan platform wadah informasi kompetisi di bidang akademik, teknologi, business plan & business case, riset, konferensi, olahraga, dan seni. Ayo daftarkan lomba yang ingin kamu publikasikan dan ajak teman-teman untuk mengunjungi website We-Come ya!"}</div>
 				</div>
 			</div>
 		</div>

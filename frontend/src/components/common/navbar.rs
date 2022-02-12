@@ -20,7 +20,6 @@ pub fn navbar() -> Html {
           flex flex-wrap
           items-center
           justify-between
-          w-screen
           py-4
           px-8
           text-lg text-gray-700

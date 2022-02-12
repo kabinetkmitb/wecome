@@ -3,7 +3,7 @@ use yew::prelude::*;
 #[function_component(DesktopView)]
 pub fn desktop_view() -> Html {
 	html! {
-		<div class="px-20 py-6 w-screen bg-white shadow-2xl drop-shadow-2xl">
+		<div class="px-20 py-10 bg-white shadow-2xl drop-shadow-2xl">
 			<div class="flex justify-between items-center">
 				<div>
 				<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644652873/Group_172_j1wmbu.png" alt="Logo footer"/>
