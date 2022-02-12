@@ -1,5 +1,6 @@
 use crate::components::common::navbar::Navbar;
 use crate::components::pages::index::competitions::index::Competitions;
+use crate::components::pages::index::footer::index::Footer;
 use crate::components::pages::index::hero::Hero;
 use yew::prelude::*;
 
@@ -10,6 +11,7 @@ pub fn index() -> Html {
 			<Navbar/>
 			<Hero/>
 			<Competitions/>
+			<Footer/>
 		</main>
 	}
 }
