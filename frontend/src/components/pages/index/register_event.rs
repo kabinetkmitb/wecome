@@ -7,7 +7,7 @@ pub fn register_event() -> Html {
 
 	if window_size.width > 900.0 {
 		html! {
-		<div class="w-screen bg-white flex flex-col px-6 py-10 sm:m-12 gap-5">
+		<div class="bg-white flex flex-col px-6 py-10 sm:m-12 gap-5">
 			<div>
 				<div class="font-semibold text-cyan-400 text-2xl">{"Ingin mendaftarkan lomba"}</div>
 				<div class="font-semibold text-2xl">{"kampus atau lembaga anda?"}</div>
