@@ -3,7 +3,7 @@ use yew::prelude::*;
 #[function_component(Hero)]
 pub fn hero() -> Html {
 	html! {
-		<div class="sm:h-[90vh] w-screen flex relative bg-slate-400 sm:bg-white sm:shadow sm:justify-center">
+		<div class="sm:h-[90vh] md:h-auto md:w-auto w-screen flex relative bg-slate-400 sm:bg-white sm:shadow sm:justify-center">
 			  <div class="relative w-full sm:w-auto p-16 flex justify-center items-center">
 				<img class="opacity-40 sm:opacity-100 min-w-[20rem]" src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644602940/Frame_sf5tth.png" alt="Logo Web" />
 			</div>
@@ -13,7 +13,7 @@ pub fn hero() -> Html {
 				<p class="text-2xl">{"Find competition information with ease"}</p>
 				<div class="flex-col flex">
 				<input class="appearance-none border border-blue-300 rounded w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text" placeholder="Cari Kompetisi" />
-				<button class="w-24 px-4 py-2 my-2 rounded-lg text-white border-2 block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>
+				<button class="w-24 px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>
 				</div>
 			</div>
 		</div>

@@ -21,8 +21,7 @@ pub fn desktop_view(props: &Props) -> Html {
 				{"See More"}
 				</button>
 			</div>
-			<div class="grid grid-cols-4 gap-4">
-
+			<div class="grid grid-cols-4 gap-5">
 			{
 				for kategori_lomba
 				.iter()
@@ -31,8 +30,8 @@ pub fn desktop_view(props: &Props) -> Html {
 						let icon_src = &kategori.icon_src;
 						let name = &kategori.name;
 						html! {
-							<div>
-								<div class="bg-white w-28 h-28 drop-shadow-2xl rounded-lg flex justify-center items-center">
+							<div class="transition hover:scale-110 cursor-pointer">
+								<div class=" bg-white w-28 h-28 drop-shadow-2xl rounded-lg flex justify-center items-center">
 								<img src={String::from(icon_src)} alt="Event" />
 								</div>
 								<div class="text-center text-white font-medium">{name}</div>
