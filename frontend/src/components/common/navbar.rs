@@ -4,15 +4,23 @@ use yew::prelude::*;
 
 #[function_component(Navbar)]
 pub fn navbar() -> Html {
+	let hide = use_state(|| true);
+	let onclick = {
+		let hide_value = hide.clone();
+		Callback::from(move |_| hide_value.set(!(*hide_value)))
+	};
+
+	let is_hide = if *hide { "hidden" } else { "" };
+
 	html! {
-	<header>
+	<>
 	   <nav
 		  class="
 		  shadow-lg
           flex flex-wrap
           items-center
           justify-between
-          w-full
+          w-screen
           py-4
           px-8
           text-lg text-gray-700
@@ -24,6 +32,7 @@ pub fn navbar() -> Html {
 					<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644482768/Group_98_umtaom.png" alt="logo"/>
 			</div>
 		   <svg
+			  {onclick}
 			  xmlns="http://www.w3.org/2000/svg"
 			  id="menu-button"
 			  class="h-6 w-6 cursor-pointer md:hidden block"
@@ -39,7 +48,7 @@ pub fn navbar() -> Html {
 			  />
 			</svg>
 
-		 <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
+		 <div class={format!("{} w-full md:flex md:items-center md:w-auto", is_hide)} id="menu">
 			<ul
 			  class="
               pt-4
@@ -49,20 +58,20 @@ pub fn navbar() -> Html {
               md:pt-0"
 			>
 			  <li>
-				<NavButton route={Route::Index} path_to_match={String::from("/")} pathname={String::from("Beranda")} class="md:p-4 py-2 block text-cyan-400 hover:text-yellow-400 font-bold transition"/>
+				<NavButton route={Route::Index} path_to_match={String::from("/")} pathname={String::from("Beranda")} class="md:p-4 py-2 text-center block text-cyan-400 hover:text-yellow-400 font-bold transition"/>
 			  </li>
 			  <li>
-				<NavButton route={Route::Profile} path_to_match={String::from("/profile")} pathname={String::from("Profile")} class="md:p-4 py-2 block text-cyan-400 hover:text-yellow-400 font-bold transition"/>
+				<NavButton route={Route::Profile} path_to_match={String::from("/profile")} pathname={String::from("Profile")} class="md:p-4 py-2 text-center block text-cyan-400 hover:text-yellow-400 font-bold transition"/>
 			  </li>
 			  <li>
-				<NavButton route={Route::Profile} pathname={String::from("Register")} class="px-4 py-2 m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
+				<NavButton route={Route::Profile} pathname={String::from("Register")} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
 			  </li>
 			  <li>
-				<NavButton route={Route::Profile} pathname={String::from("Login")} class="px-4 py-2 m-2 rounded-lg text-white border-2 block hover:text-cyan-400 hover:bg-white bg-cyan-400 border-cyan-400 font-bold transition"/>
+				<NavButton route={Route::Profile} pathname={String::from("Login")} class="px-4 py-2 text-center my-2 md:m-2 rounded-lg text-white border-2 block hover:text-cyan-400 hover:bg-white bg-cyan-400 border-cyan-400 font-bold transition"/>
 			  </li>
 			</ul>
 		  </div>
 	  </nav>
-	</header>
+	</>
 	}
 }

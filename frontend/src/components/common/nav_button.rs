@@ -15,7 +15,7 @@ fn class_based_on_path_matched(path_to_match: Option<String>, pathname: String) 
 		None => String::from(""),
 		Some(path) => {
 			if path == pathname {
-				String::from("border-1 border-yellow-400 border-b-4")
+				String::from("md:border-1 md:border-yellow-400 md:border-b-4")
 			} else {
 				String::from("")
 			}
