@@ -1,4 +1,6 @@
+use super::desktop_view::DesktopView;
 use super::mobile_view::MobileView;
+use crate::utils::hooks::get_window_size;
 use yew::prelude::*;
 
 #[derive(Debug, PartialEq, Clone)]
@@ -13,6 +15,8 @@ fn to_lomba_kategori(icon_src: String, name: String) -> LombaKategori {
 
 #[function_component(Competitions)]
 pub fn competitions() -> Html {
+	let window_size = get_window_size();
+
 	let kategori_lomba = vec![
 		to_lomba_kategori(
 			String::from(
@@ -66,7 +70,13 @@ pub fn competitions() -> Html {
 
 	let kategori_lomba_length = kategori_lomba.len();
 
-	html! {
-		<MobileView {kategori_lomba} {kategori_lomba_length}/>
+	if window_size.width > 650.0 {
+		html! {
+			<DesktopView {kategori_lomba} />
+		}
+	} else {
+		html! {
+			<MobileView {kategori_lomba} {kategori_lomba_length}/>
+		}
 	}
 }
