@@ -86,7 +86,7 @@ pub fn mobile_view(props: &Props) -> Html {
 								<div class="bg-white w-24 h-24 drop-shadow-2xl rounded-lg flex justify-center items-center">
 									<img src={String::from(icon_src)} alt="Event" />
 								</div>
-								<div class="text-center text-white font-medium">{name}</div>
+								<div class="text-center text-white font-medium capitalize">{name}</div>
 							</div>
 						}
 					}

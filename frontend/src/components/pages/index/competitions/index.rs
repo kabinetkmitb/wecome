@@ -22,49 +22,49 @@ pub fn competitions() -> Html {
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644607498/Frame_1_pfwwty.png",
 			),
-			String::from("Riset"),
+			String::from("riset"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641100/Color_Pallete_m7klnt.png",
 			),
-			String::from("Seni"),
+			String::from("seni"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641102/Group_80_r4hjdj.png",
 			),
-			String::from("Akademik"),
+			String::from("akademik"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641355/Group_87_zu03ow.png",
 			),
-			String::from("Teknologi"),
+			String::from("teknologi"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641358/Frame_2_qfhdmq.png",
 			),
-			String::from("Bisnis"),
+			String::from("bisnis"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641363/Frame_3_zzsb2w.png",
 			),
-			String::from("Bahasa"),
+			String::from("bahasa"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641365/Group_119_fxnn0x.png",
 			),
-			String::from("Olahraga"),
+			String::from("olahraga"),
 		),
 		to_lomba_kategori(
 			String::from(
 				"https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641368/image_11_auruqz.png",
 			),
-			String::from("Konferensi"),
+			String::from("konferensi"),
 		),
 	];
 
