@@ -63,7 +63,7 @@ pub fn navbar() -> Html {
 				<NavButton route={Route::Profile} path_to_match={String::from("/profile")} pathname={String::from("Profile")} class="md:p-4 py-2 text-center block text-cyan-400 hover:text-yellow-400 font-bold transition"/>
 			  </li>
 			  <li>
-				<NavButton route={Route::Profile} pathname={String::from("Register")} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
+				<NavButton route={Route::Register} pathname={String::from("Register")} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
 			  </li>
 			  <li>
 				<NavButton route={Route::Profile} pathname={String::from("Login")} class="px-4 py-2 text-center my-2 md:m-2 rounded-lg text-white border-2 block hover:text-cyan-400 hover:bg-white bg-cyan-400 border-cyan-400 font-bold transition"/>

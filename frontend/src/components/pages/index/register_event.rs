@@ -19,6 +19,7 @@ pub fn register_event() -> Html {
 				</div>
 				<div class="py-12 md:py-0 md:px-24">
 				<div class="font-medium text-justify">{"We-Come (Website Competition), yang berarti “Kami Datang”, merupakan platform wadah informasi kompetisi di bidang akademik, teknologi, business plan & business case, riset, konferensi, olahraga, dan seni. Ayo daftarkan lomba yang ingin kamu publikasikan dan ajak teman-teman untuk mengunjungi website We-Come ya!"}</div>
+				<button class="px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftarkan Lomba"}</button>
 				</div>
 			</div>
 		</div>
