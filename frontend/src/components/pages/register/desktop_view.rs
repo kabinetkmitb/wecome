@@ -1,7 +1,9 @@
 use crate::components::common::auth_layout::AuthLayout;
+use crate::router::Route;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::use_map;
+use yew_router::prelude::*;
 
 #[function_component(DesktopView)]
 pub fn desktop_view() -> Html {
@@ -36,7 +38,12 @@ pub fn desktop_view() -> Html {
 							})
 					}
 					<button class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftar"}</button>
-					<div class="flex gap-1">{"Sudah punya akun?"}<div class="text-cyan-600 font-semibold">{"Masuk"}</div></div>
+					<div class="flex gap-1">{"Sudah punya akun?"}
+
+					<Link<Route> to={Route::Login}>
+						<div class="text-cyan-600 font-semibold">{"Masuk"}</div>
+					</Link<Route>>
+					</div>
 				</div>
 			</div>
 		</AuthLayout>

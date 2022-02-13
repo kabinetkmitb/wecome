@@ -1,6 +1,8 @@
+use crate::router::Route;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::use_map;
+use yew_router::prelude::*;
 
 #[function_component(MobileView)]
 pub fn mobile_view() -> Html {

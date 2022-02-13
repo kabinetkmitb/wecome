@@ -1,6 +1,8 @@
+use crate::router::Route;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::use_map;
+use yew_router::prelude::*;
 
 #[function_component(MobileView)]
 pub fn mobile_view() -> Html {
@@ -36,7 +38,11 @@ pub fn mobile_view() -> Html {
 			<button class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Login"}</button>
 			<div class="text-center w-full font-semibold">{"Atau"}</div>
 			<button class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Login dengan SSO (INA)"}</button>
-			<div class="flex gap-1">{"Belum punya akun?"}<div class="text-cyan-600 font-semibold">{"Daftar Akun"}</div></div>
+			<div class="flex gap-1">{"Belum punya akun?"}
+				<Link<Route> to={Route::Register}>
+					<div class="text-cyan-600 font-semibold">{"Daftar Akun"}</div>
+				</Link<Route>>
+			</div>
 			</div>
 		</form>
 		</div>
