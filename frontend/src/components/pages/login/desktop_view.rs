@@ -25,14 +25,21 @@ pub fn desktop_view() -> Html {
 				<div class="bg-white p-10 rounded-md relative">
 					<div class="font-semibold">{"Tanpa ITB Network Account (INA)"}</div>
 					<br/>
-					<div class="mb-4 w-full">
-						<label class="text-sm font-bold py-2 px-1" for="username"> {"Username"} </label>
-						<input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-					</div>
-					<div class="mb-4 w-full">
-						<label class="text-sm font-bold py-2 px-1" for="username"> {"Username"} </label>
-						<input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-					</div>
+					{
+						for fields_tuple.iter().cloned().map(|(key,_)| {
+							html! {
+								<div class="mb-4 w-full">
+									<label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
+									<input oninput={
+										let map = form_data.clone();
+										Callback::from(move |e: InputEvent| {
+										let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
+										map.update(&key, input_value);
+									})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+								</div>
+							}
+						})
+					}
 					<div class="text-cyan-600 font-semibold text-sm">{"Lupa kata sandi?"}</div>
 					<button class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Login"}</button>
 					<div class="flex gap-1">{"Belum punya akun?"}<div class="text-cyan-600 font-semibold">{"Daftar Akun"}</div></div>
