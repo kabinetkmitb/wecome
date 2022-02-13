@@ -6,4 +6,4 @@ This is a monorepo for wecome KM ITB. The website is built with rust as a primar
 
 > Rust is good dawggggggg
 
-Since yew will build target will be compiled as wasm file which is known faster than using plain javascript provided development is done with the right tools and framework. Also, just for a fun exploration project. Ah yes, good ol' classic reason of picking student project: _turtoring self by using a CuTtInG EdGe TecH while building something "real" with it. To The Moon 🚀🚀🚀!_.
+Since yew will build target will be compiled as wasm file which is known faster than using javascript provided development is done with the right tools and framework. Also, just for a fun exploration project. Ah yes, good ol' classic reason of picking student project: _turtoring self by using a CuTtInG EdGe TecH while building something "real" with it. To The Moon 🚀🚀🚀!_.
