@@ -1,6 +1,7 @@
 use super::nav_button::NavButton;
 use crate::router::Route;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
 #[function_component(Navbar)]
 pub fn navbar() -> Html {
@@ -26,10 +27,12 @@ pub fn navbar() -> Html {
           bg-white
         "
 		>
-			<div class="flex gap-2">
-					<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644482777/logo_itb_1024_1_wo9wmm.png" alt="logo"/>
-					<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644482768/Group_98_umtaom.png" alt="logo"/>
-			</div>
+			<Link<Route> to={Route::Index}>
+				<div class="flex gap-2">
+						<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644482777/logo_itb_1024_1_wo9wmm.png" alt="logo"/>
+						<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644482768/Group_98_umtaom.png" alt="logo"/>
+				</div>
+			</Link<Route>>
 		   <svg
 			  {onclick}
 			  xmlns="http://www.w3.org/2000/svg"

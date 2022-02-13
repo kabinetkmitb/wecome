@@ -1,5 +1,6 @@
 use crate::pages::{
-	index::Index, kompetisi::Kompetisi, login::Login, profile::Profile, register::Register,
+	daftar_lomba::DaftarLomba, index::Index, kompetisi::Kompetisi, login::Login, profile::Profile,
+	register::Register,
 };
 use serde::{Deserialize, Serialize};
 use yew::prelude::*;
@@ -17,6 +18,8 @@ pub enum Route {
 	Login,
 	#[at("/kompetisi")]
 	Kompetisi,
+	#[at("/daftar-lomba")]
+	DaftarLomba,
 	#[not_found]
 	#[at("/404")]
 	NotFound,
@@ -36,6 +39,7 @@ pub fn switch(routes: &Route) -> Html {
 			html! { <Kompetisi/> }
 		}
 		Route::Register => html! { <Register/> },
+		Route::DaftarLomba => html! { <DaftarLomba/> },
 		Route::Login => html! { <Login/> },
 		Route::NotFound => html! { <h1>{ "404" }</h1> },
 	}
