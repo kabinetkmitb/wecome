@@ -1,6 +1,8 @@
 use super::index::LombaKategori;
+use crate::router::{KompetisiQuery, Route};
 use yew::prelude::*;
 use yew::{function_component, html, Properties};
+use yew_router::prelude::*;
 
 struct PaginationIndex {
 	upper_bound: usize,
@@ -15,6 +17,8 @@ pub struct Props {
 
 #[function_component(MobileView)]
 pub fn mobile_view(props: &Props) -> Html {
+	let history = use_history().unwrap();
+
 	let pagination = use_state(|| PaginationIndex {
 		upper_bound: 1,
 		lower_bound: 0,
@@ -80,9 +84,15 @@ pub fn mobile_view(props: &Props) -> Html {
 				.map(|kategori| {
 						let kategori = kategori.clone();
 						let icon_src = &kategori.icon_src;
-						let name = &kategori.name;
+						let name = kategori.name;
 						html! {
-							<div>
+							<div onclick={
+								let name = name.clone();
+								let history = history.clone();
+								Callback::once(move |_| {
+									history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)});
+								})
+							}>
 								<div class="bg-white w-24 h-24 drop-shadow-2xl rounded-lg flex justify-center items-center">
 									<img src={String::from(icon_src)} alt="Event" />
 								</div>
