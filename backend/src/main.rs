@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate diesel;
+extern crate argon2;
 extern crate dotenv;
 extern crate env_logger;
 
@@ -14,6 +15,7 @@ use dotenv::dotenv;
 use std::env;
 
 pub mod routes;
+pub mod schema;
 pub mod utils;
 
 pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
