@@ -9,3 +9,74 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model user {
+  id                String              @id @default(uuid())
+  email             String              @unique
+  name              String
+  nim               String              @unique
+  password          String
+  role              Role                @default(USER)
+  identitas_pengaju identitas_pengaju[]
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+}
+
+model verification {
+  id     String             @id @default(uuid())
+  email  String             @unique
+  name   String
+  status VerificationStatus
+}
+
+model kompetisi {
+  id                     String             @id @default(uuid())
+  nama_pendaftar         String
+  nim_pendaftar          String
+  email_pendaftar        String
+  nama_lembaga_pendaftar String
+  nama_kompetisi         String
+  kategori_kompetisi     String
+  deskripsi_kompetisi    String
+  tags_kompetisi         String
+  tanggal_pelaksanaan    DateTime
+  batas_registrasi       DateTime
+  link_registrasi        String
+  link_webiste           String
+  link_linkedin          String
+  akun_instagram         String
+  id_line                String
+  akun_twitter           String
+  link_poster            String
+  tim_buddies            tim_buddies[]
+  kriteria_anggota       kriteria_anggota[]
+}
+
+model tim_buddies {
+  id           String    @id @default(uuid())
+  kompetisi    kompetisi @relation(fields: [kompetisi_id], references: [id])
+  kompetisi_id String
+}
+
+model identitas_pengaju {
+  id         String @id @default(uuid())
+  kontak     String
+  pengaju    user   @relation(fields: [pengaju_id], references: [id])
+  pengaju_id String
+}
+
+model kriteria_anggota {
+  id                 String    @id @default(uuid())
+  kompetisi          kompetisi @relation(fields: [kompetisi_id], references: [id])
+  kompetisi_id       String
+  role               String
+  deskripsi_kriteria String
+}
