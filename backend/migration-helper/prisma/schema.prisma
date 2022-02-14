@@ -10,31 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
 model user {
   id                String              @id @default(uuid())
   email             String              @unique
   name              String
   nim               String              @unique
   password          String
-  role              Role                @default(USER)
+  is_admin          Boolean             @default(false)
   identitas_pengaju identitas_pengaju[]
 }
 
-enum VerificationStatus {
-  PENDING
-  VERIFIED
-}
-
 model verification {
-  id     String             @id @default(uuid())
-  email  String             @unique
-  name   String
-  status VerificationStatus
+  id          String  @id @default(uuid())
+  email       String  @unique
+  name        String
+  is_verified Boolean
 }
 
 model kompetisi {
