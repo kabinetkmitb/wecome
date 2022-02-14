@@ -1,4 +1,6 @@
+use crate::components::common::modal::Modal;
 use crate::router::{KompetisiQuery, Route};
+use crate::utils::interop;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -7,6 +9,7 @@ use yew_router::prelude::*;
 pub fn hero() -> Html {
 	let history = use_history().unwrap();
 	let input_ref = use_node_ref();
+	let modal_ref = use_node_ref();
 
 	let onclick = {
 		let input_ref = input_ref.clone();
@@ -24,7 +27,22 @@ pub fn hero() -> Html {
 		})
 	};
 
+	let onclick_test = {
+		move |_| {
+			crate::utils::interop::show_modal("modal".to_string());
+		}
+	};
+
 	html! {
+		<>
+		<Modal title="nani">
+			<div>
+				{"YO MAN"}
+			</div>
+		</Modal>
+		<button onclick={onclick_test}>
+			{"YO MAN"}
+		</button>
 		<div class="sm:h-[90vh] md:h-auto md:w-auto w-screen flex relative bg-slate-400 sm:bg-white sm:shadow sm:justify-center">
 			  <div class="relative w-full sm:w-auto p-16 flex justify-center items-center">
 				<img class="opacity-40 sm:opacity-100 min-w-[20rem]" src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644602940/Frame_sf5tth.png" alt="Logo Web" />
@@ -39,5 +57,6 @@ pub fn hero() -> Html {
 				</div>
 			</div>
 		</div>
+		</>
 	}
 }

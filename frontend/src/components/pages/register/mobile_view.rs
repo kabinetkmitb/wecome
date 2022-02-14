@@ -42,7 +42,11 @@ pub fn mobile_view() -> Html {
 						})
 				}
 			<button class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>
-			<div class="flex gap-1">{"Sudah punya akun?"}<div class="text-cyan-600 font-semibold">{"Masuk"}</div></div>
+			<div class="flex gap-1">{"Sudah punya akun?"}
+				<Link<Route> to={Route::Login}>
+					<div class="text-cyan-600 font-semibold">{"Masuk"}</div>
+				</Link<Route>>
+			</div>
 			</div>
 		</form>
 		</div>
