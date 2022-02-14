@@ -35,7 +35,7 @@ pub fn daftar_lomba_component() -> Html {
 
 	html! {
 		<>
-			<div class="[background:linear-gradient(139.53deg,_#32D0FA_0%,_#44A2FE_100%)] shadow-xl drop-shadow-xl px-6 py-10 gap-5">
+			<div class="bg-blue-gradient-app shadow-xl drop-shadow-xl px-6 py-10 gap-5">
 				<div class="text-white text-2xl font-semibold">{"Daftarkan Lomba"}</div>
 				<div class="text-white text-2xl font-semibold">{"Lembaga / Kampus Anda"}</div>
 			</div>
