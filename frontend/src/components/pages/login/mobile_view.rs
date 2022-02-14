@@ -46,7 +46,7 @@ pub fn mobile_view() -> Html {
 			</div>
 		</form>
 		</div>
-		<div class="w-full h-6 [background:linear-gradient(139.53deg,_#32D0FA_0%,_#44A2FE_100%)]"></div>
+		<div class="w-full h-6 bg-blue-gradient-app"></div>
 		</>
 	}
 }

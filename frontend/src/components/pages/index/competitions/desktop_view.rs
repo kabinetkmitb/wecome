@@ -27,7 +27,7 @@ pub fn desktop_view(props: &Props) -> Html {
 	};
 
 	html! {
-		<div class="w-screen [background:linear-gradient(139.53deg,_#32D0FA_0%,_#44A2FE_100%)] flex justify-around items-start px-6 py-10 gap-5">
+		<div class="w-screen bg-blue-gradient-app flex justify-around items-start px-6 py-10 gap-5">
 			<div class="flex flex-col p-8">
 				<div class="text-white font-medium text-[2.5rem]">
 				<h1>{"Competition"}</h1>
@@ -49,8 +49,8 @@ pub fn desktop_view(props: &Props) -> Html {
 							<div onclick={
 								let history = history.clone();
 								let name = name.clone();
-								Callback::once(move |_| {history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)
-							 });})} class="transition hover:scale-110 cursor-pointer">
+								Callback::once(move |_| {history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)});
+							})} class="transition hover:scale-110 cursor-pointer">
 								<div class=" bg-white w-28 h-28 drop-shadow-2xl rounded-lg flex justify-center items-center">
 								<img src={String::from(icon_src)} alt="Event" />
 								</div>

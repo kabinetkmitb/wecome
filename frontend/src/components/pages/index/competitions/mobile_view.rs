@@ -70,7 +70,7 @@ pub fn mobile_view(props: &Props) -> Html {
 	};
 
 	html! {
-	<div class="w-screen [background:linear-gradient(139.53deg,_#32D0FA_0%,_#44A2FE_100%)] flex flex-col">
+	<div class="w-screen bg-blue-gradient-app flex flex-col">
 		<div class="font-semibold text-[2.25rem] text-white text-center">{"Kategori"}</div>
 		<div class="font-semibold text-[2.25rem] text-white text-center">{"Kompetisi"}</div>
 		<br />

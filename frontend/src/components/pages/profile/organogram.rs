@@ -3,7 +3,7 @@ use yew::prelude::*;
 #[function_component(Organogram)]
 pub fn organogram() -> Html {
 	html! {
-		<div class="w-full [background:linear-gradient(139.53deg,_#32D0FA_0%,_#44A2FE_100%)] flex flex-col items-center py-10">
+		<div class="w-full bg-blue-gradient-app flex flex-col items-center py-10">
 			<div class="m-4 relative">
 				<div class="text-[2rem] font-semibold text-white text-center mb-5 mr-[4rem]">
 				{"Organogram"}
