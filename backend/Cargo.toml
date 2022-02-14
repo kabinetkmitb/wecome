@@ -12,7 +12,7 @@ actix-web-httpauth = "0.5.1"
 bcrypt = "0.10.1"
 chrono = {version="0.4", features=["serde"]}
 derive_more = "0.99.16"
-diesel = {version="1.4.8", features= ["mysql","uuidv07", "r2d2","chrono"]}
+diesel = {version="1.4.8", features= ["postgres","uuidv07", "r2d2","chrono"]}
 dotenv = "0.15.0"
 env_logger = "0.9.0"
 jsonwebtoken = "7.2.0"

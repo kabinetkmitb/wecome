@@ -7,8 +7,8 @@ use ::r2d2::PooledConnection;
 use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpServer};
 use diesel::{
+    pg::PgConnection,
     r2d2::{self, ConnectionManager},
-    MysqlConnection,
 };
 use dotenv::dotenv;
 use std::env;
@@ -16,8 +16,8 @@ use std::env;
 pub mod routes;
 pub mod utils;
 
-pub type Pool = r2d2::Pool<ConnectionManager<MysqlConnection>>;
-pub type UnwrappedPool = PooledConnection<ConnectionManager<MysqlConnection>>;
+pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
+pub type UnwrappedPool = PooledConnection<ConnectionManager<PgConnection>>;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -28,7 +28,7 @@ async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
 
-    let manager = ConnectionManager::<MysqlConnection>::new(database_url);
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
     let pool: Pool = r2d2::Pool::builder()
         .build(manager)
         .expect("Failed to create pool.");
