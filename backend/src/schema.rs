@@ -52,7 +52,7 @@ table! {
         name -> Text,
         nim -> Text,
         password -> Text,
-        role -> Role,
+        is_admin -> Bool,
     }
 }
 
@@ -61,7 +61,7 @@ table! {
         id -> Text,
         email -> Text,
         name -> Text,
-        status -> VerificationStatus,
+        is_verified -> Bool,
     }
 }
 
