@@ -1,6 +1,6 @@
 use crate::components::common::modal::Modal;
+use crate::components::common::modal_button::ModalButton;
 use crate::router::{KompetisiQuery, Route};
-use crate::utils::interop;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_router::prelude::*;

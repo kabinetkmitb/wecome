@@ -9,6 +9,8 @@ declare_resources!(
 	"https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.css"
 	modal
 	"https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
+	tw
+	"https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"
 );
 
 // The javascript API: https://github.com/apvarun/toastify-js/blob/572517040fae6a7f8be4a99778dacda9c933db45/README.md
