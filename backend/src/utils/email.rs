@@ -26,7 +26,7 @@ pub fn send_verification_email(
             p {
               "We need a little more information to complete your registration, including a confirmation of your email address. Click below to confirm your email address:"
             }
-            a href=[Some(format!("{}{}",app_url,verification_id))] { "Verification Link" }
+            a href=[Some(format!("{}auth/verify-email/{}",app_url,verification_id))] { "Verification Link" }
             br {}
             p {
               "Best Regards, Wecome Team"
