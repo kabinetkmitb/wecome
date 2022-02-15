@@ -11,7 +11,7 @@ datasource db {
 }
 
 model user {
-  id                String              @id @default(uuid())
+  id                String              @id @default(cuid())
   email             String              @unique
   name              String
   nim               String              @unique
@@ -22,7 +22,7 @@ model user {
 }
 
 model verification {
-  id          String  @id @default(uuid())
+  id          String  @id @default(cuid())
   user        user    @relation(fields: [user_id], references: [id])
   code        String
   is_verified Boolean
@@ -30,7 +30,7 @@ model verification {
 }
 
 model kompetisi {
-  id                     String             @id @default(uuid())
+  id                     String             @id @default(cuid())
   nama_pendaftar         String
   nim_pendaftar          String
   email_pendaftar        String
@@ -53,20 +53,20 @@ model kompetisi {
 }
 
 model tim_buddies {
-  id           String    @id @default(uuid())
+  id           String    @id @default(cuid())
   kompetisi    kompetisi @relation(fields: [kompetisi_id], references: [id])
   kompetisi_id String
 }
 
 model identitas_pengaju {
-  id         String @id @default(uuid())
+  id         String @id @default(cuid())
   kontak     String
   pengaju    user   @relation(fields: [pengaju_id], references: [id])
   pengaju_id String
 }
 
 model kriteria_anggota {
-  id                 String    @id @default(uuid())
+  id                 String    @id @default(cuid())
   kompetisi          kompetisi @relation(fields: [kompetisi_id], references: [id])
   kompetisi_id       String
   role               String

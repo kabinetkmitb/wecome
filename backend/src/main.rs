@@ -1,8 +1,10 @@
 #[macro_use]
 extern crate diesel;
 extern crate argon2;
+extern crate branca;
 extern crate dotenv;
 extern crate env_logger;
+extern crate getrandom;
 
 use ::r2d2::PooledConnection;
 use actix_cors::Cors;
@@ -42,6 +44,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .data(pool.clone())
             .service(web::scope("/users").service(routes::test::hello))
+            .service(web::scope("/auth").service(routes::auth::controller::register))
     })
     .bind(format!("{}:{}", host, port))?
     .run()

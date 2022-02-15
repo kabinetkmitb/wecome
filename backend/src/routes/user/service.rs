@@ -10,9 +10,11 @@ pub fn create_user<'a>(
 ) -> Result<User, diesel::result::Error> {
     use crate::schema::user;
     use crate::schema::user::dsl::*;
-    let mut user_data = user_data;
+    let mut user_data = user_data.clone();
 
-    let hashed = crate::utils::hash::hash(&user_data.password);
+    print!("{:?}", user_data);
+
+    let hashed = crate::utils::hash::hash(user_data.password);
     user_data.password = hashed;
 
     let insert_respond = diesel::insert_into(user::table)
@@ -31,5 +33,5 @@ pub fn create_user<'a>(
 
     // TODO : craete verification
 
-    Ok(final_user[0])
+    Ok(final_user[0].clone())
 }

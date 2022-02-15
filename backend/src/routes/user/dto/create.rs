@@ -1,9 +1,13 @@
 use crate::schema::user;
+use derivative::Derivative;
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Serialize, Insertable)]
+#[derive(Deserialize, Serialize, Insertable, Clone, Debug, Derivative)]
+#[derivative(Default)]
 #[table_name = "user"]
 pub struct CreateUser {
+    #[derivative(Default(value = "crate::utils::cuid::get_cuid()"))]
+    pub id: String,
     pub email: String,
     pub name: String,
     pub nim: String,
