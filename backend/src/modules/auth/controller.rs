@@ -29,7 +29,7 @@ async fn verify_email(
     db: web::Data<Pool>,
     web::Path(verification_id): web::Path<String>,
 ) -> Result<HttpResponse, Error> {
-    let app_url = env::var("APP_URL").expect("app url not set");
+    let app_url = env::var("FRONTEND_URL").expect("app url not set");
     super::service::verify_mail(&db.get().unwrap(), verification_id)
         .map(|_| {
             HttpResponse::Found()
