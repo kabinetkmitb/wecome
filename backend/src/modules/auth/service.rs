@@ -1,16 +1,16 @@
 use super::dto::register::RegisterInput;
-use super::dto::register::RegisterResponse;
 use super::dto::token::TokenClaim;
 use crate::modules::user::dto::create::CreateUser;
 use crate::modules::verification::dto::create::CreateVerification;
 use crate::modules::{user, verification};
+use crate::utils::email::send_verification_email;
 use crate::UnwrappedPool;
 use actix_web::error::ErrorBadRequest;
 use actix_web::Error;
 use branca::Branca;
 use std::env;
 
-pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterResponse, Error> {
+pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<String, Error> {
     let user = match user::service::create_user(
         db,
         CreateUser {
@@ -36,9 +36,12 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterRe
         Ok(data) => data,
     };
 
-    Ok(RegisterResponse {
-        verification_id: verification.id,
-    })
+    match send_verification_email(user.name, user.email, verification.clone().id) {
+        Err(err) => return Err(ErrorBadRequest(err)),
+        Ok(_) => {}
+    };
+
+    Ok(String::from("Successfully registered!"))
 }
 
 pub fn create_token(claim: TokenClaim) -> Result<String, branca::errors::Error> {
