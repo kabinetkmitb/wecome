@@ -16,7 +16,7 @@ use diesel::{
 use dotenv::dotenv;
 use std::env;
 
-pub mod routes;
+pub mod modules;
 pub mod schema;
 pub mod utils;
 
@@ -43,14 +43,17 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             .data(pool.clone())
-            .service(web::scope("/users").service(routes::test::hello))
-            .service(web::scope("/auth").service(routes::auth::controller::register))
+            .service(
+                web::scope("/users")
+                    .service(modules::test::hello)
+                    .service(modules::test::testing_email),
+            )
+            .service(web::scope("/auth").service(modules::auth::controller::register))
     })
     .bind(format!("{}:{}", host, port))?
     .run()
     .await;
 
     println!("Running blazingly fast at {}:{} 🚀", host, port);
-
     result
 }

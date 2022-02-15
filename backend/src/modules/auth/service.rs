@@ -1,9 +1,9 @@
 use super::dto::register::RegisterInput;
 use super::dto::register::RegisterResponse;
 use super::dto::token::TokenClaim;
-use crate::routes::user::dto::create::CreateUser;
-use crate::routes::verification::dto::create::CreateVerification;
-use crate::routes::{user, verification};
+use crate::modules::user::dto::create::CreateUser;
+use crate::modules::verification::dto::create::CreateVerification;
+use crate::modules::{user, verification};
 use crate::UnwrappedPool;
 use actix_web::error::ErrorBadRequest;
 use actix_web::Error;
