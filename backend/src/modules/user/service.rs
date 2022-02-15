@@ -39,3 +39,12 @@ pub fn update_user_by_id<'a>(
         .set(&user_data)
         .get_result::<User>(connection)
 }
+
+pub fn get_user_by_email<'a>(
+    connection: &UnwrappedPool,
+    user_email: String,
+) -> Result<User, diesel::result::Error> {
+    use crate::schema::user::dsl::*;
+
+    user.filter(email.eq_all(user_email)).first(connection)
+}

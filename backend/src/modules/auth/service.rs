@@ -1,5 +1,6 @@
+use super::dto::login::LoginInput;
 use super::dto::register::RegisterInput;
-use super::dto::token::TokenClaim;
+use super::dto::token::{Token, TokenClaim};
 use crate::modules::user::dto::create::CreateUser;
 use crate::modules::user::dto::update::UpdateUser;
 use crate::modules::user::service::update_user_by_id;
@@ -7,6 +8,7 @@ use crate::modules::verification::dto::create::CreateVerification;
 use crate::modules::verification::service::get_verification_by_id;
 use crate::modules::{user, verification};
 use crate::utils::email::send_verification_email;
+use crate::utils::hash::check_password;
 use crate::UnwrappedPool;
 use actix_web::error::ErrorBadRequest;
 use actix_web::Error;
@@ -64,6 +66,36 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<String, Er
     };
 
     Ok(String::from("Successfully registered!"))
+}
+
+pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<Token, Error> {
+    let user = match user::service::get_user_by_email(db, payload.email) {
+        Err(err) => return Err(ErrorBadRequest(err)),
+        Ok(data) => data,
+    };
+
+    if !user.is_active {
+        return Err(ErrorBadRequest("User has not activated account!"));
+    };
+
+    let valid = match check_password(payload.password, user.clone().password) {
+        Err(e) => return Err(ErrorBadRequest(e)),
+        Ok(data) => data,
+    };
+
+    if !valid {
+        return Err(ErrorBadRequest("Wrong password!"));
+    };
+
+    let token = match create_token(TokenClaim {
+        user_id: user.clone().id,
+        is_admin: user.clone().is_admin,
+    }) {
+        Err(e) => return Err(ErrorBadRequest(e)),
+        Ok(data) => data,
+    };
+
+    Ok(Token { token })
 }
 
 pub fn create_token(claim: TokenClaim) -> Result<String, branca::errors::Error> {

@@ -1,5 +1,5 @@
 use super::dto::register::RegisterInput;
-use crate::Pool;
+use crate::{modules::auth::dto::login::LoginInput, Pool};
 use actix_web::{
     get, post,
     web::{self, Json},
@@ -13,6 +13,13 @@ async fn register(
 ) -> Result<HttpResponse, Error> {
     super::service::register(&db.get().unwrap(), payload.into_inner())
         .map(|res| HttpResponse::Ok().body(res))
+        .map_err(|err| err)
+}
+
+#[post("/login")]
+async fn login(db: web::Data<Pool>, payload: Json<LoginInput>) -> Result<HttpResponse, Error> {
+    super::service::login(&db.get().unwrap(), payload.into_inner())
+        .map(|res| HttpResponse::Ok().json(res))
         .map_err(|err| err)
 }
 
