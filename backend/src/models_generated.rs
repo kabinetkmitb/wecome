@@ -61,8 +61,8 @@ pub struct User {
 #[derive(Queryable, Debug)]
 pub struct Verification {
     pub id: String,
-    pub email: String,
-    pub name: String,
     pub is_verified: bool,
+    pub code: String,
+    pub user_id: String,
 }
 

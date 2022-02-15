@@ -59,15 +59,16 @@ table! {
 table! {
     verification (id) {
         id -> Text,
-        email -> Text,
-        name -> Text,
         is_verified -> Bool,
+        code -> Text,
+        user_id -> Text,
     }
 }
 
 joinable!(identitas_pengaju -> user (pengaju_id));
 joinable!(kriteria_anggota -> kompetisi (kompetisi_id));
 joinable!(tim_buddies -> kompetisi (kompetisi_id));
+joinable!(verification -> user (user_id));
 
 allow_tables_to_appear_in_same_query!(
     identitas_pengaju,

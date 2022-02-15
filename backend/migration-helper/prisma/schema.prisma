@@ -18,13 +18,15 @@ model user {
   password          String
   is_admin          Boolean             @default(false)
   identitas_pengaju identitas_pengaju[]
+  verification      verification?
 }
 
 model verification {
   id          String  @id @default(uuid())
-  email       String  @unique
-  name        String
+  user        user    @relation(fields: [user_id], references: [id])
+  code        String
   is_verified Boolean
+  user_id     String  @unique
 }
 
 model kompetisi {

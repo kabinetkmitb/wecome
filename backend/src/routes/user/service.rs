@@ -2,11 +2,11 @@ use diesel::prelude::*;
 
 use crate::UnwrappedPool;
 
-use super::model::User;
+use super::{dto::create::CreateUser, model::User};
 
 pub fn create_user<'a>(
     connection: &UnwrappedPool,
-    user_data: User,
+    user_data: CreateUser,
 ) -> Result<User, diesel::result::Error> {
     use crate::schema::user;
     use crate::schema::user::dsl::*;
