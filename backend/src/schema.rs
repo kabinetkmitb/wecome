@@ -53,14 +53,13 @@ table! {
         nim -> Text,
         password -> Text,
         is_admin -> Bool,
+        is_active -> Bool,
     }
 }
 
 table! {
     verification (id) {
         id -> Text,
-        is_verified -> Bool,
-        code -> Text,
         user_id -> Text,
     }
 }

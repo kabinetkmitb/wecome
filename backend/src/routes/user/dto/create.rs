@@ -14,4 +14,6 @@ pub struct CreateUser {
     pub password: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_admin: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_active: Option<bool>,
 }

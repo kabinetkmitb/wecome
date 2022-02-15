@@ -56,13 +56,12 @@ pub struct User {
     pub nim: String,
     pub password: String,
     pub is_admin: bool,
+    pub is_active: bool,
 }
 
 #[derive(Queryable, Debug)]
 pub struct Verification {
     pub id: String,
-    pub is_verified: bool,
-    pub code: String,
     pub user_id: String,
 }
 

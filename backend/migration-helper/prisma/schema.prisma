@@ -17,6 +17,7 @@ model user {
   nim               String              @unique
   password          String
   is_admin          Boolean             @default(false)
+  is_active         Boolean             @default(false)
   identitas_pengaju identitas_pengaju[]
   verification      verification?
 }
@@ -24,8 +25,6 @@ model user {
 model verification {
   id          String  @id @default(cuid())
   user        user    @relation(fields: [user_id], references: [id])
-  code        String
-  is_verified Boolean
   user_id     String  @unique
 }
 

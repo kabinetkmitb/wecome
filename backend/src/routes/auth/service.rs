@@ -18,7 +18,6 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterRe
             name: payload.name,
             password: payload.password,
             email: payload.email,
-            is_admin: None,
             ..CreateUser::default()
         },
     ) {
@@ -30,7 +29,6 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterRe
         db,
         CreateVerification {
             user_id: user.id.clone(),
-            code: None,
             ..CreateVerification::default()
         },
     ) {
