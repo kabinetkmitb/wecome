@@ -5,6 +5,7 @@ use actix_web::{
     web::{self, Json},
     Error, HttpResponse,
 };
+use std::env;
 
 #[post("/register")]
 async fn register(
@@ -28,11 +29,11 @@ async fn verify_email(
     db: web::Data<Pool>,
     web::Path(verification_id): web::Path<String>,
 ) -> Result<HttpResponse, Error> {
-    // TODO: ubah redirect url
+    let app_url = env::var("APP_URL").expect("app url not set");
     super::service::verify_mail(&db.get().unwrap(), verification_id)
         .map(|_| {
             HttpResponse::Found()
-                .header("Location", "https://wecome.com")
+                .header("Location", format!("{}login", app_url))
                 .finish()
         })
         .map_err(|err| err)
