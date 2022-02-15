@@ -48,7 +48,11 @@ async fn main() -> std::io::Result<()> {
                     .service(modules::test::hello)
                     .service(modules::test::testing_email),
             )
-            .service(web::scope("/auth").service(modules::auth::controller::register))
+            .service(
+                web::scope("/auth")
+                    .service(modules::auth::controller::register)
+                    .service(modules::auth::controller::verify_email),
+            )
     })
     .bind(format!("{}:{}", host, port))?
     .run()
