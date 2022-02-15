@@ -1,12 +1,16 @@
 use crate::components::common::auth_layout::AuthLayout;
 use crate::router::Route;
+use crate::types::auth::RegisterPayload;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
-use yew_hooks::use_map;
+use yew_hooks::{use_async, use_map};
 use yew_router::prelude::*;
 
 #[function_component(DesktopView)]
 pub fn desktop_view() -> Html {
+	let history = use_history().unwrap();
+	crate::utils::interop::use_toast();
+
 	let fields_tuple = vec![
 		("name", "".to_string()),
 		("nim", "".to_string()),
@@ -15,6 +19,54 @@ pub fn desktop_view() -> Html {
 		("konfirmasi kata sandi", "".to_string()),
 	];
 	let form_data = use_map(fields_tuple.iter().cloned().collect());
+
+	let register = {
+		let form_data = form_data.clone();
+		use_async(async move {
+			let request = RegisterPayload {
+				name: form_data.current().get("name").unwrap().clone(),
+				nim: form_data.current().get("nim").unwrap().clone(),
+				email: form_data.current().get("email").unwrap().clone(),
+				password: form_data.current().get("kata sandi").unwrap().clone(),
+			};
+			crate::services::auth::register(request).await
+		})
+	};
+
+	{
+		use_effect_with_deps(
+			move |register| {
+				if let Some(_) = &register.data {
+					history.push(Route::Index);
+				}
+				if let Some(e) = &register.error {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+				}
+				|| ()
+			},
+			register.clone(),
+		);
+	}
+
+	let onclick = {
+		let register = register.clone();
+		let form_data = form_data.clone();
+		Callback::from(move |_| {
+			let konfirmasi_password = form_data
+				.current()
+				.get("konfirmasi kata sandi")
+				.unwrap()
+				.clone();
+			let password = form_data.current().get("kata sandi").unwrap().clone();
+			let register = register.clone();
+
+			if konfirmasi_password != password {
+				crate::utils::interop::show_toast_with_message("Kata sandi tidak sama".to_string());
+			} else {
+				register.run();
+			}
+		})
+	};
 
 	html! {
 		<AuthLayout is_admin={false}>
@@ -37,7 +89,7 @@ pub fn desktop_view() -> Html {
 								}
 							})
 					}
-					<button class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftar"}</button>
+					<button {onclick} class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading {"Loading..."} else {"Masuk"}}</button>
 					<div class="flex gap-1">{"Sudah punya akun?"}
 
 					<Link<Route> to={Route::Login}>

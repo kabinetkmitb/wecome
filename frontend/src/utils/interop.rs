@@ -26,7 +26,7 @@ extern "C" {
 	pub fn show_toast(this: &Toast);
 }
 
-pub fn show_congrats_toast(message: String) {
+pub fn show_toast_with_message(message: String) {
 	let config = Object::new();
 	Reflect::set(&config, &"text".into(), &message.into()).ok();
 	let toast = Toast::new(&config);

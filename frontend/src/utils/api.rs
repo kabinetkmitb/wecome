@@ -7,7 +7,7 @@ use serde::{de::DeserializeOwned, Serialize};
 use crate::types::error::Error;
 
 const API_ROOT: &str = dotenv!("API_ROOT");
-const TOKEN_KEY: &str = "yew.token";
+const TOKEN_KEY: &str = "token";
 
 lazy_static! {
 	/// Jwt token read from local storage.
@@ -73,7 +73,6 @@ where
 				403 => Err(Error::Forbidden),
 				404 => Err(Error::NotFound),
 				500 => Err(Error::InternalServerError),
-
 				_ => Err(Error::RequestError),
 			}
 		}
