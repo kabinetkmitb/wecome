@@ -36,7 +36,7 @@ pub fn mobile_view() -> Html {
 		use_effect_with_deps(
 			move |register| {
 				if let Some(_) = &register.data {
-					history.push(Route::Index);
+					history.push(Route::RegisterSuccess);
 				}
 				if let Some(e) = &register.error {
 					crate::utils::interop::show_toast_with_message(e.to_string());
