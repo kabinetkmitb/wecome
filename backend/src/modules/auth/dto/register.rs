@@ -7,3 +7,8 @@ pub struct RegisterInput {
     pub name: String,
     pub password: String,
 }
+
+#[derive(Deserialize, Serialize)]
+pub struct RegisterResponse {
+    pub message: String,
+}

@@ -1,5 +1,5 @@
 use super::dto::login::LoginInput;
-use super::dto::register::RegisterInput;
+use super::dto::register::{RegisterInput, RegisterResponse};
 use super::dto::token::{Token, TokenClaim};
 use crate::modules::user::dto::create::CreateUser;
 use crate::modules::user::dto::update::UpdateUser;
@@ -34,7 +34,7 @@ pub fn verify_mail(db: &UnwrappedPool, verification_id: String) -> Result<(), Er
     }
 }
 
-pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<String, Error> {
+pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterResponse, Error> {
     let user = match user::service::create_user(
         db,
         CreateUser {
@@ -65,7 +65,9 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<String, Er
         Ok(_) => {}
     };
 
-    Ok(String::from("Successfully registered!"))
+    Ok(RegisterResponse {
+        message: String::from("Successfully registered!"),
+    })
 }
 
 pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<Token, Error> {

@@ -12,7 +12,7 @@ async fn register(
     payload: Json<RegisterInput>,
 ) -> Result<HttpResponse, Error> {
     super::service::register(&db.get().unwrap(), payload.into_inner())
-        .map(|res| HttpResponse::Ok().body(res))
+        .map(|res| HttpResponse::Ok().json(res))
         .map_err(|err| err)
 }
 

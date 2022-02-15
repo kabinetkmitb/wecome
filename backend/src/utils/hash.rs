@@ -24,7 +24,6 @@ pub fn hash(password: String) -> String {
 
 pub fn check_password(password: String, hashed_password: String) -> Result<bool, String> {
     let secret = env::var("SECRET_HASH").expect("secret not set");
-    let salt = SaltString::generate(&mut OsRng);
 
     let argon2 = Argon2::new_with_secret(
         &secret.as_bytes(),
