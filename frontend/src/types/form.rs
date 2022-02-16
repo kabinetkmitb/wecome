@@ -11,7 +11,6 @@ pub enum FormFieldType {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct FormFieldProperty {
 	pub key: String,
-	pub initial_value: String,
 	pub placeholder: Option<String>,
 	pub input_type: FormFieldType,
 }

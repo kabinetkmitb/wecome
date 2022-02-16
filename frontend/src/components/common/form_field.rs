@@ -25,7 +25,7 @@ pub fn form_field(props: &Props) -> Html {
 								let map_key = map_key.clone();
 								let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
 								map.update(&map_key, input_value);
-						})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+						})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder={props.field_property.clone().placeholder.unwrap()} />
 					</div>
 				</>
 			}
@@ -56,7 +56,7 @@ pub fn form_field(props: &Props) -> Html {
 						<span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
 							{prefix}
 						</span>
-						<input type="text" id={props.field_property.clone().key} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder={props.field_property.clone().placeholder.unwrap()}/>
+						<input type="text" id={props.field_property.clone().key} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 					</div>
 				</div>
 				</>

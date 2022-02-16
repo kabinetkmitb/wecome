@@ -1,4 +1,4 @@
-use super::forms::detail_fields;
+use super::forms::{detail_fields, kontak_fields, pendaftar_fields};
 use crate::components::common::form_field::FormField;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
@@ -6,14 +6,13 @@ use yew_hooks::use_map;
 
 #[function_component(DaftarLombaComponent)]
 pub fn daftar_lomba_component() -> Html {
-	let pendaftar_fields = vec![
-		("nama pendaftar", "".to_string()),
-		("no telp", "".to_string()),
-		("email pendaftar", "".to_string()),
-		("nama lembaga", "".to_string()),
-		("nim", "".to_string()),
-	];
-	let pendaftar_data = use_map(pendaftar_fields.iter().cloned().collect());
+	let pendaftar_data = use_map(
+		pendaftar_fields
+			.iter()
+			.cloned()
+			.map(|fields| (fields.key, "".to_string()))
+			.collect(),
+	);
 
 	let detail_data = use_map(
 		detail_fields
@@ -23,14 +22,13 @@ pub fn daftar_lomba_component() -> Html {
 			.collect(),
 	);
 
-	let kontak_fields = vec![
-		("website", "".to_string()),
-		("linkedin", "".to_string()),
-		("instagram", "".to_string()),
-		("line", "".to_string()),
-		("twitter", "".to_string()),
-	];
-	let kontak_data = use_map(kontak_fields.iter().cloned().collect());
+	let kontak_data = use_map(
+		kontak_fields
+			.iter()
+			.cloned()
+			.map(|fields| (fields.key, "".to_string()))
+			.collect(),
+	);
 
 	html! {
 		<>
@@ -43,17 +41,15 @@ pub fn daftar_lomba_component() -> Html {
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
-					for pendaftar_fields.iter().cloned().map(|(key,_)| {
-						html! {
-							<div class="w-full">
-								<label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
-								<input oninput={
-									let map = pendaftar_data.clone();
-									Callback::from(move |e: InputEvent| {
-									let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
-									map.update(&key, input_value);
-								})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-							</div>
+					for pendaftar_fields.iter().cloned().map(|field_property| {
+						let form_data = pendaftar_data.clone();
+						let field_property = field_property.clone();
+						html_nested! {
+							<FormField
+								field_property={field_property.clone()}
+								key_input={field_property.key}
+								form_data={form_data.clone()}
+							/>
 						}
 					})
 				}
@@ -79,17 +75,15 @@ pub fn daftar_lomba_component() -> Html {
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
-					for kontak_fields.iter().cloned().map(|(key,_)| {
-						html! {
-							<div class="w-full">
-								<label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
-								<input oninput={
-									let map = kontak_data.clone();
-									Callback::from(move |e: InputEvent| {
-									let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
-									map.update(&key, input_value);
-								})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-							</div>
+					for kontak_fields.iter().cloned().map(|field_property| {
+						let form_data = kontak_data.clone();
+						let field_property = field_property.clone();
+						html_nested! {
+							<FormField
+								field_property={field_property.clone()}
+								key_input={field_property.key}
+								form_data={form_data.clone()}
+							/>
 						}
 					})
 				}

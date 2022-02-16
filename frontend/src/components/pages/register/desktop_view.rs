@@ -13,7 +13,6 @@ pub fn desktop_view() -> Html {
 
 	let fields_tuple = vec![
 		("name", "".to_string()),
-		("nim", "".to_string()),
 		("email", "".to_string()),
 		("kata sandi", "".to_string()),
 		("konfirmasi kata sandi", "".to_string()),
@@ -25,7 +24,6 @@ pub fn desktop_view() -> Html {
 		use_async(async move {
 			let request = RegisterPayload {
 				name: form_data.current().get("name").unwrap().clone(),
-				nim: form_data.current().get("nim").unwrap().clone(),
 				email: form_data.current().get("email").unwrap().clone(),
 				password: form_data.current().get("kata sandi").unwrap().clone(),
 			};

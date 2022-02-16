@@ -3,7 +3,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 pub struct RegisterPayload {
 	pub email: String,
-	pub nim: String,
 	pub name: String,
 	pub password: String,
 }
