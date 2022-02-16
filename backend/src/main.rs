@@ -40,13 +40,17 @@ async fn main() -> std::io::Result<()> {
 
     let result = HttpServer::new(move || {
         App::new()
-            .app_data(Config::default().realm("Restricted area").scope("auth"))
+            .app_data(
+                Config::default()
+                    .realm("Restricted area")
+                    .scope("auth propose-kompetisi"),
+            )
             .wrap(Cors::permissive())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             .data(pool.clone())
             .service(
-                web::scope("/kompetisi").service(modules::kompetisi::controller::create_kompetisi),
+                web::scope("/kompetisi").service(modules::kompetisi::controller::propose_kompetisi),
             )
             .service(
                 web::scope("/auth")

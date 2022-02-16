@@ -7,7 +7,6 @@ pub struct User {
     pub id: String,
     pub email: String,
     pub name: String,
-    pub nim: String,
     pub password: String,
     pub is_admin: bool,
     pub is_active: bool,

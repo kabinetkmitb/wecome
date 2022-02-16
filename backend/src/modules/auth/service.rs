@@ -38,7 +38,6 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterRe
     let user = match user::service::create_user(
         db,
         CreateUser {
-            nim: payload.nim,
             name: payload.name,
             password: payload.password,
             email: payload.email,

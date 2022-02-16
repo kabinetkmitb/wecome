@@ -1,19 +1,19 @@
+use serde::{Deserialize, Serialize};
+
 use crate::schema::kompetisi;
 use crate::utils::serializer::{default_time, json_time};
 use chrono::NaiveDateTime;
 use derivative::Derivative;
-use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Insertable, Clone, Debug, Derivative)]
 #[derivative(Default)]
 #[table_name = "kompetisi"]
-pub struct CreateKompetisi {
+pub struct ProposeKompetisiInput {
     #[derivative(Default(value = "crate::utils::cuid::get_cuid()"))]
     #[serde(default = "crate::utils::cuid::get_cuid")]
     pub id: String,
-    pub user_id: String,
-    pub no_telp: String,
     pub nama_lembaga_pendaftar: String,
+    pub no_telp: String,
     pub nama_kompetisi: String,
     pub kategori_kompetisi: String,
     pub deskripsi_kompetisi: String,
@@ -34,4 +34,9 @@ pub struct CreateKompetisi {
     pub id_line: String,
     pub akun_twitter: String,
     pub link_poster: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct ProposeKompetisiResponse {
+    pub message: String,
 }
