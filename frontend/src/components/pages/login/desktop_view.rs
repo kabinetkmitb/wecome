@@ -1,14 +1,56 @@
 use crate::components::common::auth_layout::AuthLayout;
+use crate::context::user::{use_user, UserState};
 use crate::router::Route;
+use crate::types::auth::LoginPayload;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
-use yew_hooks::use_map;
+use yew_hooks::{use_async, use_map};
 use yew_router::prelude::*;
 
 #[function_component(DesktopView)]
 pub fn desktop_view() -> Html {
+	let history = use_history().unwrap();
+	let user_ctx = use_user();
+	crate::utils::interop::use_toast();
+
 	let fields_tuple = vec![("email", "".to_string()), ("kata sandi", "".to_string())];
 	let form_data = use_map(fields_tuple.iter().cloned().collect());
+
+	let login = {
+		let form_data = form_data.clone();
+		use_async(async move {
+			let request = LoginPayload {
+				email: form_data.current().get("email").unwrap().clone(),
+				password: form_data.current().get("kata sandi").unwrap().clone(),
+			};
+			crate::services::auth::login(request).await
+		})
+	};
+
+	{
+		use_effect_with_deps(
+			move |login| {
+				if let Some(login_data) = &login.data {
+					history.push(Route::Index);
+					user_ctx.login(UserState {
+						name: login_data.name.clone(),
+						is_admin: login_data.is_admin,
+						token: login_data.token.clone(),
+					});
+				}
+				if let Some(e) = &login.error {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+				}
+				|| ()
+			},
+			login.clone(),
+		);
+	}
+
+	let onclick = {
+		let login = login.clone();
+		Callback::once(move |_| login.run())
+	};
 
 	html! {
 		<AuthLayout is_admin={false}>
@@ -43,7 +85,7 @@ pub fn desktop_view() -> Html {
 						})
 					}
 					<div class="text-cyan-600 font-semibold text-sm">{"Lupa kata sandi?"}</div>
-					<button class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Login"}</button>
+					<button {onclick} class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if login.loading  {"Loading..."} else {"Login"}}</button>
 					<div class="flex gap-1">{"Belum punya akun?"}
 					<Link<Route> to={Route::Register}>
 						<div class="text-cyan-600 font-semibold">{"Daftar Akun"}</div>
