@@ -5,6 +5,7 @@ use actix_web::{
     web::{self, Json},
     Error, HttpResponse,
 };
+use actix_web_httpauth::extractors::bearer::BearerAuth;
 use std::env;
 
 #[post("/register")]
@@ -20,6 +21,13 @@ async fn register(
 #[post("/login")]
 async fn login(db: web::Data<Pool>, payload: Json<LoginInput>) -> Result<HttpResponse, Error> {
     super::service::login(&db.get().unwrap(), payload.into_inner())
+        .map(|res| HttpResponse::Ok().json(res))
+        .map_err(|err| err)
+}
+
+#[get("/me")]
+async fn me(auth: BearerAuth) -> Result<HttpResponse, Error> {
+    super::service::me(auth.token().to_string())
         .map(|res| HttpResponse::Ok().json(res))
         .map_err(|err| err)
 }

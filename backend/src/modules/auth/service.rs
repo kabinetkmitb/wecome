@@ -1,6 +1,6 @@
-use super::dto::login::LoginInput;
+use super::dto::login::{LoginInput, LoginResponse};
 use super::dto::register::{RegisterInput, RegisterResponse};
-use super::dto::token::{Token, TokenClaim};
+use super::dto::token::TokenClaim;
 use crate::modules::user::dto::create::CreateUser;
 use crate::modules::user::dto::update::UpdateUser;
 use crate::modules::user::service::update_user_by_id;
@@ -70,7 +70,7 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterRe
     })
 }
 
-pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<Token, Error> {
+pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<LoginResponse, Error> {
     let user = match user::service::get_user_by_email(db, payload.email) {
         Err(err) => return Err(ErrorBadRequest(err)),
         Ok(data) => data,
@@ -97,7 +97,17 @@ pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<Token, Error> {
         Ok(data) => data,
     };
 
-    Ok(Token { token })
+    Ok(LoginResponse {
+        name: user.clone().name,
+        is_admin: user.clone().is_admin,
+        token,
+    })
+}
+
+pub fn me(token: String) -> Result<TokenClaim, Error> {
+    get_token_data(token)
+        .map(|claim| claim)
+        .map_err(|err| ErrorBadRequest(err))
 }
 
 pub fn create_token(claim: TokenClaim) -> Result<String, branca::errors::Error> {

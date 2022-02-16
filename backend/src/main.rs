@@ -9,6 +9,7 @@ extern crate getrandom;
 use ::r2d2::PooledConnection;
 use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web_httpauth::extractors::bearer::Config;
 use diesel::{
     pg::PgConnection,
     r2d2::{self, ConnectionManager},
@@ -39,6 +40,7 @@ async fn main() -> std::io::Result<()> {
 
     let result = HttpServer::new(move || {
         App::new()
+            .app_data(Config::default().realm("Restricted area").scope("auth"))
             .wrap(Cors::permissive())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
@@ -52,7 +54,8 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/auth")
                     .service(modules::auth::controller::register)
                     .service(modules::auth::controller::verify_email)
-                    .service(modules::auth::controller::login),
+                    .service(modules::auth::controller::login)
+                    .service(modules::auth::controller::me),
             )
     })
     .bind(format!("{}:{}", host, port))?
