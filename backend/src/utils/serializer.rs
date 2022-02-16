@@ -1,5 +1,4 @@
 use chrono::{DateTime, NaiveDateTime, Utc};
-use std::str::FromStr;
 
 pub fn time_to_json(t: NaiveDateTime) -> String {
     DateTime::<Utc>::from_utc(t, Utc).to_rfc3339()
@@ -19,7 +18,8 @@ pub mod json_time {
         deserializer: D,
     ) -> Result<NaiveDateTime, D::Error> {
         let time: String = Deserialize::deserialize(deserializer)?;
-        NaiveDateTime::from_str(&time).map_err(serde::de::Error::custom)
+        NaiveDateTime::parse_from_str(&format!("{} 00:00:00", &time), "%d/%m/%Y %H:%M:%S")
+            .map_err(serde::de::Error::custom)
     }
 }
 

@@ -1,3 +1,5 @@
+use super::forms::detail_fields;
+use crate::components::common::form_field::FormField;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::use_map;
@@ -13,16 +15,13 @@ pub fn daftar_lomba_component() -> Html {
 	];
 	let pendaftar_data = use_map(pendaftar_fields.iter().cloned().collect());
 
-	let detail_fields = vec![
-		("nama kompetisi", "".to_string()),
-		("kategori kompetisi", "".to_string()),
-		("deskripsi kompetisi", "".to_string()),
-		("tags kompetisi", "".to_string()),
-		("tanggal pelaksanaan", "".to_string()),
-		("batas registrasi", "".to_string()),
-		("link registrasi lomba", "".to_string()),
-	];
-	let detail_data = use_map(detail_fields.iter().cloned().collect());
+	let detail_data = use_map(
+		detail_fields
+			.iter()
+			.cloned()
+			.map(|fields| (fields.key, "".to_string()))
+			.collect(),
+	);
 
 	let kontak_fields = vec![
 		("website", "".to_string()),
@@ -63,17 +62,15 @@ pub fn daftar_lomba_component() -> Html {
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
-					for detail_fields.iter().cloned().map(|(key,_)| {
-						html! {
-							<div class="w-full">
-								<label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
-								<input oninput={
-									let map = detail_data.clone();
-									Callback::from(move |e: InputEvent| {
-									let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
-									map.update(&key, input_value);
-								})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-							</div>
+					for detail_fields.iter().cloned().map(|field_property| {
+						let form_data = detail_data.clone();
+						let field_property = field_property.clone();
+						html_nested! {
+							<FormField
+								field_property={field_property.clone()}
+								key_input={field_property.key}
+								form_data={form_data.clone()}
+							/>
 						}
 					})
 				}

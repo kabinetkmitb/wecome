@@ -12,6 +12,6 @@ pub enum FormFieldType {
 pub struct FormFieldProperty {
 	pub key: String,
 	pub initial_value: String,
-	pub place_holder: Option<String>,
+	pub placeholder: Option<String>,
 	pub input_type: FormFieldType,
 }
