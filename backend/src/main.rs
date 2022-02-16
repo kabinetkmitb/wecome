@@ -46,9 +46,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .data(pool.clone())
             .service(
-                web::scope("/users")
-                    .service(modules::test::hello)
-                    .service(modules::test::testing_email),
+                web::scope("/kompetisi").service(modules::kompetisi::controller::create_kompetisi),
             )
             .service(
                 web::scope("/auth")
