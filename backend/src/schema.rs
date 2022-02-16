@@ -9,16 +9,15 @@ table! {
 table! {
     kompetisi (id) {
         id -> Text,
-        nama_pendaftar -> Text,
-        nim_pendaftar -> Text,
-        email_pendaftar -> Text,
         nama_lembaga_pendaftar -> Text,
+        no_telp -> Text,
         nama_kompetisi -> Text,
         kategori_kompetisi -> Text,
         deskripsi_kompetisi -> Text,
         tags_kompetisi -> Text,
         tanggal_pelaksanaan -> Timestamp,
-        batas_registrasi -> Timestamp,
+        batas_awal_registrasi -> Timestamp,
+        batas_akhir_registrasi -> Timestamp,
         link_registrasi -> Text,
         link_webiste -> Text,
         link_linkedin -> Text,
@@ -26,6 +25,7 @@ table! {
         id_line -> Text,
         akun_twitter -> Text,
         link_poster -> Text,
+        user_id -> Text,
     }
 }
 
@@ -50,7 +50,6 @@ table! {
         id -> Text,
         email -> Text,
         name -> Text,
-        nim -> Text,
         password -> Text,
         is_admin -> Bool,
         is_active -> Bool,
@@ -65,6 +64,7 @@ table! {
 }
 
 joinable!(identitas_pengaju -> user (pengaju_id));
+joinable!(kompetisi -> user (user_id));
 joinable!(kriteria_anggota -> kompetisi (kompetisi_id));
 joinable!(tim_buddies -> kompetisi (kompetisi_id));
 joinable!(verification -> user (user_id));
