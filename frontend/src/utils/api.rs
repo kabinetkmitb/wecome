@@ -137,7 +137,7 @@ pub async fn uploadFile(buffer: web_sys::Blob) -> Result<String, Error> {
 	formdata.append_with_blob_and_filename("file", &buffer, "file.png");
 
 	let mut opts = RequestInit::new();
-	opts.method("GET");
+	opts.method("POST");
 	opts.mode(RequestMode::Cors);
 	opts.body(Some(&formdata));
 
@@ -155,8 +155,6 @@ pub async fn uploadFile(buffer: web_sys::Blob) -> Result<String, Error> {
 		"Accept",
 		"application/json, application/xml, text/plain, text/html, *.*",
 	);
-
-	request.headers().set("Content-type", "multipart/form-data");
 
 	let window = web_sys::window().unwrap();
 	let resp_value = match JsFuture::from(window.fetch_with_request(&request)).await {
