@@ -39,7 +39,11 @@ pub fn daftar_lomba_component() -> Html {
 	let register = {
 		let file_data = file_data.clone();
 		use_async(async move {
-			crate::utils::api::uploadFile(file_data.as_ref().unwrap().slice().unwrap()).await
+			crate::utils::api::uploadFile(
+				file_data.as_ref().unwrap().slice().unwrap(),
+				file_data.as_ref().unwrap().name(),
+			)
+			.await
 		})
 	};
 	// 	let pendaftar_data = pendaftar_data.clone();

@@ -131,10 +131,10 @@ struct UploadResponse {
 	url: String,
 }
 
-pub async fn uploadFile(buffer: web_sys::Blob) -> Result<String, Error> {
+pub async fn uploadFile(buffer: web_sys::Blob, file_name: String) -> Result<String, Error> {
 	let formdata = web_sys::FormData::new().unwrap();
 	formdata.append_with_str("upload_preset", "h4oea9l0");
-	formdata.append_with_blob_and_filename("file", &buffer, "file.png");
+	formdata.append_with_blob_and_filename("file", &buffer, file_name.as_str());
 
 	let mut opts = RequestInit::new();
 	opts.method("POST");
