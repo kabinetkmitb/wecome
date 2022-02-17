@@ -1,3 +1,5 @@
+extern crate multipart;
+
 use crate::context::user::UserContextProvider;
 use crate::router::{switch, Route};
 use crate::utils::interop::ResourceProvider;

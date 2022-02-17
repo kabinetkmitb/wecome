@@ -13,7 +13,7 @@ categories = ["gui", "wasm", "web-programming"]
 [dependencies]
 yew = "0.19.3"
 yew-router = "0.16"
-web-sys = {version = "0.3.7", features = ["HtmlFormElement","HtmlCanvasElement", "HtmlImageElement", "HtmlDivElement"] }
+web-sys = {version = "0.3.7", features = ["HtmlFormElement","HtmlCanvasElement", "HtmlImageElement", "HtmlDivElement", "Element", "File", "FileList", "FormData", "Blob", "Request", "RequestInit", "RequestMode", "Response", "Headers"] }
 wasm-bindgen = "0.2.79"
 gloo-events = "0.1.1"
 js-sys = "0.3.55"
@@ -22,9 +22,12 @@ serde = "1.0.136"
 yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="master", features=["yew-stable"]}
 log = "0.4.6"
 wasm-logger = "0.2.0"
-reqwest = { version = "0.11.7", features = ["json"] }
+reqwest = { version = "0.11.7", features = ["json", "multipart"] }
+getrandom = { version = "0.2", features = ["js"] } 
 dotenv_codegen = "0.15.0"
 gloo = "0.6.0"
 lazy_static = "1.4.0"
 parking_lot = "0.12.0"
 thiserror = "1.0.30"
+multipart = "0.18.0"
+wasm-bindgen-futures = "0.4.29"

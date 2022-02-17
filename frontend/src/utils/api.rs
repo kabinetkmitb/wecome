@@ -1,8 +1,13 @@
 use dotenv_codegen::dotenv;
 use gloo::storage::{LocalStorage, Storage};
 use lazy_static::lazy_static;
+use multipart::client::lazy::Multipart;
 use parking_lot::RwLock;
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use std::io::Read;
+use wasm_bindgen::JsCast;
+use wasm_bindgen_futures::JsFuture;
+use web_sys::{Request, RequestInit, RequestMode, Response};
 
 use crate::types::error::Error;
 
@@ -119,4 +124,63 @@ where
 pub fn limit(count: u32, p: u32) -> String {
 	let offset = if p > 0 { p * count } else { 0 };
 	format!("limit={}&offset={}", count, offset)
+}
+
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
+struct UploadResponse {
+	url: String,
+}
+
+pub async fn uploadFile(buffer: web_sys::Blob) -> Result<String, Error> {
+	let formdata = web_sys::FormData::new().unwrap();
+	formdata.append_with_str("upload_preset", "h4oea9l0");
+	formdata.append_with_blob_and_filename("file", &buffer, "file.png");
+
+	let mut opts = RequestInit::new();
+	opts.method("GET");
+	opts.mode(RequestMode::Cors);
+	opts.body(Some(&formdata));
+
+	let url = "https://api.cloudinary.com/v1_1/dncbtxucm/image/upload".to_string();
+
+	let request = match Request::new_with_str_and_init(&url, &opts) {
+		Ok(request) => request,
+		Err(e) => {
+			log::error!("Error creating request: {:?}", e);
+			return Err(Error::RequestError);
+		}
+	};
+
+	request.headers().set(
+		"Accept",
+		"application/json, application/xml, text/plain, text/html, *.*",
+	);
+
+	request.headers().set("Content-type", "multipart/form-data");
+
+	let window = web_sys::window().unwrap();
+	let resp_value = match JsFuture::from(window.fetch_with_request(&request)).await {
+		Ok(resp) => resp,
+		Err(e) => {
+			log::error!("Error fetching: {:?}", e);
+			return Err(Error::RequestError);
+		}
+	};
+
+	// `resp_value` is a `Response` object.
+	let resp: Response = resp_value.dyn_into().unwrap();
+
+	// Convert this other `Promise` into a rust `Future`.
+	let json = match JsFuture::from(resp.json().unwrap()).await {
+		Ok(json) => json,
+		Err(e) => {
+			log::error!("Error parsing response: {:?}", e);
+			return Err(Error::RequestError);
+		}
+	};
+
+	// Use serde to parse the JSON into a struct.
+	// let branch_info: String = json.into_serde().unwrap();
+
+	Ok("tsdfs".to_string())
 }
