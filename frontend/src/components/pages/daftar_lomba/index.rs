@@ -1,7 +1,5 @@
-use super::forms::{detail_fields, kontak_fields, pendaftar_fields};
+use super::forms::{DETAIL_FIELDS, KONTAK_FIELDS, PENDAFTAR_FIELDS};
 use crate::components::common::form_field::FormField;
-use crate::router::Route;
-use crate::types::kompetisi::ProposeKompetisiPayload;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::{use_async, use_map};
@@ -9,10 +7,10 @@ use yew_router::prelude::*;
 
 #[function_component(DaftarLombaComponent)]
 pub fn daftar_lomba_component() -> Html {
-	let history = use_history().unwrap();
+	let _history = use_history().unwrap();
 	crate::utils::interop::use_toast();
 	let pendaftar_data = use_map(
-		pendaftar_fields
+		PENDAFTAR_FIELDS
 			.iter()
 			.cloned()
 			.map(|fields| (fields.key, "".to_string()))
@@ -20,7 +18,7 @@ pub fn daftar_lomba_component() -> Html {
 	);
 
 	let detail_data = use_map(
-		detail_fields
+		DETAIL_FIELDS
 			.iter()
 			.cloned()
 			.map(|fields| (fields.key, "".to_string()))
@@ -28,7 +26,7 @@ pub fn daftar_lomba_component() -> Html {
 	);
 
 	let kontak_data = use_map(
-		kontak_fields
+		KONTAK_FIELDS
 			.iter()
 			.cloned()
 			.map(|fields| (fields.key, "".to_string()))
@@ -36,10 +34,10 @@ pub fn daftar_lomba_component() -> Html {
 	);
 	let file_data: yew::UseStateHandle<Option<web_sys::File>> = use_state(|| None);
 
-	let register = {
+	let _register = {
 		let file_data = file_data.clone();
 		use_async(async move {
-			crate::utils::api::uploadFile(
+			crate::utils::api::upload_file(
 				file_data.as_ref().unwrap().slice().unwrap(),
 				file_data.as_ref().unwrap().name(),
 			)
@@ -115,7 +113,6 @@ pub fn daftar_lomba_component() -> Html {
 
 	let onchange = {
 		let file_data = file_data.clone();
-		let register = register.clone();
 		Callback::once(move |e: web_sys::Event| {
 			let input_value = e
 				.target()
@@ -127,12 +124,11 @@ pub fn daftar_lomba_component() -> Html {
 				.get(0)
 				.unwrap();
 			file_data.set(Some(input_value));
-			register.run();
 		})
 	};
 
 	html! {
-		<>
+		<form>
 			<div class="bg-blue-gradient-app shadow-xl drop-shadow-xl px-6 py-10 gap-5">
 				<div class="text-white text-2xl font-semibold">{"Daftarkan Lomba"}</div>
 				<div class="text-white text-2xl font-semibold">{"Lembaga / Kampus Anda"}</div>
@@ -142,7 +138,7 @@ pub fn daftar_lomba_component() -> Html {
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
-					for pendaftar_fields.iter().cloned().map(|field_property| {
+					for PENDAFTAR_FIELDS.iter().cloned().map(|field_property| {
 						let form_data = pendaftar_data.clone();
 						let field_property = field_property.clone();
 						html_nested! {
@@ -159,7 +155,7 @@ pub fn daftar_lomba_component() -> Html {
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
-					for detail_fields.iter().cloned().map(|field_property| {
+					for DETAIL_FIELDS.iter().cloned().map(|field_property| {
 						let form_data = detail_data.clone();
 						let field_property = field_property.clone();
 						html_nested! {
@@ -176,7 +172,7 @@ pub fn daftar_lomba_component() -> Html {
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
-					for kontak_fields.iter().cloned().map(|field_property| {
+					for KONTAK_FIELDS.iter().cloned().map(|field_property| {
 						let form_data = kontak_data.clone();
 						let field_property = field_property.clone();
 						html_nested! {
@@ -192,8 +188,8 @@ pub fn daftar_lomba_component() -> Html {
 			<label class="text-sm font-bold py-2 px-1 capitalize" for="user-avatar"> {"Poster Kompetisi"} </label>
 			<input {onchange} class="block w-[45%] cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg" aria-describedby="user_avatar_help" id="user_avatar" type="file"/>
 			<span>{"Catatan: file harus dalam format .png atau .jpg"}</span>
-			<button class="px-8 py-2 my-5 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Kirim"}</button>
+			<button type="submit" class="px-8 py-2 my-5 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Kirim"}</button>
 			</div>
-		</>
+		</form>
 	}
 }

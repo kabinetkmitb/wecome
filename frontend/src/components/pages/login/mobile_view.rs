@@ -1,7 +1,8 @@
+use super::forms::LOGIN_FIELDS;
+use crate::components::common::form_field::FormField;
 use crate::context::user::{use_user, UserState};
 use crate::router::Route;
 use crate::types::auth::LoginPayload;
-use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::{use_async, use_map};
 use yew_router::prelude::*;
@@ -12,8 +13,14 @@ pub fn mobile_view() -> Html {
     crate::utils::interop::use_toast();
 
     let user_ctx = use_user();
-    let fields_tuple = vec![("email", "".to_string()), ("kata sandi", "".to_string())];
-    let form_data = use_map(fields_tuple.iter().cloned().collect());
+
+    let form_data = use_map(
+        LOGIN_FIELDS
+            .iter()
+            .cloned()
+            .map(|fields| (fields.key, "".to_string()))
+            .collect(),
+    );
 
     let login = {
         let form_data = form_data.clone();
@@ -46,13 +53,13 @@ pub fn mobile_view() -> Html {
         );
     }
 
-    let onclick = {
+    let onsubmit = {
         let login = login.clone();
         Callback::once(move |_| login.run())
     };
 
     html! {
-        <>
+        <form {onsubmit}>
         <div class="min-h-[97vh] flex flex-col w-full items-center">
         <div class="w-52 p-5 opacity-40">
             <img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641089/Frame_l1vboh.png" alt="Logo Wecome" />
@@ -62,23 +69,19 @@ pub fn mobile_view() -> Html {
             <div class="text-2xl font-semibold">{"Login"}</div>
             <div class="my-4 w-full">
                 {
-                    for fields_tuple.iter().cloned().map(|(key,_)| {
-                            html! {
-                                <div class="mb-4 w-full">
-                                    <label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
-                                    <input oninput={
-                                        let map = form_data.clone();
-                                        Callback::from(move |e: InputEvent| {
-                                        let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
-                                        map.update(&key, input_value);
-                                    })} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-                                </div>
-                            }
-                        })
+                    for LOGIN_FIELDS.iter().cloned().map(|field_property| {
+                        let form_data = form_data.clone();
+                        let field_property = field_property.clone();
+                        html_nested! {
+                            <FormField
+                                field_property={field_property.clone()}
+                                key_input={field_property.key}
+                                form_data={form_data.clone()}
+                            />
+                        }
+                    })
                 }
-            <button {onclick} class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{ if login.loading {"Loading..."} else {"Login"}}</button>
-            <div class="text-center w-full font-semibold">{"Atau"}</div>
-            <button class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Login dengan SSO (INA)"}</button>
+            <button type="submit"  class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{ if login.loading {"Loading..."} else {"Login"}}</button>
             <div class="flex gap-1">{"Belum punya akun?"}
                 <Link<Route> to={Route::Register}>
                     <div class="text-cyan-600 font-semibold">{"Daftar Akun"}</div>
@@ -88,6 +91,6 @@ pub fn mobile_view() -> Html {
         </div>
         </div>
         <div class="w-full h-6 bg-blue-gradient-app"></div>
-        </>
+        </form>
     }
 }

@@ -6,6 +6,7 @@ pub enum FormFieldType {
 	TextField,
 	DateTime,
 	TextWithPrefix { prefix: String },
+	TextHidden,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]

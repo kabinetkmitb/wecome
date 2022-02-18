@@ -1,7 +1,4 @@
-use crate::components::common::modal::Modal;
-use crate::components::common::modal_button::ModalButton;
 use crate::router::{KompetisiQuery, Route};
-use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -15,13 +12,18 @@ pub fn hero() -> Html {
 		Callback::once(move |_| {
 			if let Some(input) = input_ref.cast::<web_sys::HtmlInputElement>() {
 				let value = input.value();
-				history.push_with_query(
+				match history.push_with_query(
 					Route::Kompetisi,
 					KompetisiQuery {
 						search: value,
 						category: String::from(""),
 					},
-				);
+				) {
+					Ok(_) => {}
+					Err(e) => {
+						crate::utils::interop::show_toast_with_message(e.to_string());
+					}
+				}
 			};
 		})
 	};

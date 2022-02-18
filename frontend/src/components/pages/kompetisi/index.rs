@@ -1,6 +1,6 @@
 use super::modal::KompetisiModal;
 use crate::components::common::modal_button::ModalButton;
-use yew::{function_component, html, Properties};
+use yew::{function_component, html};
 
 #[function_component(KompetisiComponent)]
 pub fn kompetisi_component() -> Html {

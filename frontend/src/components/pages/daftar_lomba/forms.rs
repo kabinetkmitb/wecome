@@ -3,7 +3,7 @@ use crate::types::form::{FormFieldProperty, FormFieldType};
 use lazy_static::lazy_static;
 
 lazy_static! {
-	pub static ref pendaftar_fields: Vec<FormFieldProperty> = vec![
+	pub static ref PENDAFTAR_FIELDS: Vec<FormFieldProperty> = vec![
 		FormFieldProperty {
 			key: "nama lembaga".to_string(),
 			placeholder: Some("Nama Lembaga".to_string()),
@@ -20,7 +20,7 @@ lazy_static! {
 			input_type: FormFieldType::Text,
 		},
 	];
-	pub static ref detail_fields: Vec<FormFieldProperty> = vec![
+	pub static ref DETAIL_FIELDS: Vec<FormFieldProperty> = vec![
 		FormFieldProperty {
 			key: "nama kompetisi".to_string(),
 			placeholder: Some("Nama".to_string()),
@@ -57,7 +57,7 @@ lazy_static! {
 			input_type: FormFieldType::Text,
 		},
 	];
-	pub static ref kontak_fields: Vec<FormFieldProperty> = vec![
+	pub static ref KONTAK_FIELDS: Vec<FormFieldProperty> = vec![
 		FormFieldProperty {
 			key: "website".to_string(),
 			placeholder: Some("https://example.com".to_string()),

@@ -1,10 +1,8 @@
 use dotenv_codegen::dotenv;
 use gloo::storage::{LocalStorage, Storage};
 use lazy_static::lazy_static;
-use multipart::client::lazy::Multipart;
 use parking_lot::RwLock;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use std::io::Read;
 use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Request, RequestInit, RequestMode, Response};
@@ -131,10 +129,20 @@ struct UploadResponse {
 	url: String,
 }
 
-pub async fn uploadFile(buffer: web_sys::Blob, file_name: String) -> Result<String, Error> {
+pub async fn upload_file(buffer: web_sys::Blob, file_name: String) -> Result<String, Error> {
 	let formdata = web_sys::FormData::new().unwrap();
-	formdata.append_with_str("upload_preset", "h4oea9l0");
-	formdata.append_with_blob_and_filename("file", &buffer, file_name.as_str());
+	match formdata.append_with_str("upload_preset", "h4oea9l0") {
+		Ok(_) => {}
+		Err(_) => {
+			return Err(Error::RequestError);
+		}
+	}
+	match formdata.append_with_blob_and_filename("file", &buffer, file_name.as_str()) {
+		Ok(_) => {}
+		Err(_) => {
+			return Err(Error::RequestError);
+		}
+	}
 
 	let mut opts = RequestInit::new();
 	opts.method("POST");
@@ -151,10 +159,16 @@ pub async fn uploadFile(buffer: web_sys::Blob, file_name: String) -> Result<Stri
 		}
 	};
 
-	request.headers().set(
+	match request.headers().set(
 		"Accept",
 		"application/json, application/xml, text/plain, text/html, *.*",
-	);
+	) {
+		Ok(_) => {}
+		Err(e) => {
+			log::error!("Error setting header: {:?}", e);
+			return Err(Error::RequestError);
+		}
+	}
 
 	let window = web_sys::window().unwrap();
 	let resp_value = match JsFuture::from(window.fetch_with_request(&request)).await {

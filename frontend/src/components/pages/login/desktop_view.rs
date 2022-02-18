@@ -1,8 +1,9 @@
+use super::forms::LOGIN_FIELDS;
 use crate::components::common::auth_layout::AuthLayout;
+use crate::components::common::form_field::FormField;
 use crate::context::user::{use_user, UserState};
 use crate::router::Route;
 use crate::types::auth::LoginPayload;
-use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::{use_async, use_map};
 use yew_router::prelude::*;
@@ -13,8 +14,13 @@ pub fn desktop_view() -> Html {
 	let user_ctx = use_user();
 	crate::utils::interop::use_toast();
 
-	let fields_tuple = vec![("email", "".to_string()), ("kata sandi", "".to_string())];
-	let form_data = use_map(fields_tuple.iter().cloned().collect());
+	let form_data = use_map(
+		LOGIN_FIELDS
+			.iter()
+			.cloned()
+			.map(|fields| (fields.key, "".to_string()))
+			.collect(),
+	);
 
 	let login = {
 		let form_data = form_data.clone();
@@ -47,52 +53,42 @@ pub fn desktop_view() -> Html {
 		);
 	}
 
-	let onclick = {
+	let onsubmit = {
 		let login = login.clone();
 		Callback::once(move |_| login.run())
 	};
 
 	html! {
 		<AuthLayout is_admin={false}>
-			<div class="p-20">
-				<div class="mb-8">
-				<div class="text-[3rem] font-bold text-white">{"Login"}</div>
-				<div class="text-white">{"Masuk dengan akun anda"}</div>
-				</div>
-				<div class="grid grid-cols-2 gap-20 justify-around">
-				<div class="bg-white p-10 rounded-md relative">
-					<div class="font-semibold">{"Pemilik ITB Network Account (INA)"}</div>
-					<br/>
-					<div>{"Untuk Mahasiswa dan Staff Fakultas dengan Akun ITB Network Account  (INA)"}</div>
-					<button class="absolute bottom-10 left-10 px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Login dengan SSO / INA"}</button>
-				</div>
-				<div class="bg-white p-10 rounded-md relative">
-					<div class="font-semibold">{"Tanpa ITB Network Account (INA)"}</div>
-					<br/>
+			<div class="ml-4 p-10 min-h-screen bg-white w-[50vw]">
+				<div class="font-bold text-[2rem]">{"Login"}</div>
+				<div>{"Masuk dengan akun anda"}</div>
+				<form {onsubmit} class="my-4 w-full">
 					{
-						for fields_tuple.iter().cloned().map(|(key,_)| {
-							html! {
-								<div class="mb-4 w-full">
-									<label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
-									<input oninput={
-										let map = form_data.clone();
-										Callback::from(move |e: InputEvent| {
-										let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
-										map.update(&key, input_value);
-									})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-								</div>
+						for LOGIN_FIELDS.iter().cloned().map(|field_property| {
+							let form_data = form_data.clone();
+							let field_property = field_property.clone();
+							html_nested! {
+								<FormField
+									field_property={field_property.clone()}
+									key_input={field_property.key}
+									form_data={form_data.clone()}
+								/>
 							}
 						})
 					}
-					<div class="text-cyan-600 font-semibold text-sm">{"Lupa kata sandi?"}</div>
-					<button {onclick} class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if login.loading  {"Loading..."} else {"Login"}}</button>
-					<div class="flex gap-1">{"Belum punya akun?"}
+
 					<Link<Route> to={Route::Register}>
-						<div class="text-cyan-600 font-semibold">{"Daftar Akun"}</div>
+						<div class="text-sm text-cyan-600 font-semibold">{"Lupa kata sandi?"}</div>
+					</Link<Route>>
+					<button type="submit" class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if login.loading {"Loading..."} else {"Masuk"}}</button>
+					<div class="flex gap-1">{"Belum punya akun?"}
+
+					<Link<Route> to={Route::Register}>
+						<div class="text-cyan-600 font-semibold">{"Register"}</div>
 					</Link<Route>>
 					</div>
-				</div>
-				</div>
+				</form>
 			</div>
 		</AuthLayout>
 	}

@@ -16,13 +16,18 @@ pub fn desktop_view(props: &Props) -> Html {
 	let onclick_cta = {
 		let history = history.clone();
 		Callback::once(move |_| {
-			history.push_with_query(
+			match history.push_with_query(
 				Route::Kompetisi,
 				KompetisiQuery {
 					search: String::from(""),
 					category: String::from(""),
 				},
-			);
+			) {
+				Ok(_) => (),
+				Err(e) => {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+				}
+			};
 		})
 	};
 
@@ -49,7 +54,13 @@ pub fn desktop_view(props: &Props) -> Html {
 							<div onclick={
 								let history = history.clone();
 								let name = name.clone();
-								Callback::once(move |_| {history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)});
+								Callback::once(move |_| {
+									match history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)}) {
+										Ok(_) => {},
+										Err(e) => {
+											crate::utils::interop::show_toast_with_message(e.to_string());
+										}
+									}
 							})} class="transition hover:scale-110 cursor-pointer">
 								<div class=" bg-white w-28 h-28 drop-shadow-2xl rounded-lg flex justify-center items-center">
 								<img src={String::from(icon_src)} alt="Event" />

@@ -90,7 +90,12 @@ pub fn mobile_view(props: &Props) -> Html {
 								let name = name.clone();
 								let history = history.clone();
 								Callback::once(move |_| {
-									history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)});
+									match history.push_with_query(Route::Kompetisi, KompetisiQuery { search: String::from(""), category: String::from(name)}) {
+										Ok(_) => (),
+										Err(e) => {
+											crate::utils::interop::show_toast_with_message(e.to_string());
+										}
+									}
 								})
 							}>
 								<div class="bg-white w-24 h-24 drop-shadow-2xl rounded-lg flex justify-center items-center">
