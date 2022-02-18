@@ -50,7 +50,9 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .data(pool.clone())
             .service(
-                web::scope("/kompetisi").service(modules::kompetisi::controller::propose_kompetisi),
+                web::scope("/kompetisi")
+                    .service(modules::kompetisi::controller::propose_kompetisi)
+                    .service(modules::kompetisi::controller::find_many_kompetisi),
             )
             .service(
                 web::scope("/auth")

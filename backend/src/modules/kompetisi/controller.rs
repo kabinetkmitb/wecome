@@ -1,11 +1,12 @@
 use super::dto::create::CreateKompetisi;
 use crate::{
+    modules::kompetisi::dto::find_many::FindManyKompetisiQuery,
     modules::kompetisi::dto::propose_kompetisi::{ProposeKompetisiInput, ProposeKompetisiResponse},
     Pool,
 };
 use actix_web::{
     error::ErrorBadRequest,
-    post,
+    get, post,
     web::{self, Json},
     Error, HttpResponse,
 };
@@ -34,4 +35,14 @@ pub async fn propose_kompetisi(
     )
     .map(|res| HttpResponse::Ok().json(ProposeKompetisiResponse { message: res }))
     .map_err(|err| ErrorBadRequest(err))
+}
+
+#[get("")]
+pub async fn find_many_kompetisi(
+    db: web::Data<Pool>,
+    query: web::Query<FindManyKompetisiQuery>,
+) -> Result<HttpResponse, Error> {
+    super::service::find_many_kompetisi(&db.get().unwrap(), query.into_inner())
+        .map(|res| HttpResponse::Ok().json(res))
+        .map_err(|err| ErrorBadRequest(err))
 }

@@ -1,7 +1,7 @@
+use super::dto::find_many::FindManyKompetisiQuery;
+use crate::UnwrappedPool;
 use actix_web::error::ErrorBadRequest;
 use diesel::prelude::*;
-
-use crate::UnwrappedPool;
 
 use super::{
     dto::{create::CreateKompetisi, propose_kompetisi::ProposeKompetisiInput},
@@ -21,13 +21,21 @@ pub fn create_kompetisi<'a>(
 
 pub fn find_many_kompetisi<'a>(
     connection: &UnwrappedPool,
-    kompetisi_data: CreateKompetisi,
-) -> Result<Kompetisi, diesel::result::Error> {
-    use crate::schema::kompetisi;
+    q: FindManyKompetisiQuery,
+) -> Result<Vec<Kompetisi>, diesel::result::Error> {
+    use crate::schema::kompetisi::dsl::*;
 
-    diesel::insert_into(kompetisi::table)
-        .values(&kompetisi_data)
-        .get_result::<Kompetisi>(connection)
+    let mut query = crate::schema::kompetisi::table.into_boxed();
+
+    if let Some(kategori) = q.kategori_kompetisi {
+        query = query.filter(kategori_kompetisi.eq(format!("%{}%", kategori)));
+    };
+
+    if let Some(nama) = q.nama_kompetisi {
+        query = query.filter(nama_kompetisi.like(format!("%{}%", nama)));
+    };
+
+    query.load::<Kompetisi>(connection)
 }
 
 pub fn propose_kompetisi(
