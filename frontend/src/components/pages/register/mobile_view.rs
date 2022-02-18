@@ -1,6 +1,7 @@
+use super::forms::REGISTER_FIELDS;
+use crate::components::common::form_field::FormField;
 use crate::router::Route;
 use crate::types::auth::RegisterPayload;
-use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::{use_async, use_map};
 use yew_router::prelude::*;
@@ -10,13 +11,13 @@ pub fn mobile_view() -> Html {
 	let history = use_history().unwrap();
 	crate::utils::interop::use_toast();
 
-	let fields_tuple = vec![
-		("name", "".to_string()),
-		("email", "".to_string()),
-		("kata sandi", "".to_string()),
-		("konfirmasi kata sandi", "".to_string()),
-	];
-	let form_data = use_map(fields_tuple.iter().cloned().collect());
+	let form_data = use_map(
+		REGISTER_FIELDS
+			.iter()
+			.cloned()
+			.map(|fields| (fields.key, "".to_string()))
+			.collect(),
+	);
 
 	let register = {
 		let form_data = form_data.clone();
@@ -45,10 +46,11 @@ pub fn mobile_view() -> Html {
 		);
 	}
 
-	let onclick = {
+	let onsubmit = {
 		let register = register.clone();
 		let form_data = form_data.clone();
-		Callback::from(move |_| {
+		Callback::from(move |e: web_sys::FocusEvent| {
+			e.prevent_default();
 			let konfirmasi_password = form_data
 				.current()
 				.get("konfirmasi kata sandi")
@@ -72,33 +74,31 @@ pub fn mobile_view() -> Html {
 			<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641089/Frame_l1vboh.png" alt="Logo Wecome" />
 		</div>
 		<div class="h-[1.5px] w-[90%] bg-gray-600 opacity-50"></div>
-		<div class="p-5 flex flex-col items-start w-full">
+		<forms {onsubmit} class="p-5 flex flex-col items-start w-full">
 			<div class="text-2xl font-semibold">{"Register"}</div>
 			<div>{"Daftarkan akun anda"}</div>
 			<div class="my-4 w-full">
-				{
-					for fields_tuple.iter().cloned().map(|(key,_)| {
-							html! {
-								<div class="mb-4 w-full">
-									<label class="text-sm font-bold py-2 px-1 capitalize" for="username"> {key} </label>
-									<input oninput={
-										let map = form_data.clone();
-										Callback::from(move |e: InputEvent| {
-										let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
-										map.update(&key, input_value);
-									})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-								</div>
+					{
+						for REGISTER_FIELDS.iter().cloned().map(|field_property| {
+							let form_data = form_data.clone();
+							let field_property = field_property.clone();
+							html_nested! {
+								<FormField
+									field_property={field_property.clone()}
+									key_input={field_property.key}
+									form_data={form_data.clone()}
+								/>
 							}
 						})
-				}
-			<button {onclick} class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading { "Loading..."} else {"Register"} }</button>
+					}
+			<button type="submit" class="w-full px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading { "Loading..."} else {"Register"} }</button>
 			<div class="flex gap-1">{"Sudah punya akun?"}
 				<Link<Route> to={Route::Login}>
 					<div class="text-cyan-600 font-semibold">{"Masuk"}</div>
 				</Link<Route>>
 			</div>
 			</div>
-		</div>
+		</forms>
 		</div>
 		<div class="w-full h-6 [background:linear-gradient(139.53deg,_#32D0FA_0%,_#44A2FE_100%)]"></div>
 		</>

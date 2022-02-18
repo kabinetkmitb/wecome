@@ -55,7 +55,10 @@ pub fn mobile_view() -> Html {
 
     let onsubmit = {
         let login = login.clone();
-        Callback::once(move |_| login.run())
+        Callback::once(move |e: web_sys::FocusEvent| {
+            e.prevent_default();
+            login.run()
+        })
     };
 
     html! {
