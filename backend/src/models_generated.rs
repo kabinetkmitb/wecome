@@ -25,12 +25,13 @@ pub struct Kompetisi {
     pub batas_awal_registrasi: NaiveDateTime,
     pub batas_akhir_registrasi: NaiveDateTime,
     pub link_registrasi: String,
-    pub link_webiste: String,
+    pub link_website: String,
     pub link_linkedin: String,
     pub akun_instagram: String,
     pub id_line: String,
     pub akun_twitter: String,
     pub link_poster: String,
+    pub status: String,
     pub user_id: String,
 }
 

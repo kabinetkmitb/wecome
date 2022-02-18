@@ -54,7 +54,7 @@ pub fn propose_kompetisi(
             batas_awal_registrasi: kompetisi_data.batas_awal_registrasi,
             batas_akhir_registrasi: kompetisi_data.batas_akhir_registrasi,
             link_registrasi: kompetisi_data.link_registrasi,
-            link_webiste: kompetisi_data.link_webiste,
+            link_website: kompetisi_data.link_website,
             link_linkedin: kompetisi_data.link_linkedin,
             akun_instagram: kompetisi_data.akun_instagram,
             id_line: kompetisi_data.id_line,

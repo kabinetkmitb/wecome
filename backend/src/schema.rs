@@ -19,12 +19,13 @@ table! {
         batas_awal_registrasi -> Timestamp,
         batas_akhir_registrasi -> Timestamp,
         link_registrasi -> Text,
-        link_webiste -> Text,
+        link_website -> Text,
         link_linkedin -> Text,
         akun_instagram -> Text,
         id_line -> Text,
         akun_twitter -> Text,
         link_poster -> Text,
+        status -> Text,
         user_id -> Text,
     }
 }

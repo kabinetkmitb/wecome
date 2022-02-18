@@ -41,12 +41,13 @@ model kompetisi {
   batas_awal_registrasi  DateTime
   batas_akhir_registrasi DateTime
   link_registrasi        String
-  link_webiste           String
+  link_website           String
   link_linkedin          String
   akun_instagram         String
   id_line                String
   akun_twitter           String
   link_poster            String
+  status                 String //This is very unfortunate, but diesel rs doesnt yet support enum out of the box
   tim_buddies            tim_buddies[]
   kriteria_anggota       kriteria_anggota[]
   user_id                String
