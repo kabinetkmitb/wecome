@@ -25,7 +25,7 @@ table! {
         id_line -> Text,
         akun_twitter -> Text,
         link_poster -> Text,
-        status -> Text,
+        status_kompetisi -> Text,
         user_id -> Text,
     }
 }

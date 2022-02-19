@@ -34,16 +34,9 @@ pub struct ProposeKompetisiInput {
     pub id_line: String,
     pub akun_twitter: String,
     pub link_poster: String,
-    #[serde(default = "default_status")]
-    #[derivative(Default(value = "default_status()"))]
-    pub status: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct ProposeKompetisiResponse {
     pub message: String,
-}
-
-fn default_status() -> String {
-    String::from("Pending")
 }

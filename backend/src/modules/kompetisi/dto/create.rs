@@ -36,7 +36,7 @@ pub struct CreateKompetisi {
     pub link_poster: String,
     #[serde(default = "default_status")]
     #[derivative(Default(value = "default_status()"))]
-    pub status: String,
+    pub status_kompetisi: String,
 }
 
 fn default_status() -> String {
