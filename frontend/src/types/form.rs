@@ -5,6 +5,7 @@ pub enum FormFieldType {
 	Text,
 	TextField,
 	DateTime,
+	Select { options: Vec<String> },
 	TextWithPrefix { prefix: String },
 	TextHidden,
 }

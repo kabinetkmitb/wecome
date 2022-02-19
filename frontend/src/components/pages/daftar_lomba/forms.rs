@@ -29,7 +29,18 @@ lazy_static! {
 		FormFieldProperty {
 			key: "kategori kompetisi".to_string(),
 			placeholder: Some("Kategori Kompetisi".to_string()),
-			input_type: FormFieldType::Text,
+			input_type: FormFieldType::Select {
+				options: vec![
+					"riset".to_string(),
+					"seni".to_string(),
+					"akademik".to_string(),
+					"teknologi".to_string(),
+					"bisnis".to_string(),
+					"bahasa".to_string(),
+					"olahraga".to_string(),
+					"konferensi".to_string(),
+				]
+			},
 		},
 		FormFieldProperty {
 			key: "deskripsi kompetisi".to_string(),
@@ -47,7 +58,12 @@ lazy_static! {
 			input_type: FormFieldType::DateTime,
 		},
 		FormFieldProperty {
-			key: "batas registrasi".to_string(),
+			key: "batas awal registrasi".to_string(),
+			placeholder: None,
+			input_type: FormFieldType::DateTime,
+		},
+		FormFieldProperty {
+			key: "batas akhir registrasi".to_string(),
 			placeholder: None,
 			input_type: FormFieldType::DateTime,
 		},

@@ -192,9 +192,9 @@ pub async fn upload_file(buffer: web_sys::Blob, file_name: String) -> Result<Str
 	};
 
 	// Use serde to parse the JSON into a struct.
-	let branch_info: UploadResponse = json.into_serde().unwrap();
+	let response: UploadResponse = json.into_serde().unwrap();
 
-	println!("{:?}", branch_info);
+	log::debug!("{:?}", response);
 
-	Ok("tsdfs".to_string())
+	Ok(response.url)
 }

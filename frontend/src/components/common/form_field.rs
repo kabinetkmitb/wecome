@@ -12,6 +12,7 @@ pub struct Props {
 #[function_component(FormField)]
 pub fn form_field(props: &Props) -> Html {
 	crate::utils::interop::use_tw();
+
 	match &props.clone().field_property.input_type {
 		FormFieldType::Text => {
 			html! {
@@ -82,7 +83,7 @@ pub fn form_field(props: &Props) -> Html {
 		FormFieldType::DateTime => {
 			html! {
 				<>
-					<div class="datepicker relative mb-4 w-full" data-mdb-toggle-button="false">
+					<div class="datepicker relative mb-4 w-full" >
 						<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
 						<input required={true} oninput={
 							let map = props.form_data.clone();
@@ -92,6 +93,62 @@ pub fn form_field(props: &Props) -> Html {
 								let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
 								map.update(&map_key, input_value);
 						})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={props.field_property.clone().key} type="text" placeholder="Select a date" data-mdb-toggle="datepicker"/>
+					</div>
+				</>
+			}
+		}
+		FormFieldType::Select { options } => {
+			html! {
+				<>
+					<div class="mb-4 w-full" >
+							<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
+							<select onchange={
+								let map = props.form_data.clone();
+								let map_key = props.key_input.clone();
+								Callback::from(move |e: Event| {
+									let map_key = map_key.clone();
+
+									let select_element = e.target().unwrap().dyn_into::<web_sys::HtmlSelectElement>().unwrap();
+									let chosen_index = select_element.selected_index();
+
+									let options = select_element.options();
+
+									match options.set_selected_index(chosen_index) {
+										Ok(_) => {
+										}
+										Err(_) => {
+											log::debug!("Error setting selected index");
+										}
+									};
+
+									let category = options.item(chosen_index as u32).unwrap().dyn_into::<web_sys::HtmlOptionElement>().unwrap().text();
+
+
+									map.update(&map_key, category);
+								})
+							} class="form-select appearance-none
+										block
+										w-full
+										px-3
+										py-1.5
+										text-base
+										font-normal
+										text-gray-700
+										bg-white bg-clip-padding bg-no-repeat
+										border border-solid border-gray-300
+										rounded
+										transition
+										ease-in-out
+										m-0
+										focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label={props.field_property.clone().placeholder.unwrap()}>
+								{
+									for options.iter().map(|string| {
+										html! {
+											<option >{string}</option>
+										}
+									})
+								}
+							</select>
 					</div>
 				</>
 			}

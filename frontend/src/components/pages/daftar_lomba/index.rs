@@ -34,7 +34,7 @@ pub fn daftar_lomba_component() -> Html {
 	);
 	let file_data: yew::UseStateHandle<Option<web_sys::File>> = use_state(|| None);
 
-	let _register = {
+	let register = {
 		let file_data = file_data.clone();
 		use_async(async move {
 			crate::utils::api::upload_file(
@@ -113,6 +113,7 @@ pub fn daftar_lomba_component() -> Html {
 
 	let onchange = {
 		let file_data = file_data.clone();
+		let register = register.clone();
 		Callback::once(move |e: web_sys::Event| {
 			let input_value = e
 				.target()
@@ -124,6 +125,7 @@ pub fn daftar_lomba_component() -> Html {
 				.get(0)
 				.unwrap();
 			file_data.set(Some(input_value));
+			register.run();
 		})
 	};
 
