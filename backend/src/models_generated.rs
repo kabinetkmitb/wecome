@@ -3,6 +3,7 @@
 #![allow(unused)]
 #![allow(clippy::all)]
 
+
 use chrono::NaiveDateTime;
 #[derive(Queryable, Debug)]
 pub struct IdentitasPengaju {
@@ -15,6 +16,7 @@ pub struct IdentitasPengaju {
 pub struct Kompetisi {
     pub id: String,
     pub nama_lembaga_pendaftar: String,
+    pub nim_pendaftar: String,
     pub no_telp: String,
     pub nama_kompetisi: String,
     pub kategori_kompetisi: String,
@@ -63,3 +65,4 @@ pub struct Verification {
     pub id: String,
     pub user_id: String,
 }
+

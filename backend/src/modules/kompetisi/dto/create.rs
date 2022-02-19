@@ -13,6 +13,7 @@ pub struct CreateKompetisi {
     pub id: String,
     pub user_id: String,
     pub no_telp: String,
+    pub nim_pendaftar: String,
     pub nama_lembaga_pendaftar: String,
     pub nama_kompetisi: String,
     pub kategori_kompetisi: String,

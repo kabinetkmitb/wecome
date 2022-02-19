@@ -32,6 +32,7 @@ model kompetisi {
   id                     String             @id @default(cuid())
   pengaju                user               @relation(fields: [user_id], references: [id])
   nama_lembaga_pendaftar String
+  nim_pendaftar          String
   no_telp                String
   nama_kompetisi         String
   kategori_kompetisi     String

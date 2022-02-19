@@ -10,6 +10,7 @@ table! {
     kompetisi (id) {
         id -> Text,
         nama_lembaga_pendaftar -> Text,
+        nim_pendaftar -> Text,
         no_telp -> Text,
         nama_kompetisi -> Text,
         kategori_kompetisi -> Text,
