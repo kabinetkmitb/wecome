@@ -74,7 +74,15 @@ pub fn form_field(props: &Props) -> Html {
 						<span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
 							{prefix}
 						</span>
-						<input required={true} type="text" id={props.field_property.clone().key} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+						<input oninput={
+						let map = props.form_data.clone();
+							let map_key = props.key_input.clone();
+							Callback::from(move |e: InputEvent| {
+								let map_key = map_key.clone();
+								let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
+								map.update(&map_key, input_value);
+							})
+						} required={true} type="text" id={props.field_property.clone().key} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 					</div>
 				</div>
 				</>
@@ -83,14 +91,23 @@ pub fn form_field(props: &Props) -> Html {
 		FormFieldType::DateTime => {
 			html! {
 				<>
-					<div class="datepicker relative mb-4 w-full" >
+					<div class="datepicker relative mb-4 w-full" data-mdb-toggle-button="false">
 						<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
-						<input required={true} oninput={
+						<input required={true} onfocusout={
 							let map = props.form_data.clone();
 							let map_key = props.key_input.clone();
-							Callback::from(move |e: InputEvent| {
+							let id = props.field_property.clone().key;
+							Callback::from(move |_| {
 								let map_key = map_key.clone();
-								let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlInputElement>().unwrap().value();
+								let id = id.clone();
+								let window = web_sys::window().expect("global window does not exists");
+								let document = window.document().expect("expecting a document on window");
+								let input_value = document
+									.get_element_by_id(&id)
+									.unwrap()
+									.dyn_into::<web_sys::HtmlInputElement>()
+									.unwrap()
+									.value();
 								map.update(&map_key, input_value);
 						})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={props.field_property.clone().key} type="text" placeholder="Select a date" data-mdb-toggle="datepicker"/>
 					</div>

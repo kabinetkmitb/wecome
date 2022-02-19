@@ -1,5 +1,6 @@
 use super::forms::{DETAIL_FIELDS, KONTAK_FIELDS, PENDAFTAR_FIELDS};
 use crate::components::common::form_field::FormField;
+use crate::router::Route;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_hooks::{use_async, use_map};
@@ -7,7 +8,7 @@ use yew_router::prelude::*;
 
 #[function_component(DaftarLombaComponent)]
 pub fn daftar_lomba_component() -> Html {
-	let _history = use_history().unwrap();
+	let history = use_history().unwrap();
 	crate::utils::interop::use_toast();
 	let pendaftar_data = use_map(
 		PENDAFTAR_FIELDS
@@ -36,84 +37,100 @@ pub fn daftar_lomba_component() -> Html {
 
 	let register = {
 		let file_data = file_data.clone();
+		let pendaftar_data = pendaftar_data.clone();
+		let detail_data = detail_data.clone();
+		let kontak_data = kontak_data.clone();
 		use_async(async move {
-			crate::utils::api::upload_file(
+			let url = match crate::utils::api::upload_file(
 				file_data.as_ref().unwrap().slice().unwrap(),
 				file_data.as_ref().unwrap().name(),
 			)
 			.await
+			{
+				Ok(url) => url,
+				Err(e) => {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+					return Err(e);
+				}
+			};
+
+			let request = crate::types::kompetisi::ProposeKompetisiPayload {
+				nama_lembaga_pendaftar: pendaftar_data
+					.current()
+					.get("nama lembaga")
+					.unwrap()
+					.clone(),
+				no_telp: pendaftar_data.current().get("no telp").unwrap().clone(),
+				nim_pendaftar: pendaftar_data.current().get("nim").unwrap().clone(),
+				nama_kompetisi: detail_data.current().get("nama kompetisi").unwrap().clone(),
+				kategori_kompetisi: detail_data
+					.current()
+					.get("kategori kompetisi")
+					.unwrap()
+					.clone(),
+				deskripsi_kompetisi: detail_data
+					.current()
+					.get("deskripsi kompetisi")
+					.unwrap()
+					.clone(),
+				tags_kompetisi: detail_data.current().get("tags kompetisi").unwrap().clone(),
+				tanggal_pelaksanaan: detail_data
+					.current()
+					.get("tanggal pelaksanaan")
+					.unwrap()
+					.clone(),
+				batas_awal_registrasi: detail_data
+					.current()
+					.get("batas awal registrasi")
+					.unwrap()
+					.clone(),
+				batas_akhir_registrasi: detail_data
+					.current()
+					.get("batas akhir registrasi")
+					.unwrap()
+					.clone(),
+				link_registrasi: detail_data
+					.current()
+					.get("link registrasi lomba")
+					.unwrap()
+					.clone(),
+				link_website: kontak_data.current().get("website").unwrap().clone(),
+				link_linkedin: kontak_data.current().get("linkedin").unwrap().clone(),
+				id_line: kontak_data.current().get("line").unwrap().clone(),
+				akun_instagram: kontak_data.current().get("instagram").unwrap().clone(),
+				akun_twitter: kontak_data.current().get("twitter").unwrap().clone(),
+				link_poster: url,
+			};
+
+			crate::services::kompetisi::propose_kompetisi(request).await
 		})
 	};
-	// 	let pendaftar_data = pendaftar_data.clone();
-	// 	let detail_data = detail_data.clone();
-	// 	let kontak_data = kontak_data.clone();
-	// 	use_async(async move {
-	// 		let request = ProposeKompetisiPayload {
-	// 			nama_lembaga_pendaftar: pendaftar_data
-	// 				.current()
-	// 				.get("nama lembaga")
-	// 				.unwrap()
-	// 				.clone(),
-	// 			no_telp: pendaftar_data.current().get("no telp").unwrap().clone(),
-	// 			nama_kompetisi: detail_data.current().get("nama kompetisi").unwrap().clone(),
-	// 			deskripsi_kompetisi: detail_data
-	// 				.current()
-	// 				.get("deskripsi kompetisi")
-	// 				.unwrap()
-	// 				.clone(),
-	// 			tanggal_pelaksanaan: detail_data
-	// 				.current()
-	// 				.get("tanggal pelaksanaan")
-	// 				.unwrap()
-	// 				.clone(),
-	// 			tags_kompetisi: detail_data.get("tags kompetisi").unwrap().clone(),
-	// 			batas_awal_registrasi: detail_data.get("batas awal registrasi").unwrap().clone(),
-	// 			batas_akhir_registrasi: detail_data.get("batas akhir registrasi").unwrap().clone(),
-	// 			link_registrasi: kontak_data.get("link registrasi").unwrap().clone(),
-	// 			link_webiste: kontak_data.get("link website").unwrap().clone(),
-	// 		};
-	// 		crate::services::auth::register(request).await
-	// 	})
-	// };
 
-	// {
-	// 	use_effect_with_deps(
-	// 		move |register| {
-	// 			if let Some(_) = &register.data {
-	// 				history.push(Route::RegisterSuccess);
-	// 			}
-	// 			if let Some(e) = &register.error {
-	// 				crate::utils::interop::show_toast_with_message(e.to_string());
-	// 			}
-	// 			|| ()
-	// 		},
-	// 		register.clone(),
-	// 	);
-	// }
+	{
+		use_effect_with_deps(
+			move |register| {
+				if let Some(_) = &register.data {
+					history.push(Route::RegisterSuccess);
+				}
+				if let Some(e) = &register.error {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+				}
+				|| ()
+			},
+			register.clone(),
+		);
+	}
 
-	// let onclick = {
-	// 	let register = register.clone();
-	// 	let form_data = form_data.clone();
-	// 	Callback::from(move |_| {
-	// 		let konfirmasi_password = form_data
-	// 			.current()
-	// 			.get("konfirmasi kata sandi")
-	// 			.unwrap()
-	// 			.clone();
-	// 		let password = form_data.current().get("kata sandi").unwrap().clone();
-	// 		let register = register.clone();
-
-	// 		if konfirmasi_password != password {
-	// 			crate::utils::interop::show_toast_with_message("Kata sandi tidak sama".to_string());
-	// 		} else {
-	// 			register.run();
-	// 		}
-	// 	})
-	// };
+	let onsubmit = {
+		let register = register.clone();
+		Callback::once(move |e: web_sys::FocusEvent| {
+			e.prevent_default();
+			register.run()
+		})
+	};
 
 	let onchange = {
 		let file_data = file_data.clone();
-		let register = register.clone();
 		Callback::once(move |e: web_sys::Event| {
 			let input_value = e
 				.target()
@@ -124,13 +141,12 @@ pub fn daftar_lomba_component() -> Html {
 				.unwrap()
 				.get(0)
 				.unwrap();
-			file_data.set(Some(input_value));
-			register.run();
+			file_data.set(Some(input_value))
 		})
 	};
 
 	html! {
-		<form>
+		<form {onsubmit}>
 			<div class="bg-blue-gradient-app shadow-xl drop-shadow-xl px-6 py-10 gap-5">
 				<div class="text-white text-2xl font-semibold">{"Daftarkan Lomba"}</div>
 				<div class="text-white text-2xl font-semibold">{"Lembaga / Kampus Anda"}</div>
@@ -190,7 +206,7 @@ pub fn daftar_lomba_component() -> Html {
 			<label class="text-sm font-bold py-2 px-1 capitalize" for="user-avatar"> {"Poster Kompetisi"} </label>
 			<input {onchange} class="block w-[45%] cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg" aria-describedby="user_avatar_help" id="user_avatar" type="file"/>
 			<span>{"Catatan: file harus dalam format .png atau .jpg"}</span>
-			<button type="submit" class="px-8 py-2 my-5 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Kirim"}</button>
+			<button type="submit" class="px-8 py-2 my-5 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading {"Loading..."} else {"Kirim"} }</button>
 			</div>
 		</form>
 	}

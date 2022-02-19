@@ -85,6 +85,11 @@ lazy_static! {
 			input_type: FormFieldType::Text,
 		},
 		FormFieldProperty {
+			key: "line".to_string(),
+			placeholder: Some("Id akun line".to_string()),
+			input_type: FormFieldType::Text,
+		},
+		FormFieldProperty {
 			key: "instagram".to_string(),
 			placeholder: None,
 			input_type: FormFieldType::TextWithPrefix {
