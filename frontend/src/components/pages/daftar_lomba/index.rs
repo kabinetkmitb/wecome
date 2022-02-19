@@ -97,8 +97,14 @@ pub fn daftar_lomba_component() -> Html {
 				link_website: kontak_data.current().get("website").unwrap().clone(),
 				link_linkedin: kontak_data.current().get("linkedin").unwrap().clone(),
 				id_line: kontak_data.current().get("line").unwrap().clone(),
-				akun_instagram: kontak_data.current().get("instagram").unwrap().clone(),
-				akun_twitter: kontak_data.current().get("twitter").unwrap().clone(),
+				akun_instagram: format!(
+					"https://instagram.com/{}",
+					kontak_data.current().get("instagram").unwrap().clone()
+				),
+				akun_twitter: format!(
+					"https://twitter.com/{}",
+					kontak_data.current().get("twitter").unwrap().clone()
+				),
 				link_poster: url,
 			};
 
@@ -204,7 +210,7 @@ pub fn daftar_lomba_component() -> Html {
 				}
 			</div>
 			<label class="text-sm font-bold py-2 px-1 capitalize" for="user-avatar"> {"Poster Kompetisi"} </label>
-			<input {onchange} class="block w-[45%] cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg" aria-describedby="user_avatar_help" id="user_avatar" type="file"/>
+			<input required={true} {onchange} class="block w-[45%] cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg" aria-describedby="user_avatar_help" id="user_avatar" type="file"/>
 			<span>{"Catatan: file harus dalam format .png atau .jpg"}</span>
 			<button type="submit" class="px-8 py-2 my-5 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading {"Loading..."} else {"Kirim"} }</button>
 			</div>

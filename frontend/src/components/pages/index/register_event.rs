@@ -1,3 +1,4 @@
+use crate::context::user::use_user;
 use crate::router::Route;
 use crate::utils::hooks::get_window_size;
 use yew::prelude::*;
@@ -5,7 +6,20 @@ use yew_router::prelude::*;
 
 #[function_component(RegisterEvent)]
 pub fn register_event() -> Html {
+	crate::utils::interop::use_toast();
 	let window_size = get_window_size();
+	let history = use_history().unwrap();
+	let user_ctx = use_user();
+
+	let onclick = Callback::from(move |_| {
+		if !user_ctx.is_logged_in() {
+			crate::utils::interop::show_toast_with_message(
+				"Silahkan login terlebih dahulu".to_string(),
+			);
+		} else {
+			history.push(Route::DaftarLomba);
+		}
+	});
 
 	if window_size.width > 900.0 {
 		html! {
@@ -21,9 +35,7 @@ pub fn register_event() -> Html {
 				</div>
 				<div class="py-12 md:py-0 md:px-24">
 				<div class="font-medium text-justify">{"We-Come (Website Competition), yang berarti “Kami Datang”, merupakan platform wadah informasi kompetisi di bidang akademik, teknologi, business plan & business case, riset, konferensi, olahraga, dan seni. Ayo daftarkan lomba yang ingin kamu publikasikan dan ajak teman-teman untuk mengunjungi website We-Come ya!"}</div>
-				<Link<Route> to={Route::DaftarLomba}>
-					<button class="px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftarkan Lomba"}</button>
-				</Link<Route>>
+				<button {onclick} class="px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftarkan Lomba"}</button>
 				</div>
 			</div>
 		</div>

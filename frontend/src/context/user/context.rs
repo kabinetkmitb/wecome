@@ -68,6 +68,10 @@ impl UseUser {
 		// Redirect to home page
 		self.history.push(Route::Index);
 	}
+
+	pub fn is_logged_in(&self) -> bool {
+		!self.inner.token.is_empty()
+	}
 }
 
 pub fn use_user() -> UseUser {
