@@ -5,3 +5,4 @@ pub mod login;
 pub mod profile;
 pub mod register;
 pub mod registration_success;
+pub mod daftar_lomba_success;

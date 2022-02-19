@@ -116,7 +116,7 @@ pub fn daftar_lomba_component() -> Html {
 		use_effect_with_deps(
 			move |register| {
 				if let Some(_) = &register.data {
-					history.push(Route::RegisterSuccess);
+					history.push(Route::DaftarLombaSuccess);
 				}
 				if let Some(e) = &register.error {
 					crate::utils::interop::show_toast_with_message(e.to_string());
