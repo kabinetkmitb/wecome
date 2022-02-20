@@ -3,7 +3,7 @@ use crate::types::form::{FormFieldProperty, FormFieldType};
 use std::collections::HashMap;
 use yew::prelude::*;
 use yew::virtual_dom::VNode;
-use yew_hooks::use_map;
+use yew_hooks::{use_async, use_map, use_mount};
 
 #[function_component(CompetitionTab)]
 pub fn competition_tab() -> Html {
@@ -11,6 +11,37 @@ pub fn competition_tab() -> Html {
 		("sort by".to_string(), "".to_string()),
 		("category".to_string(), "".to_string()),
 	]));
+
+	let get_kompetisi = {
+		use_async(async move {
+			let response = crate::services::kompetisi::get_kompetisi("".to_string()).await;
+			match response {
+				Ok(response) => Ok(response),
+				Err(e) => {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+					Err(e)
+				}
+			}
+		})
+	};
+
+	{
+		let get_kompetisi = get_kompetisi.clone();
+		use_effect_with_deps(
+			move |_| {
+				get_kompetisi.run();
+				|| ()
+			},
+			query.clone(),
+		);
+	}
+
+	{
+		let get_kompetisi = get_kompetisi.clone();
+		use_mount(move || {
+			get_kompetisi.run();
+		});
+	}
 
 	html! {
 		<>
@@ -88,34 +119,50 @@ pub fn competition_tab() -> Html {
 							</thead>
 							<tbody>
 							{
-								(1..10).map(|_| {
-									html! {
-										<tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-											<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{"1"}</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"Mark"}
-											</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"Otto"}
-											</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"@mdo"}
-											</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"Mark"}
-											</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"Otto"}
-											</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"@mdo"}
-											</td>
-											<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{"@mdo"}
-											</td>
-										</tr>
+								if let Some(kompetisi_list) = &get_kompetisi.clone().data {
+									let kompetisi_list = kompetisi_list.clone();
+									if !kompetisi_list.clone().is_empty() {
+										let kompetisi_list = kompetisi_list.clone();
+										kompetisi_list.clone().into_iter().map(move |kompetisi| {
+											html_nested! {
+											<tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+												<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{"1"}</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{kompetisi.clone().nama_kompetisi}
+												</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{kompetisi.clone().nama_lembaga_pendaftar}
+												</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{kompetisi.clone().kategori_kompetisi}
+												</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{"-"}
+												</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{kompetisi.clone().batas_akhir_registrasi}
+												</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{kompetisi.clone().status_kompetisi}
+												</td>
+												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													{"..."}
+												</td>
+											</tr>
+
+											}
+										}).collect::<VNode>()
 									}
-								}).collect::<VNode>()
+									else {
+										html_nested! {
+											<div class="text-gray-600">{"Tidak ada kompetisi"}</div>
+										}
+									}
+								} else {
+									html_nested! {
+										<div class="text-gray-600">{"Loading..."}</div>
+									}
+								}
 							}
 							</tbody>
 						</table>
