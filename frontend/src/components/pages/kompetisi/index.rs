@@ -17,6 +17,20 @@ pub fn kompetisi_component() -> Html {
 	let search_param = use_search_param("search".to_string()).unwrap();
 	let category_param = use_search_param("category".to_string()).unwrap();
 
+	let modal_props = use_map(HashMap::from([
+		("judul".to_string(), "".to_string()),
+		("kategori".to_string(), "".to_string()),
+		("tanggal_pelaksanaan".to_string(), "".to_string()),
+		("deskripsi".to_string(), "".to_string()),
+		("batas_regist".to_string(), "".to_string()),
+		("link_poster".to_string(), "".to_string()),
+		("link_website".to_string(), "".to_string()),
+		("link_linkedin".to_string(), "".to_string()),
+		("link_twitter".to_string(), "".to_string()),
+		("link_instagram".to_string(), "".to_string()),
+		("link_regist".to_string(), "".to_string()),
+	]));
+
 	let navigation_param_input = use_map(HashMap::from([
 		("search".to_string(), search_param.clone().to_string()),
 		("category".to_string(), category_param.clone().to_string()),
@@ -136,11 +150,17 @@ pub fn kompetisi_component() -> Html {
 	html! {
 		<>
 		<KompetisiModal
-			kategori="test"
-			judul="test"
-			deskripsi="test"
-			tanggal_pelaksanaan="test"
-			batas_regist="test"
+			kategori={modal_props.current().get("kategori").clone().unwrap().clone()}
+			judul={modal_props.current().get("judul").clone().unwrap().clone()}
+			deskripsi={modal_props.current().get("deskripsi").clone().unwrap().clone()}
+			tanggal_pelaksanaan={modal_props.current().get("tanggal_pelaksanaan").clone().unwrap().clone()}
+			batas_regist={modal_props.current().get("batas_regist").clone().unwrap().clone()}
+			link_poster={modal_props.current().get("link_poster").clone().unwrap().clone()}
+			link_website={modal_props.current().get("link_website").clone().unwrap().clone()}
+			link_linkedin={modal_props.current().get("link_linkedin").clone().unwrap().clone()}
+			link_twitter={modal_props.current().get("link_twitter").clone().unwrap().clone()}
+			link_instagram={modal_props.current().get("link_instagram").clone().unwrap().clone()}
+			link_regist={modal_props.current().get("link_regist").clone().unwrap().clone()}
 		/>
 		<div class="p-6 h-screen overflow-y-scroll relative z-10">
 		<form {onsubmit} class="flex items-center gap-2 text-[0.6rem] md:text-[1rem] max-w-[600px]">
@@ -177,18 +197,41 @@ pub fn kompetisi_component() -> Html {
 		<div class="my-4 text-[0.6rem] md:text-[0.8rem] md:grid md:grid-cols-3 gap-3 flex flex-col">
 			{
 				if let Some(kompetisi_list) = &get_kompetisi.clone().data {
-					if !kompetisi_list.is_empty() {
-						kompetisi_list.iter().map(|kompetisi| {
+					let modal_props = modal_props.clone();
+					let kompetisi_list = kompetisi_list.clone();
+					if !kompetisi_list.clone().is_empty() {
+						let modal_props = modal_props.clone();
+						let kompetisi_list = kompetisi_list.clone();
+						kompetisi_list.clone().into_iter().map(move |kompetisi| {
+							let modal_props = modal_props.clone();
 							html_nested! {
 								<div class="border-[1.25px] border-gray-300 shadow-sm rounded flex bg-white">
 									<img class="w-[40%] object-cover" src={kompetisi.clone().link_poster} alt="Logo lomba"/>
 									<div class="w-[60%] p-3 flex flex-col gap-1">
 										<div class="py-1 w-fit tracking-widest px-2 text-[0.8em] rounded-2xl font-meidum bg-[#FECC30] text-white text-center inline-block">{kompetisi.clone().kategori_kompetisi}</div>
 										<div class="font-bold text-[1.7em] md:text-[1.2em]">{kompetisi.clone().nama_kompetisi}</div>
-										<div class="justify">{kompetisi.clone().deskripsi_kompetisi}</div>
+										<div class="justify">{if kompetisi.clone().deskripsi_kompetisi.len() < 100 { kompetisi.clone().deskripsi_kompetisi } else {format!("{}...",&kompetisi.clone().deskripsi_kompetisi[0..100])}}</div>
 										<div class="justify">{format!("Pelaksanaan : {}", kompetisi.clone().tanggal_pelaksanaan)}</div>
 										<div class="justify">{format!("Registrasi : {}-{}", kompetisi.clone().batas_awal_registrasi, kompetisi.clone().batas_akhir_registrasi)}</div>
-										<ModalButton modal_id="kompetisi-modal" class="cursor-pointer mt-2 p-1 w-fit rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Detail Kompetisi"}</ModalButton>
+										<div onclick={
+											let modal_props = modal_props.clone();
+											move |_| {
+												let modal_props = modal_props.clone();
+												modal_props.update(&"kategori".to_string(), kompetisi.clone().kategori_kompetisi.clone());
+												modal_props.update(&"judul".to_string(), kompetisi.clone().nama_kompetisi.clone());
+												modal_props.update(&"deskripsi".to_string(), kompetisi.clone().deskripsi_kompetisi.clone());
+												modal_props.update(&"tanggal_pelaksanaan".to_string(), kompetisi.clone().tanggal_pelaksanaan.clone());
+												modal_props.update(&"batas_regist".to_string(), format!("{}-{}", kompetisi.clone().batas_awal_registrasi, kompetisi.clone().batas_akhir_registrasi));
+												modal_props.update(&"link_poster".to_string(), kompetisi.clone().link_poster.clone());
+												modal_props.update(&"link_website".to_string(), kompetisi.clone().link_website.clone());
+												modal_props.update(&"link_linkedin".to_string(), kompetisi.clone().link_linkedin.clone());
+												modal_props.update(&"link_twitter".to_string(), kompetisi.clone().akun_twitter.clone());
+												modal_props.update(&"link_instagram".to_string(), kompetisi.clone().akun_instagram.clone());
+												modal_props.update(&"link_regist".to_string(), kompetisi.clone().link_registrasi.clone());
+											}
+										}>
+											<ModalButton modal_id="kompetisi-modal" class="cursor-pointer mt-2 p-1 w-fit rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Detail Kompetisi"}</ModalButton>
+										</div>
 									</div>
 								</div>
 							}

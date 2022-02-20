@@ -119,10 +119,10 @@ pub fn form_field(props: &Props) -> Html {
 				<>
 					<div class="mb-4 w-full" >
 							<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
-							<select onclick={
+							<select onchange={
 								let map = props.form_data.clone();
 								let map_key = props.key_input.clone();
-								Callback::from(move |e: MouseEvent| {
+								Callback::from(move |e: Event| {
 									let map_key = map_key.clone();
 
 									let select_element = e.target().unwrap().dyn_into::<web_sys::HtmlSelectElement>().unwrap();
@@ -139,7 +139,6 @@ pub fn form_field(props: &Props) -> Html {
 									};
 
 									let category = options.item(chosen_index as u32).unwrap().dyn_into::<web_sys::HtmlOptionElement>().unwrap().text();
-
 
 									map.update(&map_key, category);
 								})
@@ -158,10 +157,11 @@ pub fn form_field(props: &Props) -> Html {
 										ease-in-out
 										m-0
 										focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label={props.field_property.clone().placeholder.unwrap()}>
+								<option selected={true}>{""}</option>
 								{
 									for options.iter().map(|string| {
 										html! {
-											<option >{string}</option>
+											<option selected={true}>{string}</option>
 										}
 									})
 								}
