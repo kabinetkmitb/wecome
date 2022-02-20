@@ -2,7 +2,7 @@ use crate::components::pages::register::index::RegisterComponent;
 use yew::prelude::*;
 
 #[function_component(Register)]
-pub fn profile() -> Html {
+pub fn register() -> Html {
 	html! {
 		<main>
 			<RegisterComponent/>

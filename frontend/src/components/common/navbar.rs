@@ -1,10 +1,13 @@
 use super::nav_button::NavButton;
+use crate::context::user::use_user;
 use crate::router::Route;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
 #[function_component(Navbar)]
 pub fn navbar() -> Html {
+	let user_ctx = use_user();
+
 	let hide = use_state(|| true);
 	let onclick = {
 		let hide_value = hide.clone();
@@ -65,12 +68,51 @@ pub fn navbar() -> Html {
 			  <li>
 				<NavButton route={Route::Profile} path_to_match={String::from("/profile")} pathname={String::from("Profile")} class="md:p-4 py-2 text-center block text-cyan-400 hover:text-yellow-400 font-bold transition"/>
 			  </li>
-			  <li>
-				<NavButton route={Route::Register} pathname={String::from("Register")} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
-			  </li>
-			  <li>
-				<NavButton route={Route::Login} pathname={String::from("Login")} class="px-4 py-2 text-center my-2 md:m-2 rounded-lg text-white border-2 block hover:text-cyan-400 hover:bg-white bg-cyan-400 border-cyan-400 font-bold transition"/>
-			  </li>
+			  {
+				if !user_ctx.is_logged_in() {
+					html! {
+						<>
+						<li>
+							<NavButton route={Route::Register} pathname={String::from("Register")} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
+						</li>
+						<li>
+							<NavButton route={Route::Login} pathname={String::from("Login")} class="px-4 py-2 text-center my-2 md:m-2 rounded-lg text-white border-2 block hover:text-cyan-400 hover:bg-white bg-cyan-400 border-cyan-400 font-bold transition"/>
+						</li>
+						</>
+					}
+				} else {
+					let user_ctx = user_ctx.clone();
+					let onclick = {
+						let user_ctx = user_ctx.clone();
+						move |_| {
+							user_ctx.logout();
+						}
+					};
+					html! {
+						<>
+						{
+							if user_ctx.is_admin {
+								html! {
+									<li>
+										<NavButton route={Route::Admin} pathname={String::from("Admin Dashboard")} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition"/>
+									</li>
+								}
+							} else {
+								html! {
+									<>
+									</>
+								}
+							}
+						}
+						<li>
+							<button {onclick} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg text-cyan-400 border-2 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition">
+								{"Logout"}
+							</button >
+						</li>
+						</>
+					}
+				}
+			  }
 			</ul>
 		  </div>
 	  </nav>
