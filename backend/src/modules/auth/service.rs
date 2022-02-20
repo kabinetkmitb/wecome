@@ -91,6 +91,7 @@ pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<LoginResponse, E
     let token = match create_token(TokenClaim {
         user_id: user.clone().id,
         is_admin: user.clone().is_admin,
+        name: user.clone().name,
     }) {
         Err(e) => return Err(ErrorBadRequest(e)),
         Ok(data) => data,
