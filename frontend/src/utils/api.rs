@@ -119,9 +119,17 @@ where
 }
 
 /// Set limit for pagination
-pub fn limit(count: u32, p: u32) -> String {
-	let offset = if p > 0 { p * count } else { 0 };
-	format!("limit={}&offset={}", count, offset)
+pub fn search(search: String, category: String) -> String {
+	let mut query = "?".to_string();
+	if search != "" {
+		query = format!("{}&nama_kompetisi={}", query, search);
+	}
+
+	if category != "" {
+		query = format!("{}&kategori_kompetisi={}", query, category);
+	}
+
+	query
 }
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]

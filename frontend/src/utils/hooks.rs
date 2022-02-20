@@ -36,3 +36,8 @@ pub fn get_window_size() -> yew::UseStateHandle<WindowSize> {
 
 	window_dimension
 }
+
+pub fn get_search_as_state() -> yew::UseStateHandle<String> {
+	let window: web_sys::Window = web_sys::window().expect("window not available");
+	use_state(|| window.location().search().unwrap())
+}

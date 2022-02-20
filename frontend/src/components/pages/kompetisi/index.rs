@@ -1,9 +1,138 @@
 use super::modal::KompetisiModal;
 use crate::components::common::modal_button::ModalButton;
-use yew::{function_component, html};
+use crate::router::{KompetisiQuery, Route};
+use std::collections::HashMap;
+use wasm_bindgen::JsCast;
+use yew::prelude::*;
+use yew::virtual_dom::VNode;
+use yew::Callback;
+use yew_hooks::{use_async, use_map, use_mount, use_search_param};
+use yew_router::prelude::*;
 
 #[function_component(KompetisiComponent)]
 pub fn kompetisi_component() -> Html {
+	crate::utils::interop::use_tw();
+	let history = use_history().unwrap();
+
+	let search_param = use_search_param("search".to_string()).unwrap();
+	let category_param = use_search_param("category".to_string()).unwrap();
+
+	let navigation_param_input = use_map(HashMap::from([
+		("search".to_string(), search_param.clone().to_string()),
+		("category".to_string(), category_param.clone().to_string()),
+	]));
+
+	let get_kompetisi = {
+		let navigation_param_input = navigation_param_input.clone();
+		use_async(async move {
+			let response = crate::services::kompetisi::get_kompetisi(crate::utils::api::search(
+				navigation_param_input
+					.current()
+					.get("search")
+					.unwrap()
+					.to_string(),
+				navigation_param_input
+					.current()
+					.get("category")
+					.unwrap()
+					.to_string(),
+			))
+			.await;
+			match response {
+				Ok(response) => Ok(response),
+				Err(e) => {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+					Err(e)
+				}
+			}
+		})
+	};
+
+	{
+		let get_kompetisi = get_kompetisi.clone();
+		use_mount(move || {
+			get_kompetisi.run();
+		});
+	}
+
+	let dropdown_onchange = {
+		let navigation_param_input = navigation_param_input.clone();
+		Callback::from(move |e: web_sys::Event| {
+			let navigation_param_input = navigation_param_input.clone();
+
+			let select_element = e
+				.target()
+				.unwrap()
+				.dyn_into::<web_sys::HtmlSelectElement>()
+				.unwrap();
+
+			let chosen_index = select_element.selected_index();
+
+			let options = select_element.options();
+
+			match options.set_selected_index(chosen_index) {
+				Ok(_) => {}
+				Err(_) => {
+					log::debug!("Error setting selected index");
+				}
+			};
+
+			let category = options
+				.item(chosen_index as u32)
+				.unwrap()
+				.dyn_into::<web_sys::HtmlOptionElement>()
+				.unwrap()
+				.text();
+
+			navigation_param_input.update(&"category".to_string(), category);
+		})
+	};
+
+	let oninput = {
+		let navigation_param_input = navigation_param_input.clone();
+		Callback::from(move |e: web_sys::InputEvent| {
+			let input_value = e
+				.target()
+				.unwrap()
+				.dyn_into::<web_sys::HtmlInputElement>()
+				.unwrap()
+				.value();
+			navigation_param_input.update(&"search".to_string(), input_value);
+		})
+	};
+
+	let onsubmit = {
+		let navigation_param_input = navigation_param_input.clone();
+		let get_kompetisi = get_kompetisi.clone();
+		Callback::once(move |e: web_sys::FocusEvent| {
+			e.prevent_default();
+			let navigation_param_input = navigation_param_input.clone();
+			let get_kompetisi = get_kompetisi.clone();
+			match history.push_with_query(
+				Route::Kompetisi,
+				KompetisiQuery {
+					search: navigation_param_input
+						.current()
+						.get("search")
+						.unwrap()
+						.to_string(),
+					category: navigation_param_input
+						.current()
+						.get("category")
+						.unwrap()
+						.to_string(),
+				},
+			) {
+				Ok(_) => {}
+				Err(e) => {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+				}
+			};
+
+			get_kompetisi.run();
+		})
+	};
+
 	html! {
 		<>
 		<KompetisiModal
@@ -14,42 +143,87 @@ pub fn kompetisi_component() -> Html {
 			batas_regist="test"
 		/>
 		<div class="p-6 h-screen overflow-y-scroll relative z-10">
-		<div class="flex items-center gap-2 text-[0.6rem] md:text-[1rem] max-w-[600px]">
-			<div class="relative inline-block text-left">
-			<div>
-				<button type="button" class="md:px-4 md:py-2 md:text-sm md:font-medium inline-flex justify-center px-1 rounded-md border border-gray-300 shadow-sm bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
-				<div class="pt-[1.15px] md:pt-0">{"Kategori"}</div>
-				<svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-					<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-				</svg>
-				</button>
-			</div>
-			<div class="hidden origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-				<div class="py-1" role="none">
-				<a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">{"Account settings"}</a>
-				<a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">{"Support"}</a>
-				<a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">{"License"}</a>
-				<form method="POST" action="#" role="none">
-					<button type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-3">{"Sign out"}</button>
-				</form>
-				</div>
-			</div>
-			</div>
-			<input class="appearance-none border rounded w-full p-1 md:px-4 md:py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-			<button class="p-1 md:px-4 md:py-2 rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>
-		</div>
+		<form {onsubmit} class="flex items-center gap-2 text-[0.6rem] md:text-[1rem] max-w-[600px]">
+			<select onchange={dropdown_onchange} class="form-select appearance-none
+						block
+						pl-[1rem]
+						pr-[3rem]
+						py-1.5
+						text-base
+						font-normal
+						text-gray-700
+						bg-white bg-clip-padding bg-no-repeat
+						border border-solid border-gray-300
+						rounded
+						transition
+						ease-in-out
+						m-0
+						focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Kategori">
+				<option selected={true}>{category_param.clone().to_string()}</option>
+				{
+					for ["riset".to_string(), "seni".to_string(), "akademik".to_string(), "teknologi".to_string(), "bisnis".to_string(), "bahasa".to_string(), "olahraga".to_string(), "konferensi".to_string()]
+						.iter()
+						.filter(|category| category.to_string() != category_param.clone().to_string())
+						.map(|string| {
+							html! {
+								<option >{string}</option>
+							}
+						})
+				}
+			</select>
+			<input {oninput} class="appearance-none border rounded w-full p-1 md:px-4 md:py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Nama kompetisi" value={navigation_param_input.clone().current().get("search").unwrap().to_string()} />
+			<button type="submit" class="p-1 md:px-4 md:py-2 rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>
+		</form>
 		<div class="my-4 text-[0.6rem] md:text-[0.8rem] md:grid md:grid-cols-3 gap-3 flex flex-col">
-			<div class="border-[1.25px] border-gray-300 shadow-sm rounded flex bg-white">
-			<img class="w-[40%] object-cover" src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644714225/1590135987_i3defp.jpg" alt="Logo lomba"/>
-			<div class="w-[60%] p-3 flex flex-col gap-1">
-				<div class="py-1 w-fit tracking-widest px-2 text-[0.8em] rounded-2xl font-meidum bg-[#FECC30] text-white text-center inline-block">{"Kategori lomba"}</div>
-				<div class="font-bold text-[1.7em] md:text-[1.2em]">{"Nama Kompetisi"}</div>
-				<div class="justify">{"This is a wider card with supporting text below as a . . ."}</div>
-				<div class="justify">{"Pelaksanaan : 01 Januari 2000"}</div>
-				<div class="justify">{"Batas Registrasi : 01 Januari 2000"}</div>
-				<ModalButton modal_id="kompetisi-modal" class="cursor-pointer mt-2 p-1 w-fit rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Detail Kompetisi"}</ModalButton>
-			</div>
-			</div>
+			{
+				if let Some(kompetisi_list) = &get_kompetisi.clone().data {
+					if !kompetisi_list.is_empty() {
+						kompetisi_list.iter().map(|kompetisi| {
+							html_nested! {
+								<div class="border-[1.25px] border-gray-300 shadow-sm rounded flex bg-white">
+									<img class="w-[40%] object-cover" src={kompetisi.clone().link_poster} alt="Logo lomba"/>
+									<div class="w-[60%] p-3 flex flex-col gap-1">
+										<div class="py-1 w-fit tracking-widest px-2 text-[0.8em] rounded-2xl font-meidum bg-[#FECC30] text-white text-center inline-block">{kompetisi.clone().kategori_kompetisi}</div>
+										<div class="font-bold text-[1.7em] md:text-[1.2em]">{kompetisi.clone().nama_kompetisi}</div>
+										<div class="justify">{kompetisi.clone().deskripsi_kompetisi}</div>
+										<div class="justify">{format!("Pelaksanaan : {}", kompetisi.clone().tanggal_pelaksanaan)}</div>
+										<div class="justify">{format!("Registrasi : {}-{}", kompetisi.clone().batas_awal_registrasi, kompetisi.clone().batas_akhir_registrasi)}</div>
+										<ModalButton modal_id="kompetisi-modal" class="cursor-pointer mt-2 p-1 w-fit rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Detail Kompetisi"}</ModalButton>
+									</div>
+								</div>
+							}
+						}).collect::<VNode>()
+					}
+					else {
+						html_nested! {
+							<div class="text-gray-600">{"Tidak ada kompetisi yang sesuai"}</div>
+						}
+					}
+				} else {
+					(1..7).map(|_| {
+						html_nested! {
+							<div class="p-[1rem] shadow-sm rounded flex bg-white opacity-40">
+								<div class="animate-pulse w-full flex space-x-4">
+									<div class="w-[40%] h-full bg-slate-500" />
+									<div class="flex-1 space-y-6 py-1">
+									<div class="h-2 bg-slate-500 rounded"></div>
+									<div class="space-y-3">
+										<div class="grid grid-cols-3 gap-4">
+											<div class="h-2 bg-slate-500 rounded col-span-2"></div>
+											<div class="h-2 bg-slate-500 rounded col-span-1"></div>
+										</div>
+										<div class="h-2 bg-slate-500 rounded"></div>
+										<div class="h-2 bg-slate-500 rounded"></div>
+										<div class="h-2 bg-slate-500 rounded"></div>
+									</div>
+									<div class="h-5 w-10 bg-slate-500"></div>
+									</div>
+								</div>
+							</div>
+						}
+					}).collect::<VNode>()
+				}
+			}
 		</div>
 		</div>
 		<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641089/Frame_l1vboh.png" alt="Background logo" class="absolute bottom-20 left-[-6rem] opacity-40 z-0" style="transform: rotate(-12.79deg);"/>
