@@ -28,7 +28,7 @@ pub fn find_many_kompetisi<'a>(
     let mut query = crate::schema::kompetisi::table.into_boxed();
 
     if let Some(kategori) = q.kategori_kompetisi {
-        query = query.filter(kategori_kompetisi.eq(format!("%{}%", kategori)));
+        query = query.filter(kategori_kompetisi.like(format!("%{}%", kategori)));
     };
 
     if let Some(nama) = q.nama_kompetisi {
