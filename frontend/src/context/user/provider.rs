@@ -37,7 +37,8 @@ pub fn user_context_provider(props: &Props) -> Html {
 					user_ctx.dispatch(UserAction::Set {
 						name: user_info.name.clone(),
 						is_admin: user_info.is_admin.clone(),
-						token: user_ctx.clone().token.clone(),
+						token: get_token().unwrap_or("".to_string()),
+						id: user_info.user_id.clone(),
 					});
 				}
 

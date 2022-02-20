@@ -40,6 +40,7 @@ pub fn desktop_view() -> Html {
 					history.push(Route::Index);
 					user_ctx.login(UserState {
 						name: login_data.name.clone(),
+						id: login_data.id.clone(),
 						is_admin: login_data.is_admin,
 						token: login_data.token.clone(),
 					});

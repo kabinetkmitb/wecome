@@ -42,6 +42,7 @@ pub fn mobile_view() -> Html {
                         name: login_data.name.clone(),
                         is_admin: login_data.is_admin,
                         token: login_data.token.clone(),
+                        id: login_data.id.clone(),
                     });
                 }
                 if let Some(e) = &login.error {

@@ -71,7 +71,7 @@ pub fn form_field(props: &Props) -> Html {
 				<div class="mb-4 w-full">
 					<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
 					<div class="flex">
-						<span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+						<span class="inline-flex text-white items-center px-3 text-sm rounded-l-md border border-r-0 border-gray-300 bg-gray-600">
 							{prefix}
 						</span>
 						<input oninput={
@@ -109,7 +109,7 @@ pub fn form_field(props: &Props) -> Html {
 									.unwrap()
 									.value();
 								map.update(&map_key, input_value);
-						})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={props.field_property.clone().key} type="text" placeholder="Select a date" data-mdb-toggle="datepicker"/>
+						})} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={props.field_property.clone().key} type="text" placeholder="Format: DD/MM/YYY, ex: 20/02/2002" data-mdb-toggle="datepicker"/>
 					</div>
 				</>
 			}
@@ -119,10 +119,10 @@ pub fn form_field(props: &Props) -> Html {
 				<>
 					<div class="mb-4 w-full" >
 							<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
-							<select onchange={
+							<select onclick={
 								let map = props.form_data.clone();
 								let map_key = props.key_input.clone();
-								Callback::from(move |e: Event| {
+								Callback::from(move |e: MouseEvent| {
 									let map_key = map_key.clone();
 
 									let select_element = e.target().unwrap().dyn_into::<web_sys::HtmlSelectElement>().unwrap();

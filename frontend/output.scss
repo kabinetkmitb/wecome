@@ -882,20 +882,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 1rem;
 }
 
-.h-\[2px\] {
-  height: 2px;
-}
-
-.h-\[3rem\] {
-  height: 3rem;
-}
-
 .h-10 {
   height: 2.5rem;
 }
 
 .h-2 {
   height: 0.5rem;
+}
+
+.h-\[2px\] {
+  height: 2px;
 }
 
 .h-\[1\.5px\] {
@@ -976,6 +972,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 0px;
 }
 
+.w-10 {
+  width: 2.5rem;
+}
+
 .w-\[45\%\] {
   width: 45%;
 }
@@ -990,14 +990,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[60\%\] {
   width: 60%;
-}
-
-.w-\[4rem\] {
-  width: 4rem;
-}
-
-.w-10 {
-  width: 2.5rem;
 }
 
 .w-\[50vw\] {
@@ -2102,16 +2094,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(250 204 21 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#FF5050\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 80 80 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#FECC30\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 204 48 / var(--tw-bg-opacity));
-}
-
 .bg-slate-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
@@ -2120,6 +2102,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-slate-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#FF5050\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 80 80 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#FECC30\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 204 48 / var(--tw-bg-opacity));
 }
 
 .bg-\[url\(\'https\:\/\/res\.cloudinary\.com\/dw4bwn79m\/image\/upload\/v1644714225\/1590135987_i3defp\.jpg\'\)\] {
@@ -2280,12 +2272,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding: 2rem;
 }
 
-.p-\[3rem\] {
-  padding: 3rem;
-}
-
 .p-\[1rem\] {
   padding: 1rem;
+}
+
+.p-\[3rem\] {
+  padding: 3rem;
 }
 
 .py-2\.5 {

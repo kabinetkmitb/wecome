@@ -20,6 +20,7 @@ pub struct LoginPayload {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 pub struct LoginResponse {
+	pub id: String,
 	pub token: String,
 	pub name: String,
 	pub is_admin: bool,
@@ -27,6 +28,7 @@ pub struct LoginResponse {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 pub struct MeResponse {
+	pub user_id: String,
 	pub name: String,
 	pub is_admin: bool,
 }

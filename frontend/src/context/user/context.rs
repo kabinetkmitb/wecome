@@ -7,17 +7,27 @@ use yew_router::prelude::*;
 pub enum UserAction {
 	Set {
 		name: String,
+		id: String,
 		is_admin: bool,
 		token: String,
 	},
 	Clear,
 }
 
-#[derive(PartialEq, Default, Clone)]
+#[derive(PartialEq, Default, Clone, Debug)]
 pub struct UserState {
+	pub id: String,
 	pub name: String,
 	pub token: String,
 	pub is_admin: bool,
+}
+
+impl UserState {
+	pub fn is_logged_in(&self) -> bool {
+		log::debug!("self {:?}", self);
+		log::debug!("is logged in: {:?}", !self.token.is_empty());
+		!self.token.is_empty()
+	}
 }
 
 impl Reducible for UserState {
@@ -26,6 +36,7 @@ impl Reducible for UserState {
 	fn reduce(self: Rc<Self>, action: Self::Action) -> Rc<Self> {
 		let next_user = match action {
 			UserAction::Set {
+				id,
 				name,
 				token,
 				is_admin,
@@ -33,6 +44,7 @@ impl Reducible for UserState {
 				name,
 				token,
 				is_admin,
+				id,
 			},
 			UserAction::Clear => UserState::default(),
 		};
@@ -54,6 +66,7 @@ impl UseUser {
 			name: value.name,
 			token: value.token,
 			is_admin: value.is_admin,
+			id: value.id,
 		});
 
 		// Redirect to home page
@@ -68,9 +81,36 @@ impl UseUser {
 		// Redirect to home page
 		self.history.push(Route::Index);
 	}
+}
 
-	pub fn is_logged_in(&self) -> bool {
-		!self.inner.token.is_empty()
+impl std::ops::Deref for UseUser {
+	type Target = UserState;
+
+	fn deref(&self) -> &Self::Target {
+		&(*self.inner)
+	}
+}
+
+impl Clone for UseUser {
+	fn clone(&self) -> Self {
+		Self {
+			inner: self.inner.clone(),
+			history: self.history.clone(),
+		}
+	}
+}
+
+impl PartialEq for UseUser {
+	fn eq(&self, other: &Self) -> bool {
+		*self.inner == *other.inner
+	}
+}
+
+impl std::fmt::Debug for UseUser {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		f.debug_struct("UseUser")
+			.field("value", &format!("{:?}", *self.inner))
+			.finish()
 	}
 }
 
