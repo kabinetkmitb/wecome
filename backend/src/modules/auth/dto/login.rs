@@ -10,5 +10,6 @@ pub struct LoginInput {
 pub struct LoginResponse {
     pub name: String,
     pub is_admin: bool,
+    pub id: String,
     pub token: String,
 }

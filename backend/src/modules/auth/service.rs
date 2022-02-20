@@ -100,6 +100,7 @@ pub fn login(db: &UnwrappedPool, payload: LoginInput) -> Result<LoginResponse, E
     Ok(LoginResponse {
         name: user.clone().name,
         is_admin: user.clone().is_admin,
+        id: user.clone().id,
         token,
     })
 }
