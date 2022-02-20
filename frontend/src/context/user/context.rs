@@ -24,8 +24,6 @@ pub struct UserState {
 
 impl UserState {
 	pub fn is_logged_in(&self) -> bool {
-		log::debug!("self {:?}", self);
-		log::debug!("is logged in: {:?}", !self.token.is_empty());
 		!self.token.is_empty()
 	}
 }

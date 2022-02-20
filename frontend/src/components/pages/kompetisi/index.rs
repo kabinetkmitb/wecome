@@ -73,7 +73,7 @@ pub fn kompetisi_component() -> Html {
 			match options.set_selected_index(chosen_index) {
 				Ok(_) => {}
 				Err(_) => {
-					log::debug!("Error setting selected index");
+					log::error!("Error setting selected index");
 				}
 			};
 

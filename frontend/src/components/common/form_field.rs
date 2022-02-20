@@ -134,7 +134,7 @@ pub fn form_field(props: &Props) -> Html {
 										Ok(_) => {
 										}
 										Err(_) => {
-											log::debug!("Error setting selected index");
+											log::error!("Error setting selected index");
 										}
 									};
 
