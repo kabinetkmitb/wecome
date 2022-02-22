@@ -1,4 +1,5 @@
-use super::dto::find_many::FindManyKompetisiQuery;
+use super::dto::update::UpdateKompetisi;
+use super::dto::{find_many::FindManyKompetisiQuery, update::AcceptKompetisiResponse};
 use crate::UnwrappedPool;
 use actix_web::error::ErrorBadRequest;
 use diesel::prelude::*;
@@ -75,4 +76,78 @@ pub fn propose_kompetisi(
         Ok(_) => Ok("Success!".to_string()),
         Err(e) => Err(ErrorBadRequest(e)),
     }
+}
+
+pub fn accept_kompetisi(
+    connection: &UnwrappedPool,
+    token: String,
+    kompetisi_id: String,
+) -> Result<AcceptKompetisiResponse, actix_web::error::Error> {
+    let claim = match crate::modules::auth::service::get_token_data(token) {
+        Err(e) => return Err(ErrorBadRequest(e)),
+        Ok(data) => data,
+    };
+
+    if !claim.is_admin {
+        return Err(ErrorBadRequest("Unauthorized"));
+    }
+
+    match update_kompetisi_by_id(
+        connection,
+        kompetisi_id,
+        UpdateKompetisi {
+            status_kompetisi: Some("Published".to_string()),
+            ..UpdateKompetisi::default()
+        },
+    ) {
+        Err(e) => return Err(ErrorBadRequest(e)),
+        Ok(_) => {}
+    };
+
+    Ok(AcceptKompetisiResponse {
+        message: "Successfully accepted kompetisi".to_string(),
+    })
+}
+
+pub fn decline_kompetisi(
+    connection: &UnwrappedPool,
+    token: String,
+    kompetisi_id: String,
+) -> Result<AcceptKompetisiResponse, actix_web::error::Error> {
+    let claim = match crate::modules::auth::service::get_token_data(token) {
+        Err(e) => return Err(ErrorBadRequest(e)),
+        Ok(data) => data,
+    };
+
+    if !claim.is_admin {
+        return Err(ErrorBadRequest("Unauthorized"));
+    }
+
+    match update_kompetisi_by_id(
+        connection,
+        kompetisi_id,
+        UpdateKompetisi {
+            status_kompetisi: Some("Declined".to_string()),
+            ..UpdateKompetisi::default()
+        },
+    ) {
+        Err(e) => return Err(ErrorBadRequest(e)),
+        Ok(_) => {}
+    };
+
+    Ok(AcceptKompetisiResponse {
+        message: "Successfully declined kompetisi".to_string(),
+    })
+}
+
+pub fn update_kompetisi_by_id<'a>(
+    connection: &UnwrappedPool,
+    kompetisi_id: String,
+    kompetisi_data: UpdateKompetisi,
+) -> Result<Kompetisi, diesel::result::Error> {
+    use crate::schema::kompetisi::dsl::*;
+
+    diesel::update(kompetisi.find(kompetisi_id))
+        .set(&kompetisi_data)
+        .get_result::<Kompetisi>(connection)
 }

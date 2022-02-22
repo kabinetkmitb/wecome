@@ -6,7 +6,7 @@ use crate::{
 };
 use actix_web::{
     error::ErrorBadRequest,
-    get, post,
+    get, post, put,
     web::{self, Json},
     Error, HttpResponse,
 };
@@ -43,6 +43,28 @@ pub async fn find_many_kompetisi(
     query: web::Query<FindManyKompetisiQuery>,
 ) -> Result<HttpResponse, Error> {
     super::service::find_many_kompetisi(&db.get().unwrap(), query.into_inner())
+        .map(|res| HttpResponse::Ok().json(res))
+        .map_err(|err| ErrorBadRequest(err))
+}
+
+#[put("/accept-kompetisi/{kompetisi_id}")]
+pub async fn accept_kompetisi(
+    auth: BearerAuth,
+    db: web::Data<Pool>,
+    web::Path(kompetisi_id): web::Path<String>,
+) -> Result<HttpResponse, Error> {
+    super::service::accept_kompetisi(&db.get().unwrap(), auth.token().to_string(), kompetisi_id)
+        .map(|res| HttpResponse::Ok().json(res))
+        .map_err(|err| ErrorBadRequest(err))
+}
+
+#[put("/decline-kompetisi/{kompetisi_id}")]
+pub async fn decline_kompetisi(
+    auth: BearerAuth,
+    db: web::Data<Pool>,
+    web::Path(kompetisi_id): web::Path<String>,
+) -> Result<HttpResponse, Error> {
+    super::service::decline_kompetisi(&db.get().unwrap(), auth.token().to_string(), kompetisi_id)
         .map(|res| HttpResponse::Ok().json(res))
         .map_err(|err| ErrorBadRequest(err))
 }

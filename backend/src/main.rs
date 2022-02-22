@@ -43,7 +43,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(
                 Config::default()
                     .realm("Restricted area")
-                    .scope("auth propose-kompetisi"),
+                    .scope("auth propose-kompetisi accept-kompetisi"),
             )
             .wrap(Cors::permissive())
             .wrap(Logger::default())

@@ -25,7 +25,7 @@ pub mod json_time {
 
 pub mod option_json_time {
     use super::*;
-    use serde::{de::Error, Deserialize, Deserializer, Serialize, Serializer};
+    use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
     pub fn serialize<S: Serializer>(
         time: &Option<NaiveDateTime>,
@@ -37,13 +37,20 @@ pub mod option_json_time {
             time_to_json(time.unwrap().clone()).serialize(serializer)
         }
     }
+
     pub fn deserialize<'de, D: Deserializer<'de>>(
         deserializer: D,
-    ) -> Result<NaiveDateTime, D::Error> {
+    ) -> Result<Option<NaiveDateTime>, D::Error> {
         let time: String = Deserialize::deserialize(deserializer)?;
-        Ok(DateTime::parse_from_rfc3339(&time)
-            .map_err(D::Error::custom)?
-            .naive_utc())
+        let final_deserialize = match NaiveDateTime::parse_from_str(
+            &format!("{} 00:00:00", &time),
+            "%d/%m/%Y %H:%M:%S",
+        ) {
+            Ok(data) => data,
+            Err(e) => return Err(serde::de::Error::custom(e)),
+        };
+
+        Ok(Some(final_deserialize))
     }
 }
 
