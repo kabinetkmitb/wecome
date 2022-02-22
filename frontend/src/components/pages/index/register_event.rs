@@ -24,9 +24,9 @@ pub fn register_event() -> Html {
 	if window_size.width > 900.0 {
 		html! {
 		<div class="bg-white flex flex-col px-6 py-10 sm:m-12 gap-5">
-			<div class="text-[3rem]">
-				<div class="font-semibold text-cyan-400 ">{"Ingin mendaftarkan lomba"}</div>
-				<div class="font-semibold ">{"kampus atau lembaga anda?"}</div>
+			<div class="text-[3rem] font-bold">
+				<div class="text-cyan-400">{"Ingin mendaftarkan lomba"}</div>
+				<div >{"kampus atau lembaga anda?"}</div>
 			</div>
 			<br/>
 			<div class="flex flex-col md:flex-row justify-between">

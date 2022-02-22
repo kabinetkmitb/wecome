@@ -269,7 +269,7 @@ pub fn kompetisi_component() -> Html {
 			}
 		</div>
 		</div>
-		<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641089/Frame_l1vboh.png" alt="Background logo" class="absolute scale-[2] bottom-[-3rem] left-[-6rem] opacity-40 z-0" style="transform: rotate(-12.79deg);"/>
+		<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641089/Frame_l1vboh.png" alt="Background logo" class="absolute scale-[2] bottom-[-6rem] left-[6rem] opacity-20 z-0" style="transform: rotate(-12.79deg) scale(2.5);"/>
 		</>
 	}
 }

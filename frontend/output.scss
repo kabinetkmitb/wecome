@@ -597,12 +597,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 0px;
 }
 
-.bottom-\[-3rem\] {
-  bottom: -3rem;
+.bottom-\[-6rem\] {
+  bottom: -6rem;
 }
 
 .left-\[-6rem\] {
   left: -6rem;
+}
+
+.left-\[6rem\] {
+  left: 6rem;
 }
 
 .isolate {
@@ -2775,6 +2779,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .opacity-40 {
   opacity: 0.4;
+}
+
+.opacity-20 {
+  opacity: 0.2;
 }
 
 .bg-blend-normal {

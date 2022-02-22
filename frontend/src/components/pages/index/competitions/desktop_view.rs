@@ -34,7 +34,7 @@ pub fn desktop_view(props: &Props) -> Html {
 	html! {
 		<div class="w-screen bg-blue-gradient-app flex justify-around items-start px-6 py-10 gap-5">
 			<div class="flex flex-col p-8">
-				<div class="text-white font-semibold text-[3.5rem]">
+				<div class="text-white font-bold text-[3.5rem]">
 				<h1>{"Kategori"}</h1>
 				<h1>{"Kompetisi"}</h1>
 				</div>
