@@ -12,7 +12,7 @@ pub fn app() -> Html {
         <UserContextProvider>
             <ResourceProvider>
                 <BrowserRouter>
-                        <Switch<Route> render={Switch::render(switch)} />
+                    <Switch<Route> render={Switch::render(switch)} />
                 </BrowserRouter>
             </ResourceProvider>
         </UserContextProvider>

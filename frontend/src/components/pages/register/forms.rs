@@ -5,8 +5,13 @@ use lazy_static::lazy_static;
 lazy_static! {
 	pub static ref REGISTER_FIELDS: Vec<FormFieldProperty> = vec![
 		FormFieldProperty {
-			key: "name".to_string(),
+			key: "full name".to_string(),
 			placeholder: Some("Name".to_string()),
+			input_type: FormFieldType::Text,
+		},
+		FormFieldProperty {
+			key: "nim".to_string(),
+			placeholder: Some("Nim".to_string()),
 			input_type: FormFieldType::Text,
 		},
 		FormFieldProperty {
@@ -21,7 +26,7 @@ lazy_static! {
 		},
 		FormFieldProperty {
 			key: "konfirmasi kata sandi".to_string(),
-			placeholder: Some("Kata Sandi".to_string()),
+			placeholder: Some("Konfirmasi Kata Sandi".to_string()),
 			input_type: FormFieldType::TextHidden,
 		},
 	];

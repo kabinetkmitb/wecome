@@ -61,7 +61,6 @@ pub fn daftar_lomba_component() -> Html {
 					.unwrap()
 					.clone(),
 				no_telp: pendaftar_data.current().get("no telp").unwrap().clone(),
-				nim_pendaftar: pendaftar_data.current().get("nim").unwrap().clone(),
 				nama_kompetisi: detail_data.current().get("nama kompetisi").unwrap().clone(),
 				kategori_kompetisi: detail_data
 					.current()

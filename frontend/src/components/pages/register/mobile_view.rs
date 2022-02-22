@@ -23,6 +23,7 @@ pub fn mobile_view() -> Html {
 		let form_data = form_data.clone();
 		use_async(async move {
 			let request = RegisterPayload {
+				nim: form_data.current().get("nim").unwrap().clone(),
 				name: form_data.current().get("name").unwrap().clone(),
 				email: form_data.current().get("email").unwrap().clone(),
 				password: form_data.current().get("kata sandi").unwrap().clone(),

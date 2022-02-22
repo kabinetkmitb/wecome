@@ -24,7 +24,8 @@ pub fn desktop_view() -> Html {
 		let form_data = form_data.clone();
 		use_async(async move {
 			let request = RegisterPayload {
-				name: form_data.current().get("name").unwrap().clone(),
+				nim: form_data.current().get("nim").unwrap().clone(),
+				name: form_data.current().get("full name").unwrap().clone(),
 				email: form_data.current().get("email").unwrap().clone(),
 				password: form_data.current().get("kata sandi").unwrap().clone(),
 			};
@@ -86,7 +87,7 @@ pub fn desktop_view() -> Html {
 							}
 						})
 					}
-					<button {onclick} class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading {"Loading..."} else {"Masuk"}}</button>
+					<button {onclick} class="px-8 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{if register.loading {"Loading..."} else {"Daftar"}}</button>
 					<div class="flex gap-1">{"Sudah punya akun?"}
 
 					<Link<Route> to={Route::Login}>

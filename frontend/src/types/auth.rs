@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub struct RegisterPayload {
 	pub email: String,
 	pub name: String,
+	pub nim: String,
 	pub password: String,
 }
 

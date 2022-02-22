@@ -126,7 +126,7 @@ where
 
 /// Set limit for pagination
 pub fn search(search: String, category: String) -> String {
-	let mut query = "?".to_string();
+	let mut query = "?status=Published".to_string();
 	if search != "" {
 		query = format!("{}&nama_kompetisi={}", query, search);
 	}

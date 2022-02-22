@@ -31,7 +31,7 @@ pub fn register_event() -> Html {
 			<br/>
 			<div class="flex flex-col md:flex-row justify-between">
 				<div class="md:w-[560px] w-[480px]">
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY"> </iframe>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/S-ip-5npvkc"> </iframe>
 				</div>
 				<div class="py-12 md:py-0 md:px-24">
 				<div class="font-medium text-justify">{"We-Come (Website Competition), yang berarti “Kami Datang”, merupakan platform wadah informasi kompetisi di bidang akademik, teknologi, business plan & business case, riset, konferensi, olahraga, dan seni. Ayo daftarkan lomba yang ingin kamu publikasikan dan ajak teman-teman untuk mengunjungi website We-Come ya!"}</div>

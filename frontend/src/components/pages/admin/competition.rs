@@ -7,6 +7,7 @@ use yew_hooks::{use_async, use_counter, use_map, use_mount, use_toggle};
 
 #[function_component(CompetitionTab)]
 pub fn competition_tab() -> Html {
+	crate::utils::interop::use_toast();
 	let query = use_map(HashMap::from([
 		("sort by".to_string(), "".to_string()),
 		("order".to_string(), "".to_string()),
@@ -162,7 +163,7 @@ pub fn competition_tab() -> Html {
 													{kompetisi.clone().kategori_kompetisi}
 												</td>
 												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-													{"-"}
+													{kompetisi.clone().created_at}
 												</td>
 												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 													{kompetisi.clone().batas_akhir_registrasi}

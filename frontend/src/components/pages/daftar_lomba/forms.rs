@@ -13,12 +13,7 @@ lazy_static! {
 			key: "no telp".to_string(),
 			placeholder: Some("No Telp".to_string()),
 			input_type: FormFieldType::Text,
-		},
-		FormFieldProperty {
-			key: "nim".to_string(),
-			placeholder: Some("ex: 13320001".to_string()),
-			input_type: FormFieldType::Text,
-		},
+		}
 	];
 	pub static ref DETAIL_FIELDS: Vec<FormFieldProperty> = vec![
 		FormFieldProperty {

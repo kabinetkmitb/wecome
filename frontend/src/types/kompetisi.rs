@@ -4,7 +4,6 @@ use serde::{Deserialize, Serialize};
 pub struct ProposeKompetisiPayload {
 	pub nama_lembaga_pendaftar: String,
 	pub no_telp: String,
-	pub nim_pendaftar: String,
 	pub nama_kompetisi: String,
 	pub kategori_kompetisi: String,
 	pub deskripsi_kompetisi: String,
@@ -30,7 +29,6 @@ pub struct ProposeKompetisiResponse {
 pub struct KompetisiResponse {
 	pub id: String,
 	pub nama_lembaga_pendaftar: String,
-	pub nim_pendaftar: String,
 	pub no_telp: String,
 	pub nama_kompetisi: String,
 	pub kategori_kompetisi: String,
@@ -48,6 +46,7 @@ pub struct KompetisiResponse {
 	pub link_poster: String,
 	pub status_kompetisi: String,
 	pub user_id: String,
+	pub created_at: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Default)]
