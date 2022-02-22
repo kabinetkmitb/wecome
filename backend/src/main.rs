@@ -52,7 +52,9 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/kompetisi")
                     .service(modules::kompetisi::controller::propose_kompetisi)
-                    .service(modules::kompetisi::controller::find_many_kompetisi),
+                    .service(modules::kompetisi::controller::find_many_kompetisi)
+                    .service(modules::kompetisi::controller::accept_kompetisi)
+                    .service(modules::kompetisi::controller::decline_kompetisi),
             )
             .service(
                 web::scope("/auth")
