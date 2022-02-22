@@ -8,4 +8,5 @@ pub struct FindManyKompetisiQuery {
     pub take: Option<i64>,
     pub sort_by: Option<String>,
     pub order: Option<String>,
+    pub status: Option<String>,
 }

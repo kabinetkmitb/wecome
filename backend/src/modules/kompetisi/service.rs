@@ -36,6 +36,10 @@ pub fn find_many_kompetisi<'a>(
         query = query.filter(nama_kompetisi.ilike(format!("%{}%", nama)));
     };
 
+    if let Some(status) = q.status {
+        query = query.filter(status_kompetisi.eq(status));
+    }
+
     if let Some(skip) = q.skip {
         query = query.offset(skip);
     }
