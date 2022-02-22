@@ -45,6 +45,37 @@ pub fn find_many_kompetisi<'a>(
         query = query.limit(take);
     }
 
+    // TODO - Nambah submit date
+    if let Some(order) = q.order {
+        match order.as_str() {
+            "ascending" => {
+                if let Some(sort_by) = q.sort_by {
+                    match sort_by.as_str() {
+                        "nama kompetisi" => query = query.order_by(nama_kompetisi.asc()),
+                        "penyelenggara" => query = query.order_by(nama_lembaga_pendaftar.asc()),
+                        "kategori" => query = query.order_by(kategori_kompetisi.asc()),
+                        "tanggal selesai" => query = query.order_by(batas_akhir_registrasi.asc()),
+                        "status" => query = query.order_by(status_kompetisi.asc()),
+                        _ => {}
+                    }
+                }
+            }
+            "descending" => {
+                if let Some(sort_by) = q.sort_by {
+                    match sort_by.as_str() {
+                        "nama kompetisi" => query = query.order_by(nama_kompetisi.desc()),
+                        "penyelenggara" => query = query.order_by(nama_lembaga_pendaftar.desc()),
+                        "kategori" => query = query.order_by(kategori_kompetisi.desc()),
+                        "tanggal selesai" => query = query.order_by(batas_akhir_registrasi.desc()),
+                        "status" => query = query.order_by(status_kompetisi.desc()),
+                        _ => {}
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
     query.load::<Kompetisi>(connection)
 }
 

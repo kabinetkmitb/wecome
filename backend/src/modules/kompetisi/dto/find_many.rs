@@ -6,4 +6,6 @@ pub struct FindManyKompetisiQuery {
     pub nama_kompetisi: Option<String>,
     pub skip: Option<i64>,
     pub take: Option<i64>,
+    pub sort_by: Option<String>,
+    pub order: Option<String>,
 }
