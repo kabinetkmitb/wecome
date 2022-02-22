@@ -41,6 +41,7 @@ pub fn register(db: &UnwrappedPool, payload: RegisterInput) -> Result<RegisterRe
             name: payload.name,
             password: payload.password,
             email: payload.email,
+            nim: payload.nim,
             ..CreateUser::default()
         },
     ) {
