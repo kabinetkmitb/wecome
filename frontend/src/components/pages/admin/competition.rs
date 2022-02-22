@@ -3,7 +3,7 @@ use crate::types::form::{FormFieldProperty, FormFieldType};
 use std::collections::HashMap;
 use yew::prelude::*;
 use yew::virtual_dom::VNode;
-use yew_hooks::{use_async, use_map, use_mount};
+use yew_hooks::{use_async, use_map, use_mount, use_toggle};
 
 #[function_component(CompetitionTab)]
 pub fn competition_tab() -> Html {
@@ -30,6 +30,8 @@ pub fn competition_tab() -> Html {
 		use_effect_with_deps(
 			move |_| {
 				get_kompetisi.run();
+				log::debug!("RUNNING QUERY GET KOMPETISI");
+
 				|| ()
 			},
 			query.clone(),
@@ -46,8 +48,14 @@ pub fn competition_tab() -> Html {
 	html! {
 		<>
 		<div class="text-2xl font-bold py-4">{"Competition List"}</div>
-		<div class="flex flex-col w-full shadow-md rounded-md">
-			<div class="grid grid-cols-2 gap-5 px-5 pt-2">
+		<div class="flex flex-col w-full shadow-md rounded-md relative">
+			<div class="grid grid-cols-2 gap-5 px-5 pt-2" onclick={
+				let get_kompetisi = get_kompetisi.clone();
+				move |_| {
+					let get_kompetisi = get_kompetisi.clone();
+					get_kompetisi.run();
+				}
+			}>
 				<FormField
 					field_property={
 						FormFieldProperty {
@@ -145,9 +153,31 @@ pub fn competition_tab() -> Html {
 												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 													{kompetisi.clone().status_kompetisi}
 												</td>
-												<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-													{"..."}
-												</td>
+												{
+													{
+														let toggle = use_toggle("hidden", "");
+														html! {
+															<div class="inline-block text-left">
+																<td class="text-gray-900 text-2xl cursor-pointer font-light px-6 py-4 whitespace-nowrap" onclick={
+																	let toggle = toggle.clone();
+																	move |_| toggle.toggle()
+																}>
+																<i class="bx bx-dots-horizontal-rounded"></i>
+																	<div class={
+																		let toggle = toggle.clone();
+																		format!("{} z-10 right-0 origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none", *toggle)
+																	} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+																		<div class="py-1" role="none">
+																			<a href="#" class="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">{"Publish competition"}</a>
+																			<a href="#" class="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">{"Decline competition"}</a>
+																			<a href="#" class="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">{"See more details"}</a>
+																		</div>
+																	</div>
+																</td>
+															</div>
+														}
+													}
+												}
 											</tr>
 
 											}
