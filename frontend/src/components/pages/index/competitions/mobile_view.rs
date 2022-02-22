@@ -48,6 +48,24 @@ pub fn mobile_view(props: &Props) -> Html {
 		})
 	};
 
+	let onclick_cta = {
+		let history = history.clone();
+		Callback::once(move |_| {
+			match history.push_with_query(
+				Route::Kompetisi,
+				KompetisiQuery {
+					search: String::from(""),
+					category: String::from(""),
+				},
+			) {
+				Ok(_) => (),
+				Err(e) => {
+					crate::utils::interop::show_toast_with_message(e.to_string());
+				}
+			};
+		})
+	};
+
 	let right_click = {
 		let pagination = pagination.clone();
 		let upper_bound = (*pagination).upper_bound;
@@ -112,7 +130,7 @@ pub fn mobile_view(props: &Props) -> Html {
 			</div>
 		</div>
 		<br />
-		<button class="bg-white py-2 px-4 rounded mx-auto w-auto drop-shadow font-semibold text-cyan-500">{"Lihat Semua"}</button>
+		<button onclick={onclick_cta} class="bg-white py-2 px-4 rounded mx-auto w-auto drop-shadow font-semibold text-cyan-500">{"Lihat Semua"}</button>
 		<br />
 	</div>
 	}

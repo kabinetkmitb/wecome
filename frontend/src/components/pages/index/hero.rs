@@ -35,8 +35,8 @@ pub fn hero() -> Html {
 			</div>
 			<div class="absolute z-2 flex flex-col justify-center align-center p-16 gap-3 w-screen sm:relative sm:w-auto">
 				<div class="w-20 h-1 bg-blue-300"></div>
-				<div class="font-bold text-[3rem]">{"WE-COME"}</div>
-				<p class="text-2xl">{"Find competition information with ease"}</p>
+				<div class="font-bold md:text-[4rem] text-[3rem]">{"WE-COME"}</div>
+				<p class="text-2xl">{"Cari informasi tentang lomba dengan mudah"}</p>
 				<div class="flex-col flex">
 				<input ref={input_ref} class="appearance-none border border-blue-300 rounded w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text" placeholder="Cari Kompetisi" />
 				<button {onclick} class="w-24 px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>

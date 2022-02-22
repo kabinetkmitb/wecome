@@ -34,12 +34,12 @@ pub fn desktop_view(props: &Props) -> Html {
 	html! {
 		<div class="w-screen bg-blue-gradient-app flex justify-around items-start px-6 py-10 gap-5">
 			<div class="flex flex-col p-8">
-				<div class="text-white font-medium text-[2.5rem]">
-				<h1>{"Competition"}</h1>
-				<h1>{"Category"}</h1>
+				<div class="text-white font-semibold text-[3.5rem]">
+				<h1>{"Kategori"}</h1>
+				<h1>{"Kompetisi"}</h1>
 				</div>
 				<button onclick={onclick_cta} class="px-4 py-2 my-2 text-center md:m-2 rounded-lg bg-white text-cyan-400 block hover:text-white hover:bg-cyan-400 border-cyan-400 font-bold transition w-40">
-				{"See More"}
+				{"Lihat Semua"}
 				</button>
 			</div>
 			<div class="grid grid-cols-4 gap-5">

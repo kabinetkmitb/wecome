@@ -8,7 +8,7 @@ pub fn desktop_view() -> Html {
 				<div>
 				<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644652873/Group_172_j1wmbu.png" alt="Logo footer"/>
 				<div class="text-gray-600 font-medium">{"Kedirjenan Bestari Karya"}</div>
-				<div class="text-gray-600 font-medium">{"Kementerian Karya Inovasi KM ITB x Ditmawa ITB"}</div>
+				<div class="text-gray-600 font-medium">{"Kementrian Inkubasi Penerapan Karya Kemenkoan Karya Inovasi KM ITB Akar Asa 2021/2022 x DITMAWA ITB"}</div>
 				</div>
 				<div>
 				<div class="text-gray-600 font-medium">{"Kontak Kami"}</div>
