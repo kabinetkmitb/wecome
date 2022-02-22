@@ -117,6 +117,13 @@ where
 	request(reqwest::Method::PUT, url, body).await
 }
 
+pub async fn request_put_without_body<T>(url: String) -> Result<T, Error>
+where
+	T: DeserializeOwned + 'static + std::fmt::Debug,
+{
+	request(reqwest::Method::PUT, url, ()).await
+}
+
 /// Set limit for pagination
 pub fn search(search: String, category: String) -> String {
 	let mut query = "?".to_string();
@@ -126,6 +133,27 @@ pub fn search(search: String, category: String) -> String {
 
 	if category != "" {
 		query = format!("{}&kategori_kompetisi={}", query, category);
+	}
+
+	query
+}
+
+pub fn admin_pagination(take: i32, skip: i64, sort_by: String, order: String) -> String {
+	let mut query = "?".to_string();
+	if take != 0 {
+		query = format!("{}&take={}", query, take);
+	}
+
+	if skip != 0 {
+		query = format!("{}&skip={}", query, skip);
+	}
+
+	if sort_by != "" {
+		query = format!("{}&sort_by={}", query, sort_by);
+	}
+
+	if order != "" {
+		query = format!("{}&order={}", query, order);
 	}
 
 	query

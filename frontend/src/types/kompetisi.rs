@@ -49,3 +49,13 @@ pub struct KompetisiResponse {
 	pub status_kompetisi: String,
 	pub user_id: String,
 }
+
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Default)]
+pub struct AcceptKompetisiResponse {
+	pub message: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Default)]
+pub struct DeclineKompetisiResponse {
+	pub message: String,
+}
