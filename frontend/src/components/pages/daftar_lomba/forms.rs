@@ -10,9 +10,13 @@ lazy_static! {
 			input_type: FormFieldType::Text,
 		},
 		FormFieldProperty {
-			key: "no telp".to_string(),
-			placeholder: Some("No Telp".to_string()),
-			input_type: FormFieldType::Text,
+			key: "kontak penanggung jawab pendaftar".to_string(),
+			placeholder: Some(
+				"Harap memasukkan nomor aktif agar dapat dihubungi PR We-Come".to_string()
+			),
+			input_type: FormFieldType::TextWithBoxiconsLogo {
+				boxicons_class: "bx bxl-whatsapp".to_string()
+			},
 		}
 	];
 	pub static ref DETAIL_FIELDS: Vec<FormFieldProperty> = vec![
@@ -40,12 +44,12 @@ lazy_static! {
 		FormFieldProperty {
 			key: "deskripsi kompetisi".to_string(),
 			placeholder: Some("Deskripsi Kompetisi".to_string()),
-			input_type: FormFieldType::Text,
+			input_type: FormFieldType::TextArea,
 		},
 		FormFieldProperty {
 			key: "tags kompetisi".to_string(),
 			placeholder: Some("ex : matematika, biologi, fisika".to_string()),
-			input_type: FormFieldType::Text,
+			input_type: FormFieldType::TextArea,
 		},
 		FormFieldProperty {
 			key: "tanggal pelaksanaan".to_string(),

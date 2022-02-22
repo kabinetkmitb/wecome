@@ -3,11 +3,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum FormFieldType {
 	Text,
-	TextField,
+	TextArea,
 	DateTime,
 	Select { options: Vec<String> },
 	TextWithPrefix { prefix: String },
 	TextHidden,
+	TextWithBoxiconsLogo { boxicons_class: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
