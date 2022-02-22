@@ -5,6 +5,7 @@ use yew::prelude::*;
 
 #[function_component(DaftarLomba)]
 pub fn daftar_lomba() -> Html {
+	crate::utils::hooks::scroll_to_top();
 	html! {
 		<main>
 			<Navbar/>

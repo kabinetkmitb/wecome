@@ -1,4 +1,5 @@
 use yew::{use_effect, use_state};
+use yew_hooks::use_mount;
 
 #[derive(PartialEq)]
 pub struct WindowSize {
@@ -40,4 +41,13 @@ pub fn get_window_size() -> yew::UseStateHandle<WindowSize> {
 pub fn get_search_as_state() -> yew::UseStateHandle<String> {
 	let window: web_sys::Window = web_sys::window().expect("window not available");
 	use_state(|| window.location().search().unwrap())
+}
+
+pub fn scroll_to_top() {
+	{
+		use_mount(move || {
+			let window: web_sys::Window = web_sys::window().expect("window not available");
+			window.scroll_to_with_x_and_y(0.0, 0.0);
+		});
+	}
 }
