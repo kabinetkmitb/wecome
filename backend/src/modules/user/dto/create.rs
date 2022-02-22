@@ -10,6 +10,7 @@ pub struct CreateUser {
     pub id: String,
     pub email: String,
     pub name: String,
+    pub nim: String,
     pub password: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_admin: Option<bool>,

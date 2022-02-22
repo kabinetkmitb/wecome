@@ -13,9 +13,6 @@ pub struct UpdateKompetisi {
     pub no_telp: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[derivative(Default(value = "None"))]
-    pub nim_pendaftar: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[derivative(Default(value = "None"))]
     pub nama_lembaga_pendaftar: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[derivative(Default(value = "None"))]
@@ -62,6 +59,9 @@ pub struct UpdateKompetisi {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[derivative(Default(value = "None"))]
     pub status_kompetisi: Option<String>,
+    #[serde(with = "option_json_time")]
+    #[derivative(Default(value = "None"))]
+    pub created_at: Option<NaiveDateTime>,
 }
 
 #[derive(Deserialize, Serialize)]

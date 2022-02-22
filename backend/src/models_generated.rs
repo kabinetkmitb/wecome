@@ -16,7 +16,6 @@ pub struct IdentitasPengaju {
 pub struct Kompetisi {
     pub id: String,
     pub nama_lembaga_pendaftar: String,
-    pub nim_pendaftar: String,
     pub no_telp: String,
     pub nama_kompetisi: String,
     pub kategori_kompetisi: String,
@@ -34,6 +33,7 @@ pub struct Kompetisi {
     pub link_poster: String,
     pub status_kompetisi: String,
     pub user_id: String,
+    pub created_at: NaiveDateTime,
 }
 
 #[derive(Queryable, Debug)]
@@ -55,6 +55,7 @@ pub struct User {
     pub id: String,
     pub email: String,
     pub name: String,
+    pub nim: String,
     pub password: String,
     pub is_admin: bool,
     pub is_active: bool,

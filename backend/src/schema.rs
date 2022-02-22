@@ -10,7 +10,6 @@ table! {
     kompetisi (id) {
         id -> Text,
         nama_lembaga_pendaftar -> Text,
-        nim_pendaftar -> Text,
         no_telp -> Text,
         nama_kompetisi -> Text,
         kategori_kompetisi -> Text,
@@ -28,6 +27,7 @@ table! {
         link_poster -> Text,
         status_kompetisi -> Text,
         user_id -> Text,
+        created_at -> Timestamp,
     }
 }
 
@@ -52,6 +52,7 @@ table! {
         id -> Text,
         email -> Text,
         name -> Text,
+        nim -> Text,
         password -> Text,
         is_admin -> Bool,
         is_active -> Bool,

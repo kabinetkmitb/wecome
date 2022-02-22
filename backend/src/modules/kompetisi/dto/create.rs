@@ -13,7 +13,6 @@ pub struct CreateKompetisi {
     pub id: String,
     pub user_id: String,
     pub no_telp: String,
-    pub nim_pendaftar: String,
     pub nama_lembaga_pendaftar: String,
     pub nama_kompetisi: String,
     pub kategori_kompetisi: String,
@@ -38,6 +37,9 @@ pub struct CreateKompetisi {
     #[serde(default = "default_status")]
     #[derivative(Default(value = "default_status()"))]
     pub status_kompetisi: String,
+    #[serde(default = "default_time", with = "json_time")]
+    #[derivative(Default(value = "default_time()"))]
+    pub created_at: NaiveDateTime,
 }
 
 fn default_status() -> String {

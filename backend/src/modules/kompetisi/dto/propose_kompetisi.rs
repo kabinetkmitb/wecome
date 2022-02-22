@@ -13,7 +13,6 @@ pub struct ProposeKompetisiInput {
     #[serde(default = "crate::utils::cuid::get_cuid")]
     pub id: String,
     pub nama_lembaga_pendaftar: String,
-    pub nim_pendaftar: String,
     pub no_telp: String,
     pub nama_kompetisi: String,
     pub kategori_kompetisi: String,

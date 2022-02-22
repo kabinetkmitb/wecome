@@ -93,7 +93,6 @@ pub fn propose_kompetisi(
         CreateKompetisi {
             user_id: claim.user_id,
             no_telp: kompetisi_data.no_telp,
-            nim_pendaftar: kompetisi_data.nim_pendaftar,
             nama_lembaga_pendaftar: kompetisi_data.nama_lembaga_pendaftar,
             nama_kompetisi: kompetisi_data.nama_kompetisi,
             kategori_kompetisi: kompetisi_data.kategori_kompetisi,

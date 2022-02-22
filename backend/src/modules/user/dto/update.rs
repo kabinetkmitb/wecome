@@ -14,6 +14,9 @@ pub struct UpdateUser {
     pub name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[derivative(Default(value = "None"))]
+    pub nim: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[derivative(Default(value = "None"))]
     pub password: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[derivative(Default(value = "None"))]
