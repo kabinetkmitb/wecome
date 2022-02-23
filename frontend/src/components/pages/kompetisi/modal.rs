@@ -1,3 +1,4 @@
+use crate::components::common::markdown::Markdown;
 use crate::components::common::modal::Modal;
 use yew::prelude::*;
 
@@ -26,7 +27,9 @@ pub fn kompetisi_modal(props: &Props) -> Html {
 				<div class="flex flex-col gap-3">
 				<div class="bg-yellow-400 w-fit text-white p-1 rounded-md">{props.kategori.as_str()}</div>
 				<div class="text-2xl font-bold">{props.judul.as_str()}</div>
-				<div class="text-justify">{props.deskripsi.as_str()}</div>
+				<div class="text-justify prose">
+					<Markdown html={props.deskripsi}/>
+				</div>
 				<div>
 					<div class="font-bold">{"Tanggal Pelaksanaan"}</div>
 					<div>{props.tanggal_pelaksanaan.as_str()}</div>

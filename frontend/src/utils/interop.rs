@@ -13,6 +13,8 @@ declare_resources!(
 	"https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"
 	lottie
 	"https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+	trix
+	"https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js"
 );
 
 // The javascript API: https://github.com/apvarun/toastify-js/blob/572517040fae6a7f8be4a99778dacda9c933db45/README.md

@@ -1,4 +1,5 @@
 use super::modal::KompetisiModal;
+use crate::components::common::markdown::Markdown;
 use crate::components::common::modal_button::ModalButton;
 use crate::router::{KompetisiQuery, Route};
 use std::collections::HashMap;
@@ -210,7 +211,9 @@ pub fn kompetisi_component() -> Html {
 									<div class="w-[60%] p-3 flex flex-col gap-1">
 										<div class="py-1 w-fit tracking-widest px-2 text-[0.8em] rounded-2xl font-meidum bg-[#FECC30] text-white text-center inline-block">{kompetisi.clone().kategori_kompetisi}</div>
 										<div class="font-bold text-[1.7em] md:text-[1.2em]">{kompetisi.clone().nama_kompetisi}</div>
-										<div class="justify">{if kompetisi.clone().deskripsi_kompetisi.len() < 100 { kompetisi.clone().deskripsi_kompetisi } else {format!("{}...",&kompetisi.clone().deskripsi_kompetisi[0..100])}}</div>
+										<div class="justify competition-description">
+											<Markdown html={kompetisi.clone().deskripsi_kompetisi}/>
+										</div>
 										<div class="justify">{format!("Pelaksanaan : {}", kompetisi.clone().tanggal_pelaksanaan)}</div>
 										<div class="justify">{format!("Registrasi : {}-{}", kompetisi.clone().batas_awal_registrasi, kompetisi.clone().batas_akhir_registrasi)}</div>
 										<div onclick={

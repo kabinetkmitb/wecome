@@ -12,3 +12,16 @@ input[type="file"]::file-selector-button {
 .bg-blue-gradient-app {
   background: linear-gradient(99.47deg, #32d0fa 0%, #479cff 100%);
 }
+
+.trix-button-row {
+  display: none !important;
+}
+
+.competition-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

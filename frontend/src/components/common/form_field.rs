@@ -1,6 +1,7 @@
 use crate::types::form::{FormFieldProperty, FormFieldType};
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
+use yew_hooks::use_event;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -12,6 +13,7 @@ pub struct Props {
 #[function_component(FormField)]
 pub fn form_field(props: &Props) -> Html {
 	crate::utils::interop::use_tw();
+	crate::utils::interop::use_trix();
 
 	match &props.clone().field_property.input_type {
 		FormFieldType::Text => {
@@ -69,18 +71,31 @@ pub fn form_field(props: &Props) -> Html {
 			}
 		}
 		FormFieldType::TextArea => {
+			let props = props.clone();
+			let trix = use_node_ref();
+			let map = props.form_data.clone();
+			let map_key = props.key_input.clone();
+			let field_key = props.field_property.clone().key;
+			use_event(trix.clone(), "trix-change", move |_: Event| {
+				let map = map.clone();
+				let map_key = map_key.clone();
+				let window = web_sys::window().expect("global window does not exists");
+				let document = window.document().expect("expecting a document on window");
+				let input_value = document
+					.get_element_by_id(field_key.clone().as_str())
+					.unwrap()
+					.dyn_into::<web_sys::HtmlInputElement>()
+					.unwrap()
+					.value();
+				map.update(&map_key, input_value);
+			});
+
 			html! {
 				<>
 					<div class="mb-4 w-full">
 						<label class="text-sm font-bold py-2 px-1 capitalize" for={props.field_property.clone().key}> {props.field_property.clone().key} </label>
-						<textarea required={true} oninput={
-							let map = props.form_data.clone();
-							let map_key = props.key_input.clone();
-							Callback::from(move |e: InputEvent| {
-								let map_key = map_key.clone();
-								let input_value = e.target().unwrap().dyn_into::<web_sys::HtmlTextAreaElement>().unwrap().value();
-								map.update(&map_key, input_value);
-						})} rows={3} class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={props.field_property.clone().key} type="text" placeholder={props.field_property.clone().placeholder.unwrap()} />
+						<input required={true} type="hidden" name="content" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={props.field_property.clone().key} placeholder={props.field_property.clone().placeholder.unwrap()} />
+						<trix-editor ref={trix} input={props.field_property.clone().key}></trix-editor>
 					</div>
 				</>
 			}
