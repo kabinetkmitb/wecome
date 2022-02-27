@@ -2,6 +2,7 @@ use super::modal::KompetisiModal;
 use crate::components::common::markdown::Markdown;
 use crate::components::common::modal_button::ModalButton;
 use crate::router::{KompetisiQuery, Route};
+use crate::utils::datetime::from_rfc3339_to_date;
 use std::collections::HashMap;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
@@ -214,8 +215,8 @@ pub fn kompetisi_component() -> Html {
 										<div class="justify competition-description">
 											<Markdown html={kompetisi.clone().deskripsi_kompetisi}/>
 										</div>
-										<div class="justify">{format!("Pelaksanaan : {}", kompetisi.clone().tanggal_pelaksanaan)}</div>
-										<div class="justify">{format!("Registrasi : {}-{}", kompetisi.clone().batas_awal_registrasi, kompetisi.clone().batas_akhir_registrasi)}</div>
+										<div class="justify">{format!("Pelaksanaan : {}", from_rfc3339_to_date(kompetisi.clone().tanggal_pelaksanaan))}</div>
+										<div class="justify">{format!("Registrasi : {} - {}", from_rfc3339_to_date(kompetisi.clone().batas_awal_registrasi), from_rfc3339_to_date(kompetisi.clone().batas_akhir_registrasi))}</div>
 										<div onclick={
 											let modal_props = modal_props.clone();
 											move |_| {
@@ -224,7 +225,15 @@ pub fn kompetisi_component() -> Html {
 												modal_props.update(&"judul".to_string(), kompetisi.clone().nama_kompetisi.clone());
 												modal_props.update(&"deskripsi".to_string(), kompetisi.clone().deskripsi_kompetisi.clone());
 												modal_props.update(&"tanggal_pelaksanaan".to_string(), kompetisi.clone().tanggal_pelaksanaan.clone());
-												modal_props.update(&"batas_regist".to_string(), format!("{}-{}", kompetisi.clone().batas_awal_registrasi, kompetisi.clone().batas_akhir_registrasi));
+												modal_props.update(&"batas_regist".to_string(),
+												format!("{} - {}",
+														from_rfc3339_to_date(
+															kompetisi.clone().batas_awal_registrasi
+														), from_rfc3339_to_date(
+															kompetisi.clone().batas_akhir_registrasi
+														)
+													)
+												);
 												modal_props.update(&"link_poster".to_string(), kompetisi.clone().link_poster.clone());
 												modal_props.update(&"link_website".to_string(), kompetisi.clone().link_website.clone());
 												modal_props.update(&"link_linkedin".to_string(), kompetisi.clone().link_linkedin.clone());

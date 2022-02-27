@@ -40,20 +40,20 @@ pub fn kompetisi_modal(props: &Props) -> Html {
 				</div>
 				<div class="font-bold">{"Kontak Penyelenggara"}</div>
 				<div class="flex gap-2 text-2xl">
-					<a href={props.link_website}>
+					<a href={props.link_website} target="_blank">
 						<i class="bx bx-world"></i>
 					</a>
-					<a href={props.link_twitter}>
+					<a href={props.link_twitter} target="_blank">
 						<i class="bx bxl-twitter"></i>
 					</a>
-					<a href={props.link_linkedin}>
+					<a href={props.link_linkedin} target="_blank">
 						<i class="bx bxl-linkedin"></i>
 					</a>
-					<a href={props.link_instagram}>
+					<a href={props.link_instagram} target="_blank">
 						<i class="bx bxl-instagram-alt"></i>
 					</a>
 				</div>
-					<a href={props.link_regist} class="w-fit px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftar"}</a>
+					<a href={props.link_regist} target="_blank" class="w-fit px-4 py-2 my-2 rounded-lg hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Daftar"}</a>
 				</div>
 			</div>
 		</Modal>

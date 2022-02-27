@@ -1093,6 +1093,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: 0px;
 }
 
+.m-5 {
+  margin: 1.25rem;
+}
+
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -1148,6 +1152,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .ml-4 {
   margin-left: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .mr-\[4rem\] {
@@ -1392,6 +1400,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 45%;
 }
 
+.w-\[10rem\] {
+  width: 10rem;
+}
+
 .w-\[480px\] {
   width: 480px;
 }
@@ -1418,6 +1430,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .min-w-\[20rem\] {
   min-width: 20rem;
+}
+
+.max-w-lg {
+  max-width: 32rem;
 }
 
 .max-w-\[600px\] {
@@ -2002,6 +2018,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .gap-4 {
   gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -2944,6 +2964,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-size: 3rem;
 }
 
+.text-\[4rem\] {
+  font-size: 4rem;
+}
+
 .text-\[0\.6rem\] {
   font-size: 0.6rem;
 }
@@ -3741,8 +3765,16 @@ input[type="file"]::file-selector-button {
     width: auto;
   }
 
+  .sm\:grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
   .sm\:justify-center {
     justify-content: center;
+  }
+
+  .sm\:gap-6 {
+    gap: 1.5rem;
   }
 
   .sm\:bg-white {
@@ -3753,6 +3785,11 @@ input[type="file"]::file-selector-button {
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+
+  .sm\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   .sm\:opacity-100 {
@@ -3769,6 +3806,10 @@ input[type="file"]::file-selector-button {
 @media (min-width: 768px) {
   .md\:m-2 {
     margin: 0.5rem;
+  }
+
+  .md\:m-0 {
+    margin: 0px;
   }
 
   .md\:flex {
@@ -3803,12 +3844,12 @@ input[type="file"]::file-selector-button {
     width: 40vw;
   }
 
-  .md\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .md\:grid-cols-4 {
@@ -3831,6 +3872,10 @@ input[type="file"]::file-selector-button {
     justify-content: space-around;
   }
 
+  .md\:gap-16 {
+    gap: 4rem;
+  }
+
   .md\:border-b-4 {
     border-bottom-width: 4px;
   }
@@ -3847,6 +3892,11 @@ input[type="file"]::file-selector-button {
   .md\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .md\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 
   .md\:py-0 {
