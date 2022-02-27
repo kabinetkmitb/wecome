@@ -161,7 +161,7 @@ pub fn daftar_lomba_component() -> Html {
 				<div class="text-white text-2xl font-semibold">{"Lembaga / Kampus Anda"}</div>
 			</div>
 			<div class="p-10">
-			<div class="text-cyan-500 font-semibold text-xl">{"Identitas Pendaftar"}</div>
+			<div class="text-cyan-500 font-semibold text-xl uppercase">{"Identitas Pendaftar"}</div>
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
@@ -178,7 +178,7 @@ pub fn daftar_lomba_component() -> Html {
 					})
 				}
 			</div>
-			<div class="text-cyan-500 font-semibold text-xl">{"Detil Kompetisi"}</div>
+			<div class="text-cyan-500 font-semibold text-xl uppercase">{"Detail Kompetisi"}</div>
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{
@@ -195,7 +195,7 @@ pub fn daftar_lomba_component() -> Html {
 					})
 				}
 			</div>
-			<div class="text-cyan-500 font-semibold text-xl">{"Kontak Penyelenggara / Kompetisi"}</div>
+			<div class="text-cyan-500 font-semibold text-xl uppercase">{"Kontak Penyelenggara / Kompetisi"}</div>
 			<hr class="mb-3"/>
 			<div class="grid grid-cols-2 gap-8 mb-5">
 				{

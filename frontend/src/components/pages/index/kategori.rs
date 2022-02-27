@@ -77,7 +77,7 @@ pub fn kategori() -> Html {
 	];
 
 	html! {
-		<div class="flex-col p-5">
+		<div class="flex-col p-5 mt-10">
 		<div class="flex gap-6 justify-center text-[2.25rem] md:text-[4rem] font-bold mb-8">
 		  {"Kategori"} <div class="text-cyan-400">{"Lomba"}</div>
 		</div>

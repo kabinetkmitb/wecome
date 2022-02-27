@@ -1158,6 +1158,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0.5rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
+.ml-\[4px\] {
+  margin-left: 4px;
+}
+
 .mr-\[4rem\] {
   margin-right: 4rem;
 }
@@ -1314,6 +1322,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 2px;
 }
 
+.h-\[90vh\] {
+  height: 90vh;
+}
+
 .h-\[1\.5px\] {
   height: 1.5px;
 }
@@ -1438,6 +1450,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-\[600px\] {
   max-width: 600px;
+}
+
+.max-w-\[16rem\] {
+  max-width: 16rem;
 }
 
 .flex-none {
@@ -2964,8 +2980,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-size: 3rem;
 }
 
-.text-\[4rem\] {
-  font-size: 4rem;
+.text-\[2\.25rem\] {
+  font-size: 2.25rem;
 }
 
 .text-\[0\.6rem\] {
@@ -2992,10 +3008,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-size: 3.5rem;
 }
 
-.text-\[2\.25rem\] {
-  font-size: 2.25rem;
-}
-
 .font-medium {
   font-weight: 500;
 }
@@ -3014,6 +3026,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .font-light {
   font-weight: 300;
+}
+
+.font-extrabold {
+  font-weight: 800;
 }
 
 .uppercase {
@@ -3148,6 +3164,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+
+.text-purple-400 {
+  --tw-text-opacity: 1;
+  color: rgb(192 132 252 / var(--tw-text-opacity));
+}
+
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -3455,6 +3481,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.drop-shadow-md {
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .grayscale {
   --tw-grayscale: grayscale(100%);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -3757,10 +3788,6 @@ input[type="file"]::file-selector-button {
     margin-right: -1.5rem;
   }
 
-  .sm\:h-\[90vh\] {
-    height: 90vh;
-  }
-
   .sm\:w-auto {
     width: auto;
   }
@@ -3826,6 +3853,10 @@ input[type="file"]::file-selector-button {
 
   .md\:h-auto {
     height: auto;
+  }
+
+  .md\:h-\[80vh\] {
+    height: 80vh;
   }
 
   .md\:h-\[20rem\] {

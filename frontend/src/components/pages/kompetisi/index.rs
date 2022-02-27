@@ -196,7 +196,6 @@ pub fn kompetisi_component() -> Html {
 			<input {oninput} class="appearance-none border rounded w-full p-1 md:px-4 md:py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Nama kompetisi" value={navigation_param_input.clone().current().get("search").unwrap().to_string()} />
 			<button type="submit" class="p-1 md:px-4 md:py-2 rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Cari"}</button>
 		</form>
-		<div class="my-4 text-[0.6rem] md:text-[0.8rem] md:grid md:grid-cols-3 gap-3 flex flex-col">
 			{
 				if let Some(kompetisi_list) = &get_kompetisi.clone().data {
 					let modal_props = modal_props.clone();
@@ -204,82 +203,110 @@ pub fn kompetisi_component() -> Html {
 					if !kompetisi_list.clone().is_empty() {
 						let modal_props = modal_props.clone();
 						let kompetisi_list = kompetisi_list.clone();
-						kompetisi_list.clone().into_iter().map(move |kompetisi| {
-							let modal_props = modal_props.clone();
-							html_nested! {
-								<div class="border-[1.25px] border-gray-300 shadow-sm rounded flex bg-white">
-									<img class="w-[40%] object-cover" src={kompetisi.clone().link_poster} alt="Logo lomba"/>
-									<div class="w-[60%] p-3 flex flex-col gap-1">
-										<div class="py-1 w-fit tracking-widest px-2 text-[0.8em] rounded-2xl font-meidum bg-[#FECC30] text-white text-center inline-block">{kompetisi.clone().kategori_kompetisi}</div>
-										<div class="font-bold text-[1.7em] md:text-[1.2em]">{kompetisi.clone().nama_kompetisi}</div>
-										<div class="justify competition-description">
-											<Markdown html={kompetisi.clone().deskripsi_kompetisi}/>
-										</div>
-										<div class="justify">{format!("Pelaksanaan : {}", from_rfc3339_to_date(kompetisi.clone().tanggal_pelaksanaan))}</div>
-										<div class="justify">{format!("Registrasi : {} - {}", from_rfc3339_to_date(kompetisi.clone().batas_awal_registrasi), from_rfc3339_to_date(kompetisi.clone().batas_akhir_registrasi))}</div>
-										<div onclick={
-											let modal_props = modal_props.clone();
-											move |_| {
+						html! {
+							<>
+							<div class="my-4 text-[0.6rem] md:text-[0.8rem] md:grid md:grid-cols-3 gap-3 flex flex-col">
+							{
+							kompetisi_list.clone().into_iter().map(move |kompetisi| {
+								let modal_props = modal_props.clone();
+								html_nested! {
+									<div class="border-[1.25px] border-gray-300 shadow-sm rounded flex bg-white">
+										<img class="w-[40%] object-cover" src={kompetisi.clone().link_poster} alt="Logo lomba"/>
+										<div class="w-[60%] p-3 flex flex-col gap-1">
+											<div class="py-1 w-fit tracking-widest px-2 text-[0.8em] rounded-2xl font-meidum bg-[#FECC30] text-white text-center inline-block">{kompetisi.clone().kategori_kompetisi}</div>
+											<div class="font-bold text-[1.7em] md:text-[1.2em]">{kompetisi.clone().nama_kompetisi}</div>
+											<div class="justify competition-description">
+												<Markdown html={kompetisi.clone().deskripsi_kompetisi}/>
+											</div>
+											<div class="justify">{format!("Pelaksanaan : {}", from_rfc3339_to_date(kompetisi.clone().tanggal_pelaksanaan))}</div>
+											<div class="justify">{format!("Registrasi : {} s.d. {}", from_rfc3339_to_date(kompetisi.clone().batas_awal_registrasi), from_rfc3339_to_date(kompetisi.clone().batas_akhir_registrasi))}</div>
+											<div onclick={
 												let modal_props = modal_props.clone();
-												modal_props.update(&"kategori".to_string(), kompetisi.clone().kategori_kompetisi.clone());
-												modal_props.update(&"judul".to_string(), kompetisi.clone().nama_kompetisi.clone());
-												modal_props.update(&"deskripsi".to_string(), kompetisi.clone().deskripsi_kompetisi.clone());
-												modal_props.update(&"tanggal_pelaksanaan".to_string(), kompetisi.clone().tanggal_pelaksanaan.clone());
-												modal_props.update(&"batas_regist".to_string(),
-												format!("{} - {}",
-														from_rfc3339_to_date(
-															kompetisi.clone().batas_awal_registrasi
-														), from_rfc3339_to_date(
-															kompetisi.clone().batas_akhir_registrasi
+												move |_| {
+													let modal_props = modal_props.clone();
+													modal_props.update(&"kategori".to_string(), kompetisi.clone().kategori_kompetisi.clone());
+													modal_props.update(&"judul".to_string(), kompetisi.clone().nama_kompetisi.clone());
+													modal_props.update(&"deskripsi".to_string(), kompetisi.clone().deskripsi_kompetisi.clone());
+													modal_props.update(&"tanggal_pelaksanaan".to_string(), from_rfc3339_to_date(kompetisi.clone().tanggal_pelaksanaan.clone()));
+													modal_props.update(&"batas_regist".to_string(),
+													format!("{} s.d. {}",
+															from_rfc3339_to_date(
+																kompetisi.clone().batas_awal_registrasi
+															), from_rfc3339_to_date(
+																kompetisi.clone().batas_akhir_registrasi
+															)
 														)
-													)
-												);
-												modal_props.update(&"link_poster".to_string(), kompetisi.clone().link_poster.clone());
-												modal_props.update(&"link_website".to_string(), kompetisi.clone().link_website.clone());
-												modal_props.update(&"link_linkedin".to_string(), kompetisi.clone().link_linkedin.clone());
-												modal_props.update(&"link_twitter".to_string(), kompetisi.clone().akun_twitter.clone());
-												modal_props.update(&"link_instagram".to_string(), kompetisi.clone().akun_instagram.clone());
-												modal_props.update(&"link_regist".to_string(), kompetisi.clone().link_registrasi.clone());
-											}
-										}>
-											<ModalButton modal_id="kompetisi-modal" class="cursor-pointer mt-2 p-1 w-fit rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Detail Kompetisi"}</ModalButton>
+													);
+													modal_props.update(&"link_poster".to_string(), kompetisi.clone().link_poster.clone());
+													modal_props.update(&"link_website".to_string(), kompetisi.clone().link_website.clone());
+													modal_props.update(&"link_linkedin".to_string(), kompetisi.clone().link_linkedin.clone());
+													modal_props.update(&"link_twitter".to_string(), kompetisi.clone().akun_twitter.clone());
+													modal_props.update(&"link_instagram".to_string(), kompetisi.clone().akun_instagram.clone());
+													modal_props.update(&"link_regist".to_string(), kompetisi.clone().link_registrasi.clone());
+												}
+											}>
+												<ModalButton modal_id="kompetisi-modal" class="cursor-pointer mt-2 p-1 w-fit rounded-md hover:text-cyan-400 hover:bg-white text-white shadow block bg-cyan-400 border-cyan-400 font-bold transition">{"Detail Kompetisi"}</ModalButton>
+											</div>
 										</div>
 									</div>
-								</div>
+									}
+								}).collect::<VNode>()
 							}
-						}).collect::<VNode>()
+							</div>
+							<div class="w-full my-10 flex justify-center items-center">
+								<div class="font-extrabold">{"Apakah anda ingin menambahkan kompetisi?"}</div>
+								<Link<Route>
+									to={Route::DaftarLomba}
+								>
+									<div class="text-blue-400 font-extrabold ml-[4px]">{"Tambahkan Disini"}</div>
+								</Link<Route>>
+							</div>
+							</>
+						}
 					}
 					else {
 						html_nested! {
-							<div class="text-gray-600">{"Tidak ada kompetisi yang sesuai"}</div>
+							<div class="w-full h-full flex justify-center items-center">
+								<div class="font-extrabold">{"Apakah anda ingin menambahkan kompetisi?"}</div>
+								<Link<Route>
+									to={Route::DaftarLomba}
+								>
+									<div class="text-blue-400 font-extrabold ml-[4px]">{" Tambahkan Disini"}</div>
+								</Link<Route>>
+							</div>
 						}
 					}
 				} else {
-					(1..7).map(|_| {
-						html_nested! {
-							<div class="p-[1rem] shadow-sm rounded flex bg-white opacity-40">
-								<div class="animate-pulse w-full flex space-x-4">
-									<div class="w-[40%] h-full bg-slate-500" />
-									<div class="flex-1 space-y-6 py-1">
-									<div class="h-2 bg-slate-500 rounded"></div>
-									<div class="space-y-3">
-										<div class="grid grid-cols-3 gap-4">
-											<div class="h-2 bg-slate-500 rounded col-span-2"></div>
-											<div class="h-2 bg-slate-500 rounded col-span-1"></div>
+					html! {
+						<div class="my-4 text-[0.6rem] md:text-[0.8rem] md:grid md:grid-cols-3 gap-3 flex flex-col">
+							{
+								for (1..7).map(|_| {
+									html_nested! {
+										<div class="p-[1rem] shadow-sm rounded flex bg-white opacity-40">
+											<div class="animate-pulse w-full flex space-x-4">
+												<div class="w-[40%] h-full bg-slate-500" />
+												<div class="flex-1 space-y-6 py-1">
+												<div class="h-2 bg-slate-500 rounded"></div>
+												<div class="space-y-3">
+													<div class="grid grid-cols-3 gap-4">
+														<div class="h-2 bg-slate-500 rounded col-span-2"></div>
+														<div class="h-2 bg-slate-500 rounded col-span-1"></div>
+													</div>
+													<div class="h-2 bg-slate-500 rounded"></div>
+													<div class="h-2 bg-slate-500 rounded"></div>
+													<div class="h-2 bg-slate-500 rounded"></div>
+												</div>
+												<div class="h-5 w-10 bg-slate-500"></div>
+												</div>
+											</div>
 										</div>
-										<div class="h-2 bg-slate-500 rounded"></div>
-										<div class="h-2 bg-slate-500 rounded"></div>
-										<div class="h-2 bg-slate-500 rounded"></div>
-									</div>
-									<div class="h-5 w-10 bg-slate-500"></div>
-									</div>
-								</div>
-							</div>
-						}
-					}).collect::<VNode>()
+									}
+								})
+							}
+						</div>
+					}
 				}
 			}
-		</div>
 		</div>
 		<img src="https://res.cloudinary.com/dw4bwn79m/image/upload/v1644641089/Frame_l1vboh.png" alt="Background logo" class="absolute scale-[2] bottom-[-6rem] left-[6rem] opacity-20 z-0" style="transform: rotate(-12.79deg) scale(2.5);"/>
 		</>
