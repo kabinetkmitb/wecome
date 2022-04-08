@@ -54,10 +54,10 @@ pub fn find_many_kompetisi<'a>(
             "ascending" => {
                 if let Some(sort_by) = q.sort_by {
                     match sort_by.as_str() {
-                        "nama kompetisi" => query = query.order_by(nama_kompetisi.asc()),
+                        "nama_kompetisi" => query = query.order_by(nama_kompetisi.asc()),
                         "penyelenggara" => query = query.order_by(nama_lembaga_pendaftar.asc()),
                         "kategori" => query = query.order_by(kategori_kompetisi.asc()),
-                        "tanggal selesai" => query = query.order_by(batas_akhir_registrasi.asc()),
+                        "tanggal_selesai" => query = query.order_by(batas_akhir_registrasi.asc()),
                         "status" => query = query.order_by(status_kompetisi.asc()),
                         _ => {}
                     }
@@ -66,10 +66,10 @@ pub fn find_many_kompetisi<'a>(
             "descending" => {
                 if let Some(sort_by) = q.sort_by {
                     match sort_by.as_str() {
-                        "nama kompetisi" => query = query.order_by(nama_kompetisi.desc()),
+                        "nama_kompetisi" => query = query.order_by(nama_kompetisi.desc()),
                         "penyelenggara" => query = query.order_by(nama_lembaga_pendaftar.desc()),
                         "kategori" => query = query.order_by(kategori_kompetisi.desc()),
-                        "tanggal selesai" => query = query.order_by(batas_akhir_registrasi.desc()),
+                        "tanggal_selesai" => query = query.order_by(batas_akhir_registrasi.desc()),
                         "status" => query = query.order_by(status_kompetisi.desc()),
                         _ => {}
                     }
